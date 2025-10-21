@@ -5,9 +5,15 @@
   <br>
   <br>
   <img src="https://img.shields.io/badge/License-Apache%202.0-blue.svg" alt="Apache"/>
-  <img src="https://img.shields.io/badge/Java-8-orange?style=for-the-badge&logo=java" alt="Java 8"/>
+  <img src="https://img.shields.io/badge/Java-8-orange" alt="Java 8"/>
   <img src="https://img.shields.io/badge/Android-5.0%2B-brightgreen.svg" alt="Android 5"/>
+  <img src="https://img.shields.io/badge/minSdk-21-green" alt="minSdk"/>
+  <img src="https://img.shields.io/badge/targetSdk-36-green" alt="targetSdk"/>
+  <img src="https://img.shields.io/badge/🚀-Feature-purple" alt="Feature"/>
+  <img src="https://img.shields.io/badge/Version-v1.0.1-blue" alt="Version"/>
+  <img src="https://img.shields.io/badge/Release-v1.0.1-green" alt="Release"/>
   <img src="https://jitpack.io/v/QmDeve/QmBlurView.svg" alt="Jitpack"/>
+  <img src="https://img.shields.io/github/stars/QmDeve/QmBlurView" alt="Stars"/>
 <br>
 <br>
   
@@ -16,6 +22,7 @@
 </div>
 
 ---
+
 ## Features
 
 - **Minimum support Android 5.0**
