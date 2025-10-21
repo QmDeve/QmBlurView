@@ -5,9 +5,15 @@
   <br>
   <br>
   <img src="https://img.shields.io/badge/License-Apache%202.0-blue.svg" alt="Apache"/>
-  <img src="https://img.shields.io/badge/Java-11-orange?style=for-the-badge&logo=java" alt="Java 11"/>
-  <img src="https://img.shields.io/badge/Android-7.0%2B-brightgreen.svg" alt="Android 7"/>
-  <img src="https://jitpack.io/v/QmDeve/QmBlurView.svg" alt="Jitpack 7"/>
+  <img src="https://img.shields.io/badge/Java-8-orange" alt="Java 8"/>
+  <img src="https://img.shields.io/badge/Android-5.0%2B-brightgreen.svg" alt="Android 5"/>
+  <img src="https://img.shields.io/badge/minSdk-21-green" alt="minSdk"/>
+  <img src="https://img.shields.io/badge/targetSdk-36-green" alt="targetSdk"/>
+  <img src="https://img.shields.io/badge/🚀-Feature-purple" alt="Feature"/>
+  <img src="https://img.shields.io/badge/Version-v1.0.1-blue" alt="Version"/>
+  <img src="https://img.shields.io/badge/Release-v1.0.1-green" alt="Release"/>
+  <img src="https://jitpack.io/v/QmDeve/QmBlurView.svg" alt="Jitpack"/>
+  <img src="https://img.shields.io/github/stars/QmDeve/QmBlurView" alt="Stars"/>
 <br>
 <br>
   
@@ -16,8 +22,10 @@
 </div>
 
 ---
+
 ## Features
 
+- **Minimum support Android 5.0**
 - **Customizable Parameters**:
   - Blur radius
   - Sampling scale
@@ -46,7 +54,7 @@ Add the following to the build.gradle of your module:
 
 ```gradle
 dependencies {
-   implementation 'com.github.QmDeve:QmBlurView:v1.0.0'
+   implementation 'com.github.QmDeve:QmBlurView:v1.0.1'
 }
 ```
 
@@ -60,16 +68,26 @@ dependencies {
     android:layout_width="match_parent"
     android:layout_height="100dp"
     app:qmBlurRadius="20dp"
-    app:qmDownsampleFactor="5"
-    app:qmOverlayColor="#66FFFFFF" />
+    app:qmDownsampleFactor="2"
+    app:qmOverlayColor="#66FFFFFF"
+    app:qmCornerRadius="24dp" />
 ```
 
 ### Setting Parameters via Code
 ```java
 QmBlurView blurView = findViewById(R.id.blurView);
 blurView.setBlurRadius(20f);
-blurView.setDownsampleFactor(5f);
+blurView.setDownsampleFactor(2f);     // You can leave it unset and keep the default optimal setting.
 blurView.setOverlayColor(0x66FFFFFF);
+blurView.setCornerRadius(20);
+```
+
+### BlurUtils
+```java
+BlurUtils.blurBitmap();
+BlurUtils.blurResId();
+BlurUtils.blurAssets();
+BlurUtils.blurFile();
 ```
 
 ---
