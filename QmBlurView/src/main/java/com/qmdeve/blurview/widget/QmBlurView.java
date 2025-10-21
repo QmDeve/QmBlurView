@@ -7,7 +7,9 @@ import android.content.res.TypedArray;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Paint;
+import android.graphics.Path;
 import android.graphics.Rect;
+import android.graphics.RectF;
 import android.util.AttributeSet;
 import android.util.TypedValue;
 import android.view.View;
@@ -32,6 +34,9 @@ public class QmBlurView extends View {
     private View mDecorView;
     private boolean mDifferentRoot;
     private boolean mIsRendering;
+    private float mCornerRadius;
+    private final Path mClipPath = new Path();
+    private final RectF mClipRect = new RectF();
 
     public QmBlurView(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -43,8 +48,9 @@ public class QmBlurView extends View {
                 R.styleable.QmBlurView_qmBlurRadius,
                 TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 10, getResources().getDisplayMetrics())
         );
-        mDownsampleFactor = Math.max(1, a.getFloat(R.styleable.QmBlurView_qmDownsampleFactor, 4));
+        mDownsampleFactor = Math.max(1, a.getFloat(R.styleable.QmBlurView_qmDownsampleFactor, 2));
         mOverlayColor = a.getColor(R.styleable.QmBlurView_qmOverlayColor, 0xAAFFFFFF);
+        mCornerRadius = a.getDimension(R.styleable.QmBlurView_qmCornerRadius, 0);
         a.recycle();
     }
 
@@ -68,6 +74,13 @@ public class QmBlurView extends View {
     public void setOverlayColor(int color) {
         if (mOverlayColor != color) {
             mOverlayColor = color;
+            invalidate();
+        }
+    }
+
+    public void setCornerRadius(float radius) {
+        if (mCornerRadius != radius && radius >= 0) {
+            mCornerRadius = radius;
             invalidate();
         }
     }
@@ -222,9 +235,32 @@ public class QmBlurView extends View {
         if (mBlurredBitmap != null) {
             mRectSrc.set(0, 0, mBlurredBitmap.getWidth(), mBlurredBitmap.getHeight());
             mRectDst.set(0, 0, getWidth(), getHeight());
-            canvas.drawBitmap(mBlurredBitmap, mRectSrc, mRectDst, null);
+
+            if (mCornerRadius > 0) {
+                canvas.save();
+                mClipRect.set(mRectDst);
+                mClipPath.reset();
+                mClipPath.addRoundRect(mClipRect, mCornerRadius, mCornerRadius, Path.Direction.CW);
+                canvas.clipPath(mClipPath);
+                canvas.drawBitmap(mBlurredBitmap, mRectSrc, mRectDst, null);
+                canvas.restore();
+            } else {
+                canvas.drawBitmap(mBlurredBitmap, mRectSrc, mRectDst, null);
+            }
         }
+
         mPaint.setColor(mOverlayColor);
-        canvas.drawRect(mRectDst, mPaint);
+
+        if (mCornerRadius > 0) {
+            canvas.save();
+            mClipRect.set(mRectDst);
+            mClipPath.reset();
+            mClipPath.addRoundRect(mClipRect, mCornerRadius, mCornerRadius, Path.Direction.CW);
+            canvas.clipPath(mClipPath);
+            canvas.drawRect(mRectDst, mPaint);
+            canvas.restore();
+        } else {
+            canvas.drawRect(mRectDst, mPaint);
+        }
     }
 }

@@ -18,18 +18,6 @@ public class BlurNative implements Blur {
     private int threadCount = DEFAULT_THREAD_COUNT;
     private float radius = MAX_RADIUS;
 
-    static {
-        System.loadLibrary("QmBlur");
-    }
-
-    private native void blur(
-            Object bitmap,
-            int radius,
-            int threadCount,
-            int threadIndex,
-            int round
-    );
-
     @Override
     public boolean prepare(Bitmap buffer, float radius) {
         this.radius = clamp(radius);
@@ -97,7 +85,7 @@ public class BlurNative implements Blur {
             final int index = i;
             executorService.execute(() -> {
                 try {
-                    blur(bitmap, r, threadCount, index, round);
+                    Native.blur(bitmap, r, threadCount, index, round);
                 } catch (Exception e) {
                     if (isDebug(null)) e.printStackTrace();
                 } finally {

@@ -1,7 +1,6 @@
 package com.qmdeve.blurview.demo;
 
 import android.os.Bundle;
-
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
 

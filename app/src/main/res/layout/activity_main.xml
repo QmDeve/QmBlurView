@@ -9,30 +9,18 @@
     tools:context=".MainActivity">
 
     <ImageView
+        android:id="@+id/image"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:src="@mipmap/ic_launcher"
+        android:src="@drawable/image"
         android:scaleType="centerCrop"/>
 
-    <androidx.cardview.widget.CardView
+    <com.qmdeve.blurview.widget.QmBlurView
         android:layout_width="200dp"
         android:layout_height="200dp"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        app:cardBackgroundColor="#00000000"
-        app:cardCornerRadius="16dp"
-        app:cardElevation="0dp"
-        android:layout_marginBottom="20dp">
+        android:layout_centerInParent="true"
+        app:qmBlurRadius="20dp"
+        app:qmOverlayColor="#80FFFFFF"
+        app:qmCornerRadius="24dp"/>
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-            <com.qmdeve.blurview.widget.QmBlurView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                app:qmBlurRadius="20dp"
-                app:qmOverlayColor="#7EFFFFFF" />
-        </LinearLayout>
-    </androidx.cardview.widget.CardView>
 </RelativeLayout>

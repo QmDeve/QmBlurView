@@ -14,7 +14,7 @@
       __typeof__ (max) _max__ = (max); \
       _a__ < _min__ ? _min__ : _a__ > _max__ ? _max__ : _a__; })
 
-static unsigned short const stackblur_mul[255] =
+static unsigned short const qmblur_mul[255] =
 {
         512,512,456,512,328,456,335,512,405,328,271,456,388,335,292,512,
         454,405,364,328,298,271,496,456,420,388,360,335,312,292,273,512,
@@ -34,7 +34,7 @@ static unsigned short const stackblur_mul[255] =
         289,287,285,282,280,278,275,273,271,269,267,265,263,261,259
 };
 
-static unsigned char const stackblur_shr[255] =
+static unsigned char const qmblur_shr[255] =
 {
         9, 11, 12, 13, 13, 14, 14, 15, 15, 15, 15, 16, 16, 16, 16, 17,
         17, 17, 17, 17, 17, 17, 18, 18, 18, 18, 18, 18, 18, 18, 18, 19,
@@ -54,7 +54,7 @@ static unsigned char const stackblur_shr[255] =
         24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24
 };
 
-void stackblurJob(unsigned char* src,
+void qmblurJob(unsigned char* src,
                   unsigned int w,
                   unsigned int h,
                   unsigned int radius,
@@ -64,8 +64,8 @@ void stackblurJob(unsigned char* src,
 {
     unsigned int x, y, xp, yp, i;
     unsigned int sp;
-    unsigned int stack_start;
-    unsigned char* stack_ptr;
+    unsigned int qm_start;
+    unsigned char* qm_ptr;
 
     unsigned char* src_ptr;
     unsigned char* dst_ptr;
@@ -84,9 +84,9 @@ void stackblurJob(unsigned char* src,
     unsigned int hm = h - 1;
     unsigned int w4 = w * 4;
     unsigned int div = (radius * 2) + 1;
-    unsigned int mul_sum = stackblur_mul[radius];
-    unsigned char shr_sum = stackblur_shr[radius];
-    unsigned char stack[div * 3];
+    unsigned int mul_sum = qmblur_mul[radius];
+    unsigned char shr_sum = qmblur_shr[radius];
+    unsigned char qm[div * 3];
 
     if (step == 1)
     {
@@ -103,10 +103,10 @@ void stackblurJob(unsigned char* src,
 
             for(i = 0; i <= radius; i++)
             {
-                stack_ptr    = &stack[ 3 * i ];
-                stack_ptr[0] = src_ptr[0];
-                stack_ptr[1] = src_ptr[1];
-                stack_ptr[2] = src_ptr[2];
+                qm_ptr    = &qm[ 3 * i ];
+                qm_ptr[0] = src_ptr[0];
+                qm_ptr[1] = src_ptr[1];
+                qm_ptr[2] = src_ptr[2];
                 sum_r += src_ptr[0] * (i + 1);
                 sum_g += src_ptr[1] * (i + 1);
                 sum_b += src_ptr[2] * (i + 1);
@@ -118,10 +118,10 @@ void stackblurJob(unsigned char* src,
             for(i = 1; i <= radius; i++)
             {
                 if (i <= wm) src_ptr += 4;
-                stack_ptr = &stack[ 3 * (i + radius) ];
-                stack_ptr[0] = src_ptr[0];
-                stack_ptr[1] = src_ptr[1];
-                stack_ptr[2] = src_ptr[2];
+                qm_ptr = &qm[ 3 * (i + radius) ];
+                qm_ptr[0] = src_ptr[0];
+                qm_ptr[1] = src_ptr[1];
+                qm_ptr[2] = src_ptr[2];
                 sum_r += src_ptr[0] * (radius + 1 - i);
                 sum_g += src_ptr[1] * (radius + 1 - i);
                 sum_b += src_ptr[2] * (radius + 1 - i);
@@ -129,7 +129,6 @@ void stackblurJob(unsigned char* src,
                 sum_in_g += src_ptr[1];
                 sum_in_b += src_ptr[2];
             }
-
 
             sp = radius;
             xp = radius;
@@ -148,13 +147,13 @@ void stackblurJob(unsigned char* src,
                 sum_g -= sum_out_g;
                 sum_b -= sum_out_b;
 
-                stack_start = sp + div - radius;
-                if (stack_start >= div) stack_start -= div;
-                stack_ptr = &stack[3 * stack_start];
+                qm_start = sp + div - radius;
+                if (qm_start >= div) qm_start -= div;
+                qm_ptr = &qm[3 * qm_start];
 
-                sum_out_r -= stack_ptr[0];
-                sum_out_g -= stack_ptr[1];
-                sum_out_b -= stack_ptr[2];
+                sum_out_r -= qm_ptr[0];
+                sum_out_g -= qm_ptr[1];
+                sum_out_b -= qm_ptr[2];
 
                 if(xp < wm)
                 {
@@ -162,9 +161,9 @@ void stackblurJob(unsigned char* src,
                     ++xp;
                 }
 
-                stack_ptr[0] = src_ptr[0];
-                stack_ptr[1] = src_ptr[1];
-                stack_ptr[2] = src_ptr[2];
+                qm_ptr[0] = src_ptr[0];
+                qm_ptr[1] = src_ptr[1];
+                qm_ptr[2] = src_ptr[2];
 
                 sum_in_r += src_ptr[0];
                 sum_in_g += src_ptr[1];
@@ -175,14 +174,14 @@ void stackblurJob(unsigned char* src,
 
                 ++sp;
                 if (sp >= div) sp = 0;
-                stack_ptr = &stack[sp*3];
+                qm_ptr = &qm[sp*3];
 
-                sum_out_r += stack_ptr[0];
-                sum_out_g += stack_ptr[1];
-                sum_out_b += stack_ptr[2];
-                sum_in_r  -= stack_ptr[0];
-                sum_in_g  -= stack_ptr[1];
-                sum_in_b  -= stack_ptr[2];
+                sum_out_r += qm_ptr[0];
+                sum_out_g += qm_ptr[1];
+                sum_out_b += qm_ptr[2];
+                sum_in_r  -= qm_ptr[0];
+                sum_in_g  -= qm_ptr[1];
+                sum_in_b  -= qm_ptr[2];
             }
 
         }
@@ -202,10 +201,10 @@ void stackblurJob(unsigned char* src,
             src_ptr = src + 4 * x;
             for(i = 0; i <= radius; i++)
             {
-                stack_ptr    = &stack[i * 3];
-                stack_ptr[0] = src_ptr[0];
-                stack_ptr[1] = src_ptr[1];
-                stack_ptr[2] = src_ptr[2];
+                qm_ptr    = &qm[i * 3];
+                qm_ptr[0] = src_ptr[0];
+                qm_ptr[1] = src_ptr[1];
+                qm_ptr[2] = src_ptr[2];
                 sum_r           += src_ptr[0] * (i + 1);
                 sum_g           += src_ptr[1] * (i + 1);
                 sum_b           += src_ptr[2] * (i + 1);
@@ -217,10 +216,10 @@ void stackblurJob(unsigned char* src,
             {
                 if(i <= hm) src_ptr += w4;
 
-                stack_ptr = &stack[3 * (i + radius)];
-                stack_ptr[0] = src_ptr[0];
-                stack_ptr[1] = src_ptr[1];
-                stack_ptr[2] = src_ptr[2];
+                qm_ptr = &qm[3 * (i + radius)];
+                qm_ptr[0] = src_ptr[0];
+                qm_ptr[1] = src_ptr[1];
+                qm_ptr[2] = src_ptr[2];
                 sum_r += src_ptr[0] * (radius + 1 - i);
                 sum_g += src_ptr[1] * (radius + 1 - i);
                 sum_b += src_ptr[2] * (radius + 1 - i);
@@ -246,13 +245,13 @@ void stackblurJob(unsigned char* src,
                 sum_g -= sum_out_g;
                 sum_b -= sum_out_b;
 
-                stack_start = sp + div - radius;
-                if(stack_start >= div) stack_start -= div;
-                stack_ptr = &stack[3 * stack_start];
+                qm_start = sp + div - radius;
+                if(qm_start >= div) qm_start -= div;
+                qm_ptr = &qm[3 * qm_start];
 
-                sum_out_r -= stack_ptr[0];
-                sum_out_g -= stack_ptr[1];
-                sum_out_b -= stack_ptr[2];
+                sum_out_r -= qm_ptr[0];
+                sum_out_g -= qm_ptr[1];
+                sum_out_b -= qm_ptr[2];
 
                 if(yp < hm)
                 {
@@ -260,9 +259,9 @@ void stackblurJob(unsigned char* src,
                     ++yp;
                 }
 
-                stack_ptr[0] = src_ptr[0];
-                stack_ptr[1] = src_ptr[1];
-                stack_ptr[2] = src_ptr[2];
+                qm_ptr[0] = src_ptr[0];
+                qm_ptr[1] = src_ptr[1];
+                qm_ptr[2] = src_ptr[2];
 
                 sum_in_r += src_ptr[0];
                 sum_in_g += src_ptr[1];
@@ -273,20 +272,20 @@ void stackblurJob(unsigned char* src,
 
                 ++sp;
                 if (sp >= div) sp = 0;
-                stack_ptr = &stack[sp*3];
+                qm_ptr = &qm[sp*3];
 
-                sum_out_r += stack_ptr[0];
-                sum_out_g += stack_ptr[1];
-                sum_out_b += stack_ptr[2];
-                sum_in_r  -= stack_ptr[0];
-                sum_in_g  -= stack_ptr[1];
-                sum_in_b  -= stack_ptr[2];
+                sum_out_r += qm_ptr[0];
+                sum_out_g += qm_ptr[1];
+                sum_out_b += qm_ptr[2];
+                sum_in_r  -= qm_ptr[0];
+                sum_in_g  -= qm_ptr[1];
+                sum_in_b  -= qm_ptr[2];
             }
         }
     }
 }
 
-JNIEXPORT void JNICALL Java_com_qmdeve_blurview_BlurNative_blur(JNIEnv* env, jclass clzz, jobject bitmapOut, jint radius, jint threadCount, jint threadIndex, jint round) {
+JNIEXPORT void JNICALL Java_com_qmdeve_blurview_Native_blur(JNIEnv* env, jclass clzz, jobject bitmapOut, jint radius, jint threadCount, jint threadIndex, jint round) {
     AndroidBitmapInfo   infoOut;
     void*               pixelsOut;
 
@@ -311,6 +310,6 @@ JNIEXPORT void JNICALL Java_com_qmdeve_blurview_BlurNative_blur(JNIEnv* env, jcl
     int h = infoOut.height;
     int w = infoOut.width;
 
-    stackblurJob((unsigned char*)pixelsOut, w, h, radius, threadCount, threadIndex, round);
+    qmblurJob((unsigned char*)pixelsOut, w, h, radius, threadCount, threadIndex, round);
     AndroidBitmap_unlockPixels(env, bitmapOut);
 }
