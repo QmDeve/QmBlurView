@@ -74,4 +74,10 @@ blurView.setOverlayColor(0x66FFFFFF);
 
 ---
 
+## Star History
+
+[![Star History Chart](https://api.star-history.com/svg?repos=QmDeve/QmBlurView&type=date&legend=bottom-right)](https://www.star-history.com/#QmDeve/QmBlurView&type=date&legend=bottom-right)
+
+---
+
 If you find this project helpful, feel free to give it a Star!
