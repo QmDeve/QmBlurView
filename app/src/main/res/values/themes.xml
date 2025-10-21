@@ -1,4 +1,7 @@
 <resources>
-    <style name="Theme.AndroidBlurView" parent="Theme.Material3.DynamicColors.Light.NoActionBar">
+    <style name="Theme.AndroidBlurView" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="colorPrimary">@color/white</item>
+        <item name="colorPrimaryDark">@color/white</item>
+        <item name="colorAccent">@color/white</item>
     </style>
 </resources>

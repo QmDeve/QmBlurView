@@ -1,4 +1,0 @@
-<resources>
-    <style name="Theme.AndroidBlurView" parent="Theme.Material3.DynamicColors.Dark.NoActionBar">
-    </style>
-</resources>

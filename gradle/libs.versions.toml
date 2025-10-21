@@ -2,13 +2,11 @@
 agp = "8.13.0"
 annotationJvm = "1.9.1"
 appcompat = "1.7.1"
-material = "1.13.0"
 activity = "1.11.0"
 
 [libraries]
 annotation-jvm = { module = "androidx.annotation:annotation-jvm", version.ref = "annotationJvm" }
 appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "appcompat" }
-material = { group = "com.google.android.material", name = "material", version.ref = "material" }
 activity = { group = "androidx.activity", name = "activity", version.ref = "activity" }
 
 [plugins]
