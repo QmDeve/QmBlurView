@@ -1,9 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-	<declare-styleable name="QmBlurView">
-		<attr name="qmBlurRadius" format="dimension" />
-		<attr name="qmDownsampleFactor" format="float" />
-		<attr name="qmOverlayColor" format="color" />
-		<attr name="qmCornerRadius" format="dimension" />
-	</declare-styleable>
+    <declare-styleable name="QmBlurView">
+        <attr name="qmBlurRadius" format="dimension" />
+        <attr name="qmDownsampleFactor" format="float" />
+        <attr name="qmOverlayColor" format="color" />
+        <attr name="qmCornerRadius" format="dimension" />
+    </declare-styleable>
+
+    <declare-styleable name="QmBlurButtonView">
+        <attr name="android:text" />
+        <attr name="android:textSize" />
+        <attr name="android:textColor" />
+        <attr name="android:icon" />
+        <attr name="android:gravity" />
+        <attr name="buttonTextColorPressed" format="color" />
+        <attr name="buttonTextColorDisabled" format="color" />
+        <attr name="buttonTextBold" format="boolean" />
+        <attr name="buttonIconSize" format="dimension" />
+        <attr name="buttonIconPadding" format="dimension" />
+        <attr name="buttonIconTint" format="color" />
+        <attr name="buttonCornerRadius" format="dimension" />
+    </declare-styleable>
 </resources>

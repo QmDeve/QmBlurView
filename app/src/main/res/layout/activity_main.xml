@@ -1,26 +1,39 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white"
+    tools:context=".MainActivity"
     android:orientation="vertical"
-    tools:context=".MainActivity">
+    android:gravity="center">
 
-    <ImageView
-        android:id="@+id/image"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:src="@drawable/image"
-        android:scaleType="centerCrop"/>
+    <com.qmdeve.blurview.widget.QmBlurButtonView
+        android:id="@+id/blurViewButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="BlurView"
+        app:qmOverlayColor="#0161F2"
+        android:textColor="@color/white"
+        app:buttonCornerRadius="12dp"/>
 
-    <com.qmdeve.blurview.widget.QmBlurView
-        android:layout_width="200dp"
-        android:layout_height="200dp"
-        android:layout_centerInParent="true"
-        app:qmBlurRadius="20dp"
-        app:qmOverlayColor="#80FFFFFF"
-        app:qmCornerRadius="24dp"/>
+    <com.qmdeve.blurview.widget.QmBlurButtonView
+        android:id="@+id/blurButtonButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="BlurButton"
+        app:qmOverlayColor="#0161F2"
+        android:textColor="@color/white"
+        app:buttonCornerRadius="12dp"/>
 
-</RelativeLayout>
+    <com.qmdeve.blurview.widget.QmBlurButtonView
+        android:id="@+id/blurImageButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="BlurImage"
+        app:qmOverlayColor="#0161F2"
+        android:textColor="@color/white"
+        app:buttonCornerRadius="12dp"/>
+
+</LinearLayout>

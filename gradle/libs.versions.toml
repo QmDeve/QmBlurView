@@ -3,11 +3,13 @@ agp = "8.13.0"
 annotationJvm = "1.9.1"
 appcompat = "1.7.1"
 activity = "1.11.0"
+core = "1.17.0"
 
 [libraries]
 annotation-jvm = { module = "androidx.annotation:annotation-jvm", version.ref = "annotationJvm" }
 appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "appcompat" }
 activity = { group = "androidx.activity", name = "activity", version.ref = "activity" }
+core = { module = "androidx.core:core", version.ref = "core" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

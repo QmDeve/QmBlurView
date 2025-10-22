@@ -11,6 +11,15 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.AndroidBlurView">
         <activity
+            android:name=".QmBlurImageActivity"
+            android:exported="false" />
+        <activity
+            android:name=".QmBlurButtonViewActivity"
+            android:exported="false" />
+        <activity
+            android:name=".BlurViewActivity"
+            android:exported="false" />
+        <activity
             android:name=".MainActivity"
             android:exported="true">
             <intent-filter>
@@ -20,5 +29,4 @@
             </intent-filter>
         </activity>
     </application>
-
 </manifest>

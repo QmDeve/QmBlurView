@@ -38,6 +38,11 @@ public class QmBlurView extends View {
     private final Path mClipPath = new Path();
     private final RectF mClipRect = new RectF();
 
+    @Override
+    public boolean isInEditMode() {
+        return super.isInEditMode();
+    }
+
     public QmBlurView(Context context, AttributeSet attrs) {
         super(context, attrs);
 
@@ -227,8 +232,14 @@ public class QmBlurView extends View {
 
     @Override
     protected void onDraw(@NonNull Canvas canvas) {
-        super.onDraw(canvas);
-        drawBlurredBitmap(canvas);
+        if (isInEditMode()) {
+            drawPreviewBackground(canvas);
+        }
+
+        if (!isInEditMode()) {
+            super.onDraw(canvas);
+            drawBlurredBitmap(canvas);
+        }
     }
 
     private void drawBlurredBitmap(Canvas canvas) {
@@ -262,5 +273,19 @@ public class QmBlurView extends View {
         } else {
             canvas.drawRect(mRectDst, mPaint);
         }
+    }
+
+    private void drawPreviewBackground(Canvas canvas) {
+        if (getWidth() == 0 || getHeight() == 0) return;
+
+        Paint previewPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
+        previewPaint.setStyle(Paint.Style.FILL);
+        int previewColor = mOverlayColor;
+        previewPaint.setColor(previewColor);
+        canvas.drawRoundRect(
+                0, 0, getWidth(), getHeight(),
+                mCornerRadius, mCornerRadius,
+                previewPaint
+        );
     }
 }
