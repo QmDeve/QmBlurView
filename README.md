@@ -17,7 +17,7 @@
   <br>
   <br>
   
-  [English](https://github.com/QmDeve/QmBlurView/blob/master/README.md) | 简体中文
+   English | [简体中文](https://github.com/QmDeve/QmBlurView/blob/master/README.md)
   
 </div>
 
