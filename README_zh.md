@@ -111,7 +111,7 @@ blurView.setCornerRadius(20);         // 设置圆角半径
 ---
 
 ### BlurButtonView
-#### 在xml布局使用
+#### XML布局中使用
 ```xml
 <com.qmdeve.blurview.widget.QmBlurButtonView
         android:id="@+id/button"
@@ -140,7 +140,7 @@ blurView.setCornerRadius(20);         // 设置圆角半径
 | `app:buttonTextBold` | `boolean` | `true` | Text是否粗体 |
 | `app:qmBlurRadius` | `dimension` | `10` | 模糊半径 |
 | `app:qmOverlayColor` | `color` | `#AAFFFFFF` | 叠层颜色 |
-| `app:buttonIconTint` | `color` | 无 | 设置图标颜色 |
+| `app:buttonIconTint` | `color` | - | 设置图标颜色 |
 | `app:buttonTextColorPressed` | `color` | - | 按下状态文本颜色 |
 | `app:buttonTextColorDisabled` | `color` | - | 禁用状态文本颜色 |
 | `android:icon` | - | - | 设置图标 |
