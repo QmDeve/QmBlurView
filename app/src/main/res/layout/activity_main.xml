@@ -1,38 +1,45 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white"
-    tools:context=".MainActivity"
     android:orientation="vertical"
     android:gravity="center">
 
-    <com.qmdeve.blurview.widget.QmBlurButtonView
+    <com.qmdeve.blurview.widget.BlurButtonView
         android:id="@+id/blurViewButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="BlurView"
-        app:qmOverlayColor="#0161F2"
+        app:overlayColor="#0161F2"
         android:textColor="@color/white"
         app:buttonCornerRadius="12dp"/>
 
-    <com.qmdeve.blurview.widget.QmBlurButtonView
+    <com.qmdeve.blurview.widget.BlurButtonView
         android:id="@+id/blurButtonButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="BlurButton"
-        app:qmOverlayColor="#0161F2"
+        app:overlayColor="#0161F2"
         android:textColor="@color/white"
         app:buttonCornerRadius="12dp"/>
 
-    <com.qmdeve.blurview.widget.QmBlurButtonView
-        android:id="@+id/blurImageButton"
+    <com.qmdeve.blurview.widget.BlurButtonView
+        android:id="@+id/progerssiveBlurButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="BlurImage"
-        app:qmOverlayColor="#0161F2"
+        android:text="Progerssive Blur"
+        app:overlayColor="#0161F2"
+        android:textColor="@color/white"
+        app:buttonCornerRadius="12dp"/>
+
+    <com.qmdeve.blurview.widget.BlurButtonView
+        android:id="@+id/blurTitlebar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Blur Titlebar"
+        app:overlayColor="#0161F2"
         android:textColor="@color/white"
         app:buttonCornerRadius="12dp"/>
 

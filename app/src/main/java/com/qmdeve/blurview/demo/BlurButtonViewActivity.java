@@ -6,23 +6,16 @@ import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.qmdeve.blurview.demo.util.Utils;
-import com.qmdeve.blurview.widget.BlurView;
 
-public class BlurViewActivity extends AppCompatActivity {
+public class BlurButtonViewActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
-        setContentView(R.layout.activity_blur_view);
+        setContentView(R.layout.activity_blur_button);
 
         Utils.transparentStatusBar(getWindow());
         Utils.transparentNavigationBar(getWindow());
-
-        BlurView blurView = findViewById(R.id.blurView);
-        blurView.setBlurRadius(45);
-        blurView.setCornerRadius(65);
-        int currentOverlayColor = 0x80FFFFFF;
-        blurView.setOverlayColor(currentOverlayColor);
     }
 }

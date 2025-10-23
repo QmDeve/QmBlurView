@@ -28,7 +28,7 @@ import androidx.core.graphics.drawable.DrawableCompat;
 
 import com.qmdeve.blurview.R;
 
-public class QmBlurButtonView extends QmBlurView {
+public class BlurButtonView extends BlurView {
     private static final float DEFAULT_TEXT_SIZE = 16f;
     private static final int DEFAULT_TEXT_COLOR = Color.BLACK;
     private static final int DEFAULT_ICON_SIZE = 24;
@@ -67,11 +67,11 @@ public class QmBlurButtonView extends QmBlurView {
     private final int mTouchSlop;
     private float mTouchDownX, mTouchDownY;
 
-    public QmBlurButtonView(Context context) {
+    public BlurButtonView(Context context) {
         this(context, null);
     }
 
-    public QmBlurButtonView(Context context, AttributeSet attrs) {
+    public BlurButtonView(Context context, AttributeSet attrs) {
         super(context, attrs);
         mTouchSlop = ViewConfiguration.get(context).getScaledTouchSlop();
         init(context, attrs);
@@ -94,24 +94,24 @@ public class QmBlurButtonView extends QmBlurView {
         mHighlightPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
         mHighlightPaint.setStyle(Paint.Style.FILL);
 
-        TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.QmBlurButtonView);
+        TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.BlurButtonView);
 
-        mText = a.getText(R.styleable.QmBlurButtonView_android_text);
-        mTextSize = a.getDimension(R.styleable.QmBlurButtonView_android_textSize,
+        mText = a.getText(R.styleable.BlurButtonView_android_text);
+        mTextSize = a.getDimension(R.styleable.BlurButtonView_android_textSize,
                 TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, DEFAULT_TEXT_SIZE, getResources().getDisplayMetrics()));
-        mTextColor = a.getColor(R.styleable.QmBlurButtonView_android_textColor, DEFAULT_TEXT_COLOR);
-        mTextColorPressed = a.getColor(R.styleable.QmBlurButtonView_buttonTextColorPressed, mTextColor);
-        mTextColorDisabled = a.getColor(R.styleable.QmBlurButtonView_buttonTextColorDisabled,
+        mTextColor = a.getColor(R.styleable.BlurButtonView_android_textColor, DEFAULT_TEXT_COLOR);
+        mTextColorPressed = a.getColor(R.styleable.BlurButtonView_buttonTextColorPressed, mTextColor);
+        mTextColorDisabled = a.getColor(R.styleable.BlurButtonView_buttonTextColorDisabled,
                 applyAlpha(mTextColor, 0.5f));
-        mTextBold = a.getBoolean(R.styleable.QmBlurButtonView_buttonTextBold, true);
-        mIcon = a.getDrawable(R.styleable.QmBlurButtonView_android_icon);
-        mIconSize = a.getDimensionPixelSize(R.styleable.QmBlurButtonView_buttonIconSize,
+        mTextBold = a.getBoolean(R.styleable.BlurButtonView_buttonTextBold, true);
+        mIcon = a.getDrawable(R.styleable.BlurButtonView_android_icon);
+        mIconSize = a.getDimensionPixelSize(R.styleable.BlurButtonView_buttonIconSize,
                 (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, DEFAULT_ICON_SIZE, getResources().getDisplayMetrics()));
-        mIconPadding = a.getDimensionPixelSize(R.styleable.QmBlurButtonView_buttonIconPadding,
+        mIconPadding = a.getDimensionPixelSize(R.styleable.BlurButtonView_buttonIconPadding,
                 (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, DEFAULT_ICON_PADDING, getResources().getDisplayMetrics()));
-        mIconTint = a.getColorStateList(R.styleable.QmBlurButtonView_buttonIconTint);
-        mGravity = a.getInt(R.styleable.QmBlurButtonView_android_gravity, Gravity.CENTER);
-        mButtonCornerRadius = a.getDimension(R.styleable.QmBlurButtonView_buttonCornerRadius, 0);
+        mIconTint = a.getColorStateList(R.styleable.BlurButtonView_buttonIconTint);
+        mGravity = a.getInt(R.styleable.BlurButtonView_android_gravity, Gravity.CENTER);
+        mButtonCornerRadius = a.getDimension(R.styleable.BlurButtonView_buttonCornerRadius, 0);
 
         a.recycle();
 
@@ -570,14 +570,22 @@ public class QmBlurButtonView extends QmBlurView {
     private void setFixedMargin() {
         ViewGroup.LayoutParams params = getLayoutParams();
         if (params instanceof ViewGroup.MarginLayoutParams) {
-            int margin = (int) TypedValue.applyDimension(
+            int fixedMargin = (int) TypedValue.applyDimension(
                     TypedValue.COMPLEX_UNIT_DIP, 3f, getResources().getDisplayMetrics());
 
             ViewGroup.MarginLayoutParams marginParams = (ViewGroup.MarginLayoutParams) params;
-            marginParams.leftMargin = margin;
-            marginParams.topMargin = margin;
-            marginParams.rightMargin = margin;
-            marginParams.bottomMargin = margin;
+            if (marginParams.leftMargin == 0) {
+                marginParams.leftMargin = fixedMargin;
+            }
+            if (marginParams.topMargin == 0) {
+                marginParams.topMargin = fixedMargin;
+            }
+            if (marginParams.rightMargin == 0) {
+                marginParams.rightMargin = fixedMargin;
+            }
+            if (marginParams.bottomMargin == 0) {
+                marginParams.bottomMargin = fixedMargin;
+            }
 
             setLayoutParams(marginParams);
         }

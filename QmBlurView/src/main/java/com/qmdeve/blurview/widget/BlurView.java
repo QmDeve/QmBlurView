@@ -21,8 +21,7 @@ import com.qmdeve.blurview.Blur;
 import com.qmdeve.blurview.BlurNative;
 import com.qmdeve.blurview.R;
 
-public class QmBlurView extends View {
-    private float mDownsampleFactor;
+public class BlurView extends View {
     private int mOverlayColor;
     private float mBlurRadius;
     private final Blur mBlur;
@@ -35,27 +34,26 @@ public class QmBlurView extends View {
     private boolean mDifferentRoot;
     private boolean mIsRendering;
     private float mCornerRadius;
-    private final Path mClipPath = new Path();
     private final RectF mClipRect = new RectF();
+    private final Path mG3Path = new Path();
 
     @Override
     public boolean isInEditMode() {
         return super.isInEditMode();
     }
 
-    public QmBlurView(Context context, AttributeSet attrs) {
+    public BlurView(Context context, AttributeSet attrs) {
         super(context, attrs);
 
         mBlur = new BlurNative();
 
-        TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.QmBlurView);
+        TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.BlurView);
         mBlurRadius = a.getDimension(
-                R.styleable.QmBlurView_qmBlurRadius,
+                R.styleable.BlurView_blurRadius,
                 TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 10, getResources().getDisplayMetrics())
         );
-        mDownsampleFactor = Math.max(1, a.getFloat(R.styleable.QmBlurView_qmDownsampleFactor, 2));
-        mOverlayColor = a.getColor(R.styleable.QmBlurView_qmOverlayColor, 0xAAFFFFFF);
-        mCornerRadius = a.getDimension(R.styleable.QmBlurView_qmCornerRadius, 0);
+        mOverlayColor = a.getColor(R.styleable.BlurView_overlayColor, 0xAAFFFFFF);
+        mCornerRadius = a.getDimension(R.styleable.BlurView_cornerRadius, 0);
         a.recycle();
     }
 
@@ -63,15 +61,6 @@ public class QmBlurView extends View {
         if (mBlurRadius != radius && radius >= 0) {
             mBlurRadius = radius;
             mDirty = true;
-            invalidate();
-        }
-    }
-
-    public void setDownsampleFactor(float factor) {
-        if (factor > 0 && mDownsampleFactor != factor) {
-            mDownsampleFactor = factor;
-            mDirty = true;
-            releaseBitmap();
             invalidate();
         }
     }
@@ -88,6 +77,14 @@ public class QmBlurView extends View {
             mCornerRadius = radius;
             invalidate();
         }
+    }
+
+    public Bitmap getBlurredBitmap() {
+        return mBlurredBitmap;
+    }
+
+    public int getOverlayColor() {
+        return mOverlayColor;
     }
 
     private void releaseBitmap() {
@@ -107,13 +104,36 @@ public class QmBlurView extends View {
         mBlur.release();
     }
 
+    private void createOptimizedG3RoundedRectPath(RectF rect, float radius, Path path) {
+        path.reset();
+
+        if (radius <= 0) {
+            path.addRect(rect, Path.Direction.CW);
+            return;
+        }
+
+        float maxRadius = Math.min(rect.width(), rect.height()) / 2f;
+        radius = Math.min(radius, maxRadius);
+        float controlOffset = radius * 0.551915f;
+        path.moveTo(rect.left + radius, rect.top);
+        path.lineTo(rect.right - radius, rect.top);
+        path.cubicTo(rect.right - radius + controlOffset, rect.top, rect.right, rect.top + radius - controlOffset, rect.right, rect.top + radius);
+        path.lineTo(rect.right, rect.bottom - radius);
+        path.cubicTo(rect.right, rect.bottom - radius + controlOffset, rect.right - radius + controlOffset, rect.bottom, rect.right - radius, rect.bottom);
+        path.lineTo(rect.left + radius, rect.bottom);
+        path.cubicTo(rect.left + radius - controlOffset, rect.bottom, rect.left, rect.bottom - radius + controlOffset, rect.left, rect.bottom - radius);
+        path.lineTo(rect.left, rect.top + radius);
+        path.cubicTo(rect.left, rect.top + radius - controlOffset, rect.left + radius - controlOffset, rect.top, rect.left + radius, rect.top);
+        path.close();
+    }
+
     protected boolean prepare() {
         if (mBlurRadius <= 0) {
             release();
             return false;
         }
 
-        float downsampleFactor = mDownsampleFactor;
+        float downsampleFactor = (float) 2;
         float radius = mBlurRadius / downsampleFactor;
         if (radius > 25) {
             downsampleFactor *= radius / 25;
@@ -242,7 +262,7 @@ public class QmBlurView extends View {
         }
     }
 
-    private void drawBlurredBitmap(Canvas canvas) {
+    void drawBlurredBitmap(Canvas canvas) {
         if (mBlurredBitmap != null) {
             mRectSrc.set(0, 0, mBlurredBitmap.getWidth(), mBlurredBitmap.getHeight());
             mRectDst.set(0, 0, getWidth(), getHeight());
@@ -250,9 +270,8 @@ public class QmBlurView extends View {
             if (mCornerRadius > 0) {
                 canvas.save();
                 mClipRect.set(mRectDst);
-                mClipPath.reset();
-                mClipPath.addRoundRect(mClipRect, mCornerRadius, mCornerRadius, Path.Direction.CW);
-                canvas.clipPath(mClipPath);
+                createOptimizedG3RoundedRectPath(mClipRect, mCornerRadius, mG3Path);
+                canvas.clipPath(mG3Path);
                 canvas.drawBitmap(mBlurredBitmap, mRectSrc, mRectDst, null);
                 canvas.restore();
             } else {
@@ -265,9 +284,8 @@ public class QmBlurView extends View {
         if (mCornerRadius > 0) {
             canvas.save();
             mClipRect.set(mRectDst);
-            mClipPath.reset();
-            mClipPath.addRoundRect(mClipRect, mCornerRadius, mCornerRadius, Path.Direction.CW);
-            canvas.clipPath(mClipPath);
+            createOptimizedG3RoundedRectPath(mClipRect, mCornerRadius, mG3Path);
+            canvas.clipPath(mG3Path);
             canvas.drawRect(mRectDst, mPaint);
             canvas.restore();
         } else {
@@ -282,10 +300,12 @@ public class QmBlurView extends View {
         previewPaint.setStyle(Paint.Style.FILL);
         int previewColor = mOverlayColor;
         previewPaint.setColor(previewColor);
-        canvas.drawRoundRect(
-                0, 0, getWidth(), getHeight(),
-                mCornerRadius, mCornerRadius,
-                previewPaint
-        );
+        if (mCornerRadius > 0) {
+            mClipRect.set(0, 0, getWidth(), getHeight());
+            createOptimizedG3RoundedRectPath(mClipRect, mCornerRadius, mG3Path);
+            canvas.drawPath(mG3Path, previewPaint);
+        } else {
+            canvas.drawRect(0, 0, getWidth(), getHeight(), previewPaint);
+        }
     }
 }

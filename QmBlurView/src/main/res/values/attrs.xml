@@ -1,13 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <declare-styleable name="QmBlurView">
-        <attr name="qmBlurRadius" format="dimension" />
-        <attr name="qmDownsampleFactor" format="float" />
-        <attr name="qmOverlayColor" format="color" />
-        <attr name="qmCornerRadius" format="dimension" />
+    <declare-styleable name="BlurView">
+        <attr name="blurRadius" format="dimension" />
+        <attr name="overlayColor" format="color" />
+        <attr name="cornerRadius" format="dimension" />
     </declare-styleable>
 
-    <declare-styleable name="QmBlurButtonView">
+    <declare-styleable name="BlurButtonView">
         <attr name="android:text" />
         <attr name="android:textSize" />
         <attr name="android:textColor" />
@@ -20,5 +19,32 @@
         <attr name="buttonIconPadding" format="dimension" />
         <attr name="buttonIconTint" format="color" />
         <attr name="buttonCornerRadius" format="dimension" />
+    </declare-styleable>
+
+    <declare-styleable name="ProgressiveBlurView">
+        <attr name="progressiveOverlayColor" format="color" />
+        <attr name="progressiveDirection" format="enum">
+            <enum name="topToBottom" value="0" />
+            <enum name="bottomToTop" value="1" />
+            <enum name="leftToRight" value="2" />
+            <enum name="rightToLeft" value="3" />
+        </attr>
+        <attr name="progressiveLayers" format="integer" />
+        <attr name="progressiveBlurRadius" format="dimension" />
+    </declare-styleable>
+
+    <declare-styleable name="BlurTitlebarView">
+        <attr name="titleText" format="string" />
+        <attr name="subtitleText" format="string" />
+        <attr name="titleTextColor" format="color" />
+        <attr name="subtitleTextColor" format="color" />
+        <attr name="showBack" format="boolean" />
+        <attr name="backIcon" format="reference" />
+        <attr name="backIconTint" format="color" />
+        <attr name="menuText" format="string" />
+        <attr name="menuTextColor" format="color" />
+        <attr name="menuIcon" format="reference" />
+        <attr name="menuIconTint" format="color" />
+        <attr name="centerTitle" format="boolean" />
     </declare-styleable>
 </resources>

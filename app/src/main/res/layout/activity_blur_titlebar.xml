@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:adjustViewBounds="true"
+                android:scaleType="fitCenter"
+                android:src="@drawable/image" />
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:adjustViewBounds="true"
+                android:scaleType="fitCenter"
+                android:src="@drawable/image" />
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:adjustViewBounds="true"
+                android:scaleType="fitCenter"
+                android:src="@drawable/image" />
+        </LinearLayout>
+    </ScrollView>
+
+    <com.qmdeve.blurview.widget.BlurTitlebarView
+        android:id="@+id/blurTitlebar1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:overlayColor="#D1FFFFFF"
+        app:blurRadius="30dp"
+        app:showBack="true"
+        app:menuIcon="?android:attr/actionModeWebSearchDrawable"
+        app:titleText="Title Test"
+        app:subtitleText="Subheading Test"
+        app:centerTitle="false"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:orientation="vertical">
+        <com.qmdeve.blurview.widget.BlurTitlebarView
+            android:id="@+id/blurTitlebar2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:overlayColor="#D1FFFFFF"
+            app:blurRadius="30dp"
+            app:showBack="true"
+            app:titleText="Title Test"
+            app:subtitleText="Subheading Test"
+            app:centerTitle="false"/>
+
+        <com.qmdeve.blurview.widget.BlurTitlebarView
+            android:id="@+id/blurTitlebar3"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:overlayColor="#D1FFFFFF"
+            app:blurRadius="30dp"
+            app:showBack="false"
+            app:menuIcon="?android:attr/actionModeWebSearchDrawable"
+            app:titleText="Title Test"
+            app:subtitleText="Subheading Test"
+            app:centerTitle="false"
+            android:layout_marginTop="12dp"/>
+
+        <com.qmdeve.blurview.widget.BlurButtonView
+            android:id="@+id/button1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Title set to Center"
+            app:blurRadius="12dp"
+            app:buttonCornerRadius="12dp"
+            app:buttonIconPadding="8dp"
+            app:buttonIconSize="24dp"
+            app:buttonTextBold="true"
+            app:overlayColor="#9CFFFFFF"
+            android:layout_marginTop="30dp"/>
+
+        <com.qmdeve.blurview.widget.BlurButtonView
+            android:id="@+id/button2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Title set to Left"
+            app:blurRadius="12dp"
+            app:buttonCornerRadius="12dp"
+            app:buttonIconPadding="8dp"
+            app:buttonIconSize="24dp"
+            app:buttonTextBold="true"
+            app:overlayColor="#9CFFFFFF" />
+    </LinearLayout>
+</RelativeLayout>

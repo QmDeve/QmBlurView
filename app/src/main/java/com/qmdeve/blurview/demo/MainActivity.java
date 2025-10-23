@@ -6,7 +6,7 @@ import android.os.Bundle;
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.qmdeve.blurview.widget.QmBlurButtonView;
+import com.qmdeve.blurview.demo.util.Utils;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -16,19 +16,12 @@ public class MainActivity extends AppCompatActivity {
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_main);
 
-        QmBlurButtonView blurViewButton = findViewById(R.id.blurViewButton);
-        blurViewButton.setOnClickListener(v -> {
-            startActivity(new Intent(this, BlurViewActivity.class));
-        });
+        Utils.transparentStatusBar(getWindow());
+        Utils.transparentNavigationBar(getWindow());
 
-        QmBlurButtonView blurButtonButton = findViewById(R.id.blurButtonButton);
-        blurButtonButton.setOnClickListener(v -> {
-            startActivity(new Intent(this, QmBlurButtonViewActivity.class));
-        });
-
-        QmBlurButtonView blurImageButton = findViewById(R.id.blurImageButton);
-        blurImageButton.setOnClickListener(v -> {
-            startActivity(new Intent(this, QmBlurImageActivity.class));
-        });
+        findViewById(R.id.blurViewButton).setOnClickListener(v -> startActivity(new Intent(this, BlurViewActivity.class)));
+        findViewById(R.id.blurButtonButton).setOnClickListener(v -> startActivity(new Intent(this, BlurButtonViewActivity.class)));
+        findViewById(R.id.progerssiveBlurButton).setOnClickListener(v -> startActivity(new Intent(this, ProgerssiveBlurActivity.class)));
+        findViewById(R.id.blurTitlebar).setOnClickListener(v -> startActivity(new Intent(this, BlurTitlebarActivity.class)));
     }
 }

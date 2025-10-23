@@ -11,14 +11,18 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.AndroidBlurView">
         <activity
-            android:name=".QmBlurImageActivity"
+            android:name=".BlurTitlebarActivity"
             android:exported="false" />
         <activity
-            android:name=".QmBlurButtonViewActivity"
+            android:name=".BlurButtonViewActivity"
             android:exported="false" />
         <activity
             android:name=".BlurViewActivity"
             android:exported="false" />
+        <activity
+            android:name=".ProgerssiveBlurActivity"
+            android:exported="false" />
+
         <activity
             android:name=".MainActivity"
             android:exported="true">

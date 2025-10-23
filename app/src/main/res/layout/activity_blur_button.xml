@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white">
@@ -39,60 +38,88 @@
         </LinearLayout>
     </ScrollView>
 
-    <com.qmdeve.blurview.widget.QmBlurButtonView
-        android:id="@+id/button1"
+    <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Button Test"
-        app:buttonCornerRadius="12dp"
-        app:buttonIconPadding="8dp"
-        app:buttonIconSize="24dp"
-        app:buttonTextBold="true"
-        app:qmBlurRadius="12dp"
-        app:qmOverlayColor="#80FFFFFF"
-        android:layout_centerInParent="true"/>
+        android:layout_centerInParent="true"
+        android:orientation="vertical"
+        android:gravity="center_horizontal">
 
-    <com.qmdeve.blurview.widget.QmBlurButtonView
-        android:id="@+id/button2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Button Test"
-        app:buttonCornerRadius="12dp"
-        app:buttonIconPadding="8dp"
-        app:buttonIconSize="24dp"
-        app:buttonTextBold="true"
-        app:qmBlurRadius="12dp"
-        app:qmOverlayColor="#80FFFFFF"
-        android:layout_below="@id/button1"
-        android:layout_centerHorizontal="true"
-        android:icon="?android:attr/actionModeWebSearchDrawable"
-        app:buttonIconTint="@color/black"/>
+        <com.qmdeve.blurview.widget.BlurButtonView
+            android:id="@+id/button1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Button Test"
+            app:blurRadius="12dp"
+            app:buttonCornerRadius="12dp"
+            app:buttonIconPadding="8dp"
+            app:buttonIconSize="24dp"
+            app:buttonTextBold="true"
+            app:overlayColor="#80FFFFFF" />
 
-    <com.qmdeve.blurview.widget.QmBlurButtonView
-        android:id="@+id/button3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:buttonCornerRadius="12dp"
-        app:buttonIconPadding="8dp"
-        app:buttonIconSize="24dp"
-        app:qmBlurRadius="12dp"
-        app:qmOverlayColor="#80FFFFFF"
-        android:layout_below="@id/button2"
-        android:layout_centerHorizontal="true"
-        android:icon="?android:attr/actionModeWebSearchDrawable"
-        app:buttonIconTint="@color/black"/>
+        <com.qmdeve.blurview.widget.BlurButtonView
+            android:id="@+id/button2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:icon="?android:attr/actionModeWebSearchDrawable"
+            android:text="Button Test"
+            app:blurRadius="12dp"
+            app:buttonCornerRadius="12dp"
+            app:buttonIconPadding="8dp"
+            app:buttonIconSize="24dp"
+            app:buttonIconTint="@color/black"
+            app:buttonTextBold="true"
+            app:overlayColor="#80FFFFFF" />
 
-    <com.qmdeve.blurview.widget.QmBlurButtonView
-        android:id="@+id/button4"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:buttonCornerRadius="999dp"
-        app:buttonIconSize="24dp"
-        app:qmBlurRadius="12dp"
-        app:qmOverlayColor="#80FFFFFF"
-        android:layout_below="@id/button3"
-        android:layout_centerHorizontal="true"
-        android:icon="?android:attr/actionModeWebSearchDrawable"
-        app:buttonIconTint="@color/black"/>
+        <com.qmdeve.blurview.widget.BlurButtonView
+            android:id="@+id/button3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:icon="?android:attr/actionModeWebSearchDrawable"
+            app:blurRadius="12dp"
+            app:buttonCornerRadius="999dp"
+            app:buttonIconSize="24dp"
+            app:buttonIconTint="@color/black"
+            app:overlayColor="#80FFFFFF" />
 
+        <com.qmdeve.blurview.widget.BlurButtonView
+            android:id="@+id/button4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Button Test"
+            android:textColor="@color/white"
+            app:blurRadius="12dp"
+            app:buttonCornerRadius="12dp"
+            app:buttonIconPadding="8dp"
+            app:buttonIconSize="24dp"
+            app:buttonTextBold="true"
+            app:overlayColor="#33000000"
+            android:layout_marginTop="20dp"/>
+
+        <com.qmdeve.blurview.widget.BlurButtonView
+            android:id="@+id/button5"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:icon="?android:attr/actionModeWebSearchDrawable"
+            android:text="Button Test"
+            android:textColor="@color/white"
+            app:blurRadius="12dp"
+            app:buttonCornerRadius="12dp"
+            app:buttonIconPadding="8dp"
+            app:buttonIconSize="24dp"
+            app:buttonIconTint="@color/white"
+            app:buttonTextBold="true"
+            app:overlayColor="#33000000" />
+
+        <com.qmdeve.blurview.widget.BlurButtonView
+            android:id="@+id/button6"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:icon="?android:attr/actionModeWebSearchDrawable"
+            app:blurRadius="12dp"
+            app:buttonCornerRadius="999dp"
+            app:buttonIconSize="24dp"
+            app:buttonIconTint="@color/white"
+            app:overlayColor="#33000000" />
+    </LinearLayout>
 </RelativeLayout>
