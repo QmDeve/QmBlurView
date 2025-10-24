@@ -78,7 +78,7 @@ Add the following to the build.gradle of your module:
 
 ```gradle
 dependencies {
-   implementation 'com.github.QmDeve:QmBlurView:v1.0.3'
+   implementation 'com.github.QmDeve:QmBlurView:v1.0.3.2'
 }
 ```
 
