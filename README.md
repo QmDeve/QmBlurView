@@ -10,8 +10,8 @@
   <img src="https://img.shields.io/badge/minSdk-21-green" alt="minSdk"/>
   <img src="https://img.shields.io/badge/targetSdk-36-green" alt="targetSdk"/>
   <img src="https://img.shields.io/badge/🚀-Feature-purple" alt="Feature"/>
-  <img src="https://img.shields.io/badge/Version-v1.0.3-blue" alt="Version"/>
-  <img src="https://img.shields.io/badge/Release-v1.0.3-green" alt="Release"/>
+  <img src="https://img.shields.io/badge/Version-v1.0.3.1-blue" alt="Version"/>
+  <img src="https://img.shields.io/badge/Release-v1.0.3.1-green" alt="Release"/>
   <img src="https://jitpack.io/v/QmDeve/QmBlurView.svg" alt="Jitpack"/>
   <img src="https://img.shields.io/github/stars/QmDeve/QmBlurView" alt="Stars"/>
   <br>
@@ -99,7 +99,7 @@ dependencies {
 
 #### Property Description
 
-| Attribute Name=    | Type | Default value | Description |
+| Attribute Name    | Type | Default value | Description |
 |--------------------|------|--------|------|
 | `app:blurRadius`   | `dimension` | `10` | Set blur radius |
 | `app:overlayColor` | `color` | `#AAFFFFFF` | Set overlay color |
