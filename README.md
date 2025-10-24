@@ -224,7 +224,7 @@ blurTitlebarView.setCenterTitle(true);
         app:baseColor="#0161F2" />
 ```
 
-#### 属性说明
+#### Property Description
 
 | Attribute Name                          | Type      | Default Value | Description                                          |
 |------------------------------|---------|-----|---------------------------------------------|
