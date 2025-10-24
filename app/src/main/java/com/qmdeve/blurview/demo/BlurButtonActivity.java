@@ -7,7 +7,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.qmdeve.blurview.demo.util.Utils;
 
-public class BlurButtonViewActivity extends AppCompatActivity {
+public class BlurButtonActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

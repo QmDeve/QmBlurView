@@ -114,7 +114,7 @@ public class BlurView extends View {
 
         float maxRadius = Math.min(rect.width(), rect.height()) / 2f;
         radius = Math.min(radius, maxRadius);
-        float controlOffset = radius * 0.551915f;
+        float controlOffset = radius * 0.5522847498f;
         path.moveTo(rect.left + radius, rect.top);
         path.lineTo(rect.right - radius, rect.top);
         path.cubicTo(rect.right - radius + controlOffset, rect.top, rect.right, rect.top + radius - controlOffset, rect.right, rect.top + radius);
@@ -293,7 +293,7 @@ public class BlurView extends View {
         }
     }
 
-    private void drawPreviewBackground(Canvas canvas) {
+    void drawPreviewBackground(Canvas canvas) {
         if (getWidth() == 0 || getHeight() == 0) return;
 
         Paint previewPaint = new Paint(Paint.ANTI_ALIAS_FLAG);

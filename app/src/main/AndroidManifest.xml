@@ -11,10 +11,13 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.AndroidBlurView">
         <activity
+            android:name=".BlurSwitchActivity"
+            android:exported="false" />
+        <activity
             android:name=".BlurTitlebarActivity"
             android:exported="false" />
         <activity
-            android:name=".BlurButtonViewActivity"
+            android:name=".BlurButtonActivity"
             android:exported="false" />
         <activity
             android:name=".BlurViewActivity"

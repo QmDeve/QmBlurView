@@ -10,8 +10,8 @@
   <img src="https://img.shields.io/badge/minSdk-21-green" alt="minSdk"/>
   <img src="https://img.shields.io/badge/targetSdk-36-green" alt="targetSdk"/>
   <img src="https://img.shields.io/badge/🚀-Feature-purple" alt="Feature"/>
-  <img src="https://img.shields.io/badge/Version-v1.0.3.1-blue" alt="Version"/>
-  <img src="https://img.shields.io/badge/Release-v1.0.3.1-green" alt="Release"/>
+  <img src="https://img.shields.io/badge/Version-v1.0.4-blue" alt="Version"/>
+  <img src="https://img.shields.io/badge/Release-v1.0.4-green" alt="Release"/>
   <img src="https://jitpack.io/v/QmDeve/QmBlurView.svg" alt="Jitpack"/>
   <img src="https://img.shields.io/github/stars/QmDeve/QmBlurView" alt="Stars"/>
   <br>
@@ -28,12 +28,8 @@ English | [简体中文](https://github.com/QmDeve/QmBlurView/blob/master/README
   - `BlurButtonView`
   - `ProgressiveBlurView`
   - `BlurTitlebarView`
+  - `BlurSwitchButtonView`
 - **Minimum support Android 5.0**
-- **Customizable Parameters**:
-  - Blur radius
-  - Sampling scale
-  - Overlay color
-  - Wait...
 - **High Performance**: Native blur algorithm implemented with underlying `Native` calls
 - **Automatic Recycling Mechanism**: Prevents memory leaks
 
@@ -51,6 +47,10 @@ English | [简体中文](https://github.com/QmDeve/QmBlurView/blob/master/README
 
 ### BlurTitleBarView
 <img src="https://github.com/QmDeve/QmBlurView/blob/master/img/blurTitlebarView.jpg?raw=true" alt="Stars"/>
+
+### BlurSwitchButtonView
+<img src="https://github.com/QmDeve/QmBlurView/blob/master/img/blurSwitchButton_false.jpg?raw=true" alt="Stars"/>
+<img src="https://github.com/QmDeve/QmBlurView/blob/master/img/blurSwitchButton_true.jpg?raw=true" alt="Stars"/>
 
 ---
 
@@ -78,7 +78,7 @@ Add the following to the build.gradle of your module:
 
 ```gradle
 dependencies {
-   implementation 'com.github.QmDeve:QmBlurView:v1.0.3'
+   implementation 'com.github.QmDeve:QmBlurView:v1.0.4'
 }
 ```
 
@@ -212,6 +212,43 @@ blurTitlebarView.setCenterTitle(true);
 | `app:progressiveDirection`    | `enum`     | `topToBottom` | Progressive direction: topToBottom, bottomToTop, leftToRight, rightToLeft |
 | `app:progressiveLayers`       | `integer`  | -             | Progressive layers |
 | `app:progressiveBlurRadius`   | `dimension`| -             | Progressive blur radius |
+
+---
+
+### BlurSwitchButtonView
+#### Used in XML layout
+```xml
+<com.qmdeve.blurview.widget.BlurSwitchButtonView
+        android:layout_width="65dp"
+        android:layout_height="wrap_content"
+        app:baseColor="#0161F2" />
+```
+
+#### 属性说明
+
+| Attribute Name                          | Type      | Default Value | Description                                          |
+|------------------------------|---------|-----|---------------------------------------------|
+| `app:baseColor` | `color` | `#0161F2` | Base Color (you only need to set one color value, and it will automatically calculate the color of `on` and `off` states) |
+
+#### Use the code
+```java
+BlurSwitchButtonView blurSwitch = findViewById(R.id.blurSwitch);
+
+// Callback on and off status
+blurSwitch.setOnCheckedChangeListener(is -> {
+    if (is) {
+        
+    }
+});
+
+// Set Base Color
+blurSwitch.setBaseColor(0xFF0161F2);
+
+// The first parameter sets the status, and the second parameter determines whether an animation is needed
+blurSwitch.setChecked(false, false);
+```
+
+**`BlurSwitchButtonView` You only need to set the Base Color, and it will automatically calculate the color of the on and off state**
 
 ---
 

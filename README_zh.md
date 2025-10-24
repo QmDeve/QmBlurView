@@ -10,8 +10,8 @@
   <img src="https://img.shields.io/badge/minSdk-21-green" alt="minSdk"/>
   <img src="https://img.shields.io/badge/targetSdk-36-green" alt="targetSdk"/>
   <img src="https://img.shields.io/badge/🚀-Feature-purple" alt="Feature"/>
-  <img src="https://img.shields.io/badge/Version-v1.0.3.1-blue" alt="Version"/>
-  <img src="https://img.shields.io/badge/Release-v1.0.3.1-green" alt="Release"/>
+  <img src="https://img.shields.io/badge/Version-v1.0.4-blue" alt="Version"/>
+  <img src="https://img.shields.io/badge/Release-v1.0.4-green" alt="Release"/>
   <img src="https://jitpack.io/v/QmDeve/QmBlurView.svg" alt="Jitpack"/>
   <img src="https://img.shields.io/github/stars/QmDeve/QmBlurView" alt="Stars"/>
   <br>
@@ -28,13 +28,8 @@
   - `BlurButtonView` - 模糊按钮视图
   - `ProgressiveBlurView` - 渐进模糊视图
   - `BlurTitlebarView` - 模糊标题栏视图
+  - `BlurSwitchButtonView` - 模糊切换按钮
 - **最低支持 Android 5.0**
-- **参数自定义**：
-  - 模糊半径
-  - 采样比例
-  - 叠加颜色
-  - 圆角半径
-  - 等
 - **高性能**：底层调用 `Native` 实现的原生模糊算法
 - **自动回收机制**：防止内存泄漏
 
@@ -52,6 +47,10 @@
 
 ### BlurTitleBarView
 <img src="https://github.com/QmDeve/QmBlurView/blob/master/img/blurTitlebarView.jpg?raw=true" alt="Stars"/>
+
+### BlurSwitchButtonView
+<img src="https://github.com/QmDeve/QmBlurView/blob/master/img/blurSwitchButton_false.jpg?raw=true" alt="Stars"/>
+<img src="https://github.com/QmDeve/QmBlurView/blob/master/img/blurSwitchButton_true.jpg?raw=true" alt="Stars"/>
 
 ---
 
@@ -79,7 +78,7 @@ dependencyResolutionManagement {
 
 ```gradle
 dependencies {
-   implementation 'com.github.QmDeve:QmBlurView:v1.0.3'
+   implementation 'com.github.QmDeve:QmBlurView:v1.0.4'
 }
 ```
 
@@ -213,6 +212,43 @@ blurTitlebarView.setCenterTitle(true);
 | `app:progressiveDirection`    | `enum`     | `topToBottom` | 渐进方向：topToBottom、bottomToTop、leftToRight、rightToLeft |
 | `app:progressiveLayers`       | `integer`  | -        | 渐进层数 |
 | `app:progressiveBlurRadius`   | `dimension`| -        | 渐进模糊半径 |
+
+---
+
+### BlurSwitchButtonView
+#### XML布局中使用
+```xml
+<com.qmdeve.blurview.widget.BlurSwitchButtonView
+        android:layout_width="65dp"
+        android:layout_height="wrap_content"
+        app:baseColor="#0161F2" />
+```
+
+#### 属性说明
+
+| 属性名                          | 类型      | 默认值 | 说明                                          |
+|------------------------------|---------|-----|---------------------------------------------|
+| `app:baseColor` | `color` | `#0161F2` | 基础颜色 (只需要设置一个颜色值,会自动计算 `关闭状态` 和 `开启状态` 的颜色) |
+
+#### 使用代码
+```java
+BlurSwitchButtonView blurSwitch = findViewById(R.id.blurSwitch);
+
+// 回调开启和关闭状态
+blurSwitch.setOnCheckedChangeListener(is -> {
+    if (is) {
+        
+    }
+});
+
+// 设置基础颜色
+blurSwitch.setBaseColor(0xFF0161F2);
+
+// 第一个参数 设置状态，第二个参数 是否需要动画
+blurSwitch.setChecked(false, false);
+```
+
+**`BlurSwitchButtonView` 只需要设置基础颜色即可，会自动计算开启和关闭状态的颜色**
 
 ---
 

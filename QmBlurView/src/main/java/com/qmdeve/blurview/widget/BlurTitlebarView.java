@@ -8,7 +8,6 @@ import android.content.res.TypedArray;
 import android.graphics.*;
 import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
-import android.util.TypedValue;
 import android.view.MotionEvent;
 import android.view.animation.DecelerateInterpolator;
 
@@ -18,6 +17,7 @@ import androidx.core.content.ContextCompat;
 import androidx.core.graphics.drawable.DrawableCompat;
 
 import com.qmdeve.blurview.R;
+import com.qmdeve.blurview.util.Utils;
 
 public class BlurTitlebarView extends BlurView {
 
@@ -95,10 +95,10 @@ public class BlurTitlebarView extends BlurView {
         if (menuIconRes != 0) mMenuIcon = ContextCompat.getDrawable(context, menuIconRes);
         a.recycle();
 
-        mTitlePaint.setTextSize(dp(18));
+        mTitlePaint.setTextSize(Utils.dp2px(getResources(), 18));
         mTitlePaint.setFakeBoldText(true);
-        mSubtitlePaint.setTextSize(dp(13));
-        mMenuTextPaint.setTextSize(dp(16));
+        mSubtitlePaint.setTextSize(Utils.dp2px(getResources(), 13));
+        mMenuTextPaint.setTextSize(Utils.dp2px(getResources(), 16));
         mMenuTextPaint.setFakeBoldText(true);
 
         updateTextColorByOverlay();
@@ -123,16 +123,12 @@ public class BlurTitlebarView extends BlurView {
         return (color & 0x00FFFFFF) | (alpha << 24);
     }
 
-    private float dp(float v) {
-        return TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, v, getResources().getDisplayMetrics());
-    }
-
     private void adjustForStatusBar() {
         int[] loc = new int[2];
         getLocationOnScreen(loc);
         if (loc[1] < getStatusBarHeight()) {
             mStatusBarHeight = getStatusBarHeight();
-            getLayoutParams().height = (int) (dp(FIXED_HEIGHT_DP) + mStatusBarHeight);
+            getLayoutParams().height = (int) (Utils.dp2px(getResources(), FIXED_HEIGHT_DP) + mStatusBarHeight);
             requestLayout();
         }
         mContentTopOffset = mStatusBarHeight;
@@ -147,7 +143,7 @@ public class BlurTitlebarView extends BlurView {
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         int width = MeasureSpec.getSize(widthMeasureSpec);
-        int height = (int) (dp(FIXED_HEIGHT_DP) + mStatusBarHeight);
+        int height = (int) (Utils.dp2px(getResources(), FIXED_HEIGHT_DP) + mStatusBarHeight);
         setMeasuredDimension(width, height);
     }
 
@@ -155,12 +151,12 @@ public class BlurTitlebarView extends BlurView {
     protected void onDraw(@NonNull Canvas canvas) {
         super.onDraw(canvas);
 
-        float viewHeight = dp(FIXED_HEIGHT_DP);
+        float viewHeight = Utils.dp2px(getResources(), FIXED_HEIGHT_DP);
         float contentTop = mContentTopOffset;
         float centerY = contentTop + viewHeight / 2f;
 
-        float leftPad = dp(16);
-        float iconSize = dp(20);
+        float leftPad = Utils.dp2px(getResources(), 16);
+        float iconSize = Utils.dp2px(getResources(), 20);
         if (mShowBack) {
             float top = centerY - iconSize / 2;
             mBackTouch.set((int) leftPad, (int) top, (int) (leftPad + iconSize * 1.5f), (int) (top + iconSize));
@@ -173,14 +169,13 @@ public class BlurTitlebarView extends BlurView {
                 @SuppressLint("DrawAllocation")
                 Paint p = new Paint(Paint.ANTI_ALIAS_FLAG);
                 p.setColor(mBackIconTint);
-                p.setStrokeWidth(dp(2));
-                canvas.drawLine(leftPad + dp(8), centerY - dp(7), leftPad, centerY, p);
-                canvas.drawLine(leftPad + dp(8), centerY + dp(7), leftPad, centerY, p);
+                p.setStrokeWidth(Utils.dp2px(getResources(), 2));
+                canvas.drawLine(leftPad + Utils.dp2px(getResources(), 8), centerY - Utils.dp2px(getResources(), 7), leftPad, centerY, p);
+                canvas.drawLine(leftPad + Utils.dp2px(getResources(), 8), centerY + Utils.dp2px(getResources(), 7), leftPad, centerY, p);
             }
         }
 
-        float rightPad = dp(16);
-        float rightX = getWidth() - rightPad;
+        float rightX = getWidth() - Utils.dp2px(getResources(), 16);
         if (mMenuIcon != null) {
             float top = centerY - iconSize / 2;
             mMenuTouch.set((int) (rightX - iconSize), (int) top, (int) rightX, (int) (top + iconSize));
@@ -191,12 +186,12 @@ public class BlurTitlebarView extends BlurView {
         } else if (mMenuText != null) {
             mMenuTextPaint.getTextBounds(mMenuText, 0, mMenuText.length(), mTextBounds);
             float tw = mTextBounds.width(), th = mTextBounds.height();
-            float textY = centerY + th / 2 - dp(1);
+            float textY = centerY + th / 2 - Utils.dp2px(getResources(), 1);
             canvas.drawText(mMenuText, rightX - tw, textY, mMenuTextPaint);
-            mMenuTouch.set((int) (rightX - tw - dp(8)), (int) (centerY - dp(20)), (int) (rightX + dp(8)), (int) (centerY + dp(20)));
+            mMenuTouch.set((int) (rightX - tw - Utils.dp2px(getResources(), 8)), (int) (centerY - Utils.dp2px(getResources(), 20)), (int) (rightX + Utils.dp2px(getResources(), 8)), (int) (centerY + Utils.dp2px(getResources(), 20)));
         }
 
-        float baseXLeft = mShowBack ? dp(48) : dp(16);
+        float baseXLeft = mShowBack ? Utils.dp2px(getResources(), 48) : Utils.dp2px(getResources(), 16);
 
         if (mTitle != null) {
             mTitlePaint.getTextBounds(mTitle, 0, mTitle.length(), mTextBounds);
@@ -206,18 +201,18 @@ public class BlurTitlebarView extends BlurView {
                 Paint.FontMetrics fm = mTitlePaint.getFontMetrics();
                 float textHeight = fm.descent - fm.ascent;
                 float textCenterOffset = (textHeight / 2f) - fm.descent;
-                float visualAdjust = dp(1.5f);
+                float visualAdjust = Utils.dp2px(getResources(), 1.5f);
                 float titleY = centerY + textCenterOffset + visualAdjust;
                 canvas.drawText(mTitle, currentTitleX, titleY, mTitlePaint);
             } else {
                 mSubtitlePaint.getTextBounds(mSubtitle, 0, mSubtitle.length(), mTextBounds);
                 float subH = mTextBounds.height();
-                float totalH = titleH + dp(3) + subH;
+                float totalH = titleH + Utils.dp2px(getResources(), 3) + subH;
                 float baseY = centerY - totalH / 2 + titleH;
                 float currentSubtitleX = baseXLeft + mSubtitleOffsetX;
 
-                canvas.drawText(mTitle, currentTitleX, baseY - dp(1), mTitlePaint);
-                canvas.drawText(mSubtitle, currentSubtitleX, baseY + dp(3) + subH, mSubtitlePaint);
+                canvas.drawText(mTitle, currentTitleX, baseY - Utils.dp2px(getResources(), 1), mTitlePaint);
+                canvas.drawText(mSubtitle, currentSubtitleX, baseY + Utils.dp2px(getResources(), 3) + subH, mSubtitlePaint);
             }
         }
     }
@@ -245,7 +240,7 @@ public class BlurTitlebarView extends BlurView {
 
         mTitlePaint.getTextBounds(mTitle, 0, mTitle.length(), mTextBounds);
         float titleW = mTextBounds.width();
-        float baseXLeft = mShowBack ? dp(48) : dp(16);
+        float baseXLeft = mShowBack ? Utils.dp2px(getResources(), 48) : Utils.dp2px(getResources(), 16);
         float titleCenterX = getWidth() / 2f - titleW / 2f;
         mTitleOffsetX = center ? (titleCenterX - baseXLeft) : 0;
         invalidate();
@@ -256,7 +251,7 @@ public class BlurTitlebarView extends BlurView {
 
         mSubtitlePaint.getTextBounds(mSubtitle, 0, mSubtitle.length(), mTextBounds);
         float subtitleW = mTextBounds.width();
-        float baseXLeft = mShowBack ? dp(48) : dp(16);
+        float baseXLeft = mShowBack ? Utils.dp2px(getResources(), 48) : Utils.dp2px(getResources(), 16);
         float subtitleCenterX = getWidth() / 2f - subtitleW / 2f;
         mSubtitleOffsetX = center ? (subtitleCenterX - baseXLeft) : 0;
         invalidate();
@@ -267,7 +262,7 @@ public class BlurTitlebarView extends BlurView {
 
         mTitlePaint.getTextBounds(mTitle, 0, mTitle.length(), mTextBounds);
         float titleW = mTextBounds.width();
-        float baseXLeft = mShowBack ? dp(48) : dp(16);
+        float baseXLeft = mShowBack ? Utils.dp2px(getResources(), 48) : Utils.dp2px(getResources(), 16);
         float titleCenterX = getWidth() / 2f - titleW / 2f;
         float targetOffset = center ? (titleCenterX - baseXLeft) : 0;
 
@@ -287,7 +282,7 @@ public class BlurTitlebarView extends BlurView {
 
         mSubtitlePaint.getTextBounds(mSubtitle, 0, mSubtitle.length(), mTextBounds);
         float subtitleW = mTextBounds.width();
-        float baseXLeft = mShowBack ? dp(48) : dp(16);
+        float baseXLeft = mShowBack ? Utils.dp2px(getResources(), 48) : Utils.dp2px(getResources(), 16);
         float subtitleCenterX = getWidth() / 2f - subtitleW / 2f;
         float targetOffset = center ? (subtitleCenterX - baseXLeft) : 0;
 

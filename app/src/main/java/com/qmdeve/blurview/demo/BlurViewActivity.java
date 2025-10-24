@@ -22,7 +22,6 @@ public class BlurViewActivity extends AppCompatActivity {
         BlurView blurView = findViewById(R.id.blurView);
         blurView.setBlurRadius(45);
         blurView.setCornerRadius(65);
-        int currentOverlayColor = 0x80FFFFFF;
-        blurView.setOverlayColor(currentOverlayColor);
+        blurView.setOverlayColor(0x80FFFFFF);
     }
 }

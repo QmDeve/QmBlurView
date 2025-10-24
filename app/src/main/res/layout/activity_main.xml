@@ -20,7 +20,7 @@
         android:id="@+id/blurButtonButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="BlurButton"
+        android:text="Blur Button"
         app:overlayColor="#0161F2"
         android:textColor="@color/white"
         app:buttonCornerRadius="12dp"/>
@@ -39,6 +39,15 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Blur Titlebar"
+        app:overlayColor="#0161F2"
+        android:textColor="@color/white"
+        app:buttonCornerRadius="12dp"/>
+
+    <com.qmdeve.blurview.widget.BlurButtonView
+        android:id="@+id/blurSwitchButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Blur SwitchButton"
         app:overlayColor="#0161F2"
         android:textColor="@color/white"
         app:buttonCornerRadius="12dp"/>
