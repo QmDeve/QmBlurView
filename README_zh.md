@@ -79,7 +79,7 @@ dependencyResolutionManagement {
 
 ```gradle
 dependencies {
-   implementation 'com.github.QmDeve:QmBlurView:v1.0.3'
+   implementation 'com.github.QmDeve:QmBlurView:v1.0.3.2'
 }
 ```
 
