@@ -25,7 +25,7 @@ public class BlurNative implements Blur {
         synchronized (this) {
             if (executorService == null || executorService.isShutdown()) {
                 int cpuCount = Runtime.getRuntime().availableProcessors();
-                threadCount = Math.max(2, Math.min(4, cpuCount));
+                threadCount = Math.max(2, Math.min(5, cpuCount));
 
                 executorService = new ThreadPoolExecutor(
                         threadCount,

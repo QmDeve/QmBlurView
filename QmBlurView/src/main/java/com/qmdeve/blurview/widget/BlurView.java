@@ -133,7 +133,7 @@ public class BlurView extends View {
             return false;
         }
 
-        float downsampleFactor = (float) 2;
+        float downsampleFactor = 2.52f;
         float radius = mBlurRadius / downsampleFactor;
         if (radius > 25) {
             downsampleFactor *= radius / 25;

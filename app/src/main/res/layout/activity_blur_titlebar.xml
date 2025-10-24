@@ -79,6 +79,18 @@
             app:centerTitle="false"
             android:layout_marginTop="12dp"/>
 
+        <com.qmdeve.blurview.widget.BlurTitlebarView
+            android:id="@+id/blurTitlebar4"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:overlayColor="#D1FFFFFF"
+            app:blurRadius="30dp"
+            app:showBack="false"
+            app:titleText="Title Test"
+            app:subtitleText="Subheading Test"
+            app:centerTitle="false"
+            android:layout_marginTop="12dp"/>
+
         <com.qmdeve.blurview.widget.BlurButtonView
             android:id="@+id/button1"
             android:layout_width="wrap_content"

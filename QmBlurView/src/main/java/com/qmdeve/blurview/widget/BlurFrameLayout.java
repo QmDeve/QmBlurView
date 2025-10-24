@@ -127,7 +127,7 @@ public class BlurFrameLayout extends FrameLayout {
             return false;
         }
 
-        float downsampleFactor = 2f;
+        float downsampleFactor = 2.52f;
         float radius = mBlurRadius / downsampleFactor;
         if (radius > 25) {
             downsampleFactor *= radius / 25;

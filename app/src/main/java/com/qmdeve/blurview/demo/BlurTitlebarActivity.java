@@ -22,6 +22,7 @@ public class BlurTitlebarActivity extends AppCompatActivity {
         BlurTitlebarView blurTitlebarView1 = findViewById(R.id.blurTitlebar1);
         BlurTitlebarView blurTitlebarView2 = findViewById(R.id.blurTitlebar2);
         BlurTitlebarView blurTitlebarView3 = findViewById(R.id.blurTitlebar3);
+        BlurTitlebarView blurTitlebarView4 = findViewById(R.id.blurTitlebar4);
 
         blurTitlebarView1.setOnBackClickListener(this::finish);
         blurTitlebarView2.setOnBackClickListener(this::finish);
@@ -30,12 +31,14 @@ public class BlurTitlebarActivity extends AppCompatActivity {
             blurTitlebarView1.setCenterTitle(true);
             blurTitlebarView2.setCenterTitle(true);
             blurTitlebarView3.setCenterTitle(true);
+            blurTitlebarView4.setCenterTitle(true);
         });
 
         findViewById(R.id.button2).setOnClickListener(v -> {
             blurTitlebarView1.setCenterTitle(false);
             blurTitlebarView2.setCenterTitle(false);
             blurTitlebarView3.setCenterTitle(false);
+            blurTitlebarView4.setCenterTitle(false);
         });
     }
 }
