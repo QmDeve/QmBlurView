@@ -1,6 +1,6 @@
 <div align="center">
 
-# QmBlurView – Android BlurView and BlurButtonView and ProgressiveBlurView and BlurTitleBarView
+# QmBlurView is an Android UI component library that integrates a variety of blur effects, including BlurView, BlurButtonView, ProgressiveBlurView, BlurTitleBarView, BlurSwitchButtonView, and BlurFloatingButtonView
 
   <br>
   <br>
@@ -10,8 +10,8 @@
   <img src="https://img.shields.io/badge/minSdk-21-green" alt="minSdk"/>
   <img src="https://img.shields.io/badge/targetSdk-36-green" alt="targetSdk"/>
   <img src="https://img.shields.io/badge/🚀-Feature-purple" alt="Feature"/>
-  <img src="https://img.shields.io/badge/Version-v1.0.4-blue" alt="Version"/>
-  <img src="https://img.shields.io/badge/Release-v1.0.4-green" alt="Release"/>
+  <img src="https://img.shields.io/badge/Version-v1.0.4.1-blue" alt="Version"/>
+  <img src="https://img.shields.io/badge/Release-v1.0.4.1-green" alt="Release"/>
   <img src="https://jitpack.io/v/QmDeve/QmBlurView.svg" alt="Jitpack"/>
   <img src="https://img.shields.io/github/stars/QmDeve/QmBlurView" alt="Stars"/>
   <br>
@@ -29,6 +29,7 @@ English | [简体中文](https://github.com/QmDeve/QmBlurView/blob/master/README
   - `ProgressiveBlurView`
   - `BlurTitlebarView`
   - `BlurSwitchButtonView`
+  - `BlurFloatingButtonView`
 - **Minimum support Android 5.0**
 - **High Performance**: Native blur algorithm implemented with underlying `Native` calls
 - **Automatic Recycling Mechanism**: Prevents memory leaks
@@ -51,6 +52,9 @@ English | [简体中文](https://github.com/QmDeve/QmBlurView/blob/master/README
 ### BlurSwitchButtonView
 <img src="https://github.com/QmDeve/QmBlurView/blob/master/img/blurSwitchButton_false.jpg?raw=true" alt="Stars"/>
 <img src="https://github.com/QmDeve/QmBlurView/blob/master/img/blurSwitchButton_true.jpg?raw=true" alt="Stars"/>
+
+### BlurFloatingButtonView
+<img src="https://github.com/QmDeve/QmBlurView/blob/master/img/blurFloatingButton.jpg?raw=true" alt="Stars"/>
 
 ---
 
@@ -78,7 +82,7 @@ Add the following to the build.gradle of your module:
 
 ```gradle
 dependencies {
-   implementation 'com.github.QmDeve:QmBlurView:v1.0.4'
+   implementation 'com.github.QmDeve:QmBlurView:v1.0.4.1'
 }
 ```
 
@@ -224,7 +228,7 @@ blurTitlebarView.setCenterTitle(true);
         app:baseColor="#0161F2" />
 ```
 
-#### 属性说明
+#### Property Description
 
 | Attribute Name                          | Type      | Default Value | Description                                          |
 |------------------------------|---------|-----|---------------------------------------------|
@@ -249,6 +253,44 @@ blurSwitch.setChecked(false, false);
 ```
 
 **`BlurSwitchButtonView` You only need to set the Base Color, and it will automatically calculate the color of the on and off state**
+
+---
+
+### BlurFloatingButtonView
+#### Used in XML layout
+```xml
+<com.qmdeve.blurview.widget.BlurFloatingButtonView 
+        android:id="@+id/blurFloatingButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+```
+
+####  Use the code
+```java
+BlurFloatingButtonView floatingButtonView = findViewById(R.id.blurFloatingButton);
+
+floatingButtonView.setOnClickListener(view -> {
+    Toast.makeText(BlurFloatingButtonActivity.this, "Click", Toast.LENGTH_SHORT).show();
+});
+
+floatingButtonView.setOnLongPressListener(view -> {
+    Toast.makeText(this, "Long Press", Toast.LENGTH_SHORT).show();
+});
+
+floatingButtonView.setPosition(BlurFloatingButtonView.POSITION_RIGHT);
+
+floatingButtonView.setIcon();
+
+floatingButtonView.setIconTint();
+
+floatingButtonView.setIconSize();
+
+floatingButtonView.setButtonSize();
+
+floatingButtonView.setOverlayColor();
+
+floatingButtonView.setCornerRadius();
+```
 
 ---
 

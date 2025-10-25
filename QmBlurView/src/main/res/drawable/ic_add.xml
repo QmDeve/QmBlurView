@@ -1,0 +1,17 @@
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="24dp"
+    android:height="24dp"
+    android:viewportWidth="24"
+    android:viewportHeight="24">
+
+    <!-- 圆角加号 -->
+    <path
+        android:fillColor="#333333"
+        android:pathData="
+            M12,5
+            a1,1 0 0 1 1,1v5h5
+            a1,1 0 0 1 0,2h-5v5
+            a1,1 0 0 1 -2,0v-5h-5
+            a1,1 0 0 1 0,-2h5v-5
+            a1,1 0 0 1 1,-1z" />
+</vector>

@@ -24,5 +24,6 @@ public class MainActivity extends AppCompatActivity {
         findViewById(R.id.progerssiveBlurButton).setOnClickListener(v -> startActivity(new Intent(this, ProgerssiveBlurActivity.class)));
         findViewById(R.id.blurTitlebar).setOnClickListener(v -> startActivity(new Intent(this, BlurTitlebarActivity.class)));
         findViewById(R.id.blurSwitchButton).setOnClickListener(v -> startActivity(new Intent(this, BlurSwitchActivity.class)));
+        findViewById(R.id.blurFloatingButton).setOnClickListener(v -> startActivity(new Intent(this, BlurFloatingButtonActivity.class)));
     }
 }

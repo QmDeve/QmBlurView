@@ -1,6 +1,6 @@
 <div align="center">
 
-# QmBlurView - Android模糊视图 (BlurView) 和模糊按钮视图 (BlurButtonView) 以及 渐进模糊视图 (ProgressiveBlurView) 和 模糊标题栏视图 (BlurTitleBarView)
+# QmBlurView - 一个集成了多种模糊效果的Android UI组件库，包括模糊视图 (BlurView)、模糊按钮 (BlurButtonView)、渐进模糊视图 (ProgressiveBlurView)、模糊标题栏 (BlurTitleBarView)、模糊切换按钮 (BlurSwitchButtonView) 和模糊悬浮按钮 (BlurFloatingButtonView)
 
   <br>
   <br>
@@ -10,8 +10,8 @@
   <img src="https://img.shields.io/badge/minSdk-21-green" alt="minSdk"/>
   <img src="https://img.shields.io/badge/targetSdk-36-green" alt="targetSdk"/>
   <img src="https://img.shields.io/badge/🚀-Feature-purple" alt="Feature"/>
-  <img src="https://img.shields.io/badge/Version-v1.0.4-blue" alt="Version"/>
-  <img src="https://img.shields.io/badge/Release-v1.0.4-green" alt="Release"/>
+  <img src="https://img.shields.io/badge/Version-v1.0.4.1-blue" alt="Version"/>
+  <img src="https://img.shields.io/badge/Release-v1.0.4.1-green" alt="Release"/>
   <img src="https://jitpack.io/v/QmDeve/QmBlurView.svg" alt="Jitpack"/>
   <img src="https://img.shields.io/github/stars/QmDeve/QmBlurView" alt="Stars"/>
   <br>
@@ -28,7 +28,8 @@
   - `BlurButtonView` - 模糊按钮视图
   - `ProgressiveBlurView` - 渐进模糊视图
   - `BlurTitlebarView` - 模糊标题栏视图
-  - `BlurSwitchButtonView` - 模糊切换按钮
+  - `BlurSwitchButtonView` - 模糊切换按钮视图
+  - `BlurFloatingButtonView` - 模糊悬浮按钮视图
 - **最低支持 Android 5.0**
 - **高性能**：底层调用 `Native` 实现的原生模糊算法
 - **自动回收机制**：防止内存泄漏
@@ -51,6 +52,9 @@
 ### BlurSwitchButtonView
 <img src="https://github.com/QmDeve/QmBlurView/blob/master/img/blurSwitchButton_false.jpg?raw=true" alt="Stars"/>
 <img src="https://github.com/QmDeve/QmBlurView/blob/master/img/blurSwitchButton_true.jpg?raw=true" alt="Stars"/>
+
+### BlurFloatingButtonView
+<img src="https://github.com/QmDeve/QmBlurView/blob/master/img/blurFloatingButton.jpg?raw=true" alt="Stars"/>
 
 ---
 
@@ -78,7 +82,7 @@ dependencyResolutionManagement {
 
 ```gradle
 dependencies {
-   implementation 'com.github.QmDeve:QmBlurView:v1.0.4'
+   implementation 'com.github.QmDeve:QmBlurView:v1.0.4.1'
 }
 ```
 
@@ -249,6 +253,53 @@ blurSwitch.setChecked(false, false);
 ```
 
 **`BlurSwitchButtonView` 只需要设置基础颜色即可，会自动计算开启和关闭状态的颜色**
+
+---
+
+### BlurFloatingButtonView
+#### XML布局中使用
+```xml
+<com.qmdeve.blurview.widget.BlurFloatingButtonView 
+        android:id="@+id/blurFloatingButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+```
+
+#### 使用代码
+```java
+BlurFloatingButtonView floatingButtonView = findViewById(R.id.blurFloatingButton);
+
+// 监听点击
+floatingButtonView.setOnClickListener(view -> {
+    Toast.makeText(BlurFloatingButtonActivity.this, "Click", Toast.LENGTH_SHORT).show();
+});
+
+// 监听长按
+floatingButtonView.setOnLongPressListener(view -> {
+    Toast.makeText(this, "Long Press", Toast.LENGTH_SHORT).show();
+});
+
+// 设置显示位置
+floatingButtonView.setPosition(BlurFloatingButtonView.POSITION_RIGHT);
+
+// 设置图标
+floatingButtonView.setIcon();
+
+// 设置图标着色
+floatingButtonView.setIconTint();
+
+// 设置图标大小
+floatingButtonView.setIconSize();
+
+// 设置按钮大小
+floatingButtonView.setButtonSize();
+
+// 设置叠层颜色
+floatingButtonView.setOverlayColor();
+
+// 设置圆角半径
+floatingButtonView.setCornerRadius();
+```
 
 ---
 

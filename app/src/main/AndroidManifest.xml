@@ -11,6 +11,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.AndroidBlurView">
         <activity
+            android:name=".BlurFloatingButtonActivity"
+            android:exported="false" />
+        <activity
             android:name=".BlurSwitchActivity"
             android:exported="false" />
         <activity

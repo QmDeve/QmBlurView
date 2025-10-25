@@ -52,4 +52,13 @@
         android:textColor="@color/white"
         app:buttonCornerRadius="12dp"/>
 
+    <com.qmdeve.blurview.widget.BlurButtonView
+        android:id="@+id/blurFloatingButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Blur FloatingButton"
+        app:overlayColor="#0161F2"
+        android:textColor="@color/white"
+        app:buttonCornerRadius="12dp"/>
+
 </LinearLayout>
