@@ -1,6 +1,7 @@
 package com.qmdeve.blurview.demo;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.activity.EdgeToEdge;
@@ -25,5 +26,10 @@ public class MainActivity extends AppCompatActivity {
         findViewById(R.id.blurTitlebar).setOnClickListener(v -> startActivity(new Intent(this, BlurTitlebarActivity.class)));
         findViewById(R.id.blurSwitchButton).setOnClickListener(v -> startActivity(new Intent(this, BlurSwitchActivity.class)));
         findViewById(R.id.blurFloatingButton).setOnClickListener(v -> startActivity(new Intent(this, BlurFloatingButtonActivity.class)));
+
+        findViewById(R.id.github).setOnClickListener(v -> {
+            Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://github.com/QmDeve/QmBlurView"));
+            startActivity(intent);
+        });
     }
 }
