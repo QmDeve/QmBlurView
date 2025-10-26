@@ -42,67 +42,56 @@
         android:id="@+id/blurTitlebar1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:overlayColor="#D1FFFFFF"
         app:blurRadius="30dp"
-        app:showBack="true"
+        app:centerTitle="false"
         app:menuIcon="?android:attr/actionModeWebSearchDrawable"
-        app:titleText="Title Test"
+        app:overlayColor="#D1FFFFFF"
+        app:showBack="true"
         app:subtitleText="Subheading Test"
-        app:centerTitle="false"/>
+        app:titleText="Title Test" />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:gravity="center"
         android:orientation="vertical">
+
         <com.qmdeve.blurview.widget.BlurTitlebarView
             android:id="@+id/blurTitlebar2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:overlayColor="#D1FFFFFF"
             app:blurRadius="30dp"
+            app:centerTitle="false"
+            app:overlayColor="#D1FFFFFF"
             app:showBack="true"
-            app:titleText="Title Test"
             app:subtitleText="Subheading Test"
-            app:centerTitle="false"/>
+            app:titleText="Title Test" />
 
         <com.qmdeve.blurview.widget.BlurTitlebarView
             android:id="@+id/blurTitlebar3"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:overlayColor="#D1FFFFFF"
+            android:layout_marginTop="12dp"
             app:blurRadius="30dp"
-            app:showBack="false"
+            app:centerTitle="false"
             app:menuIcon="?android:attr/actionModeWebSearchDrawable"
-            app:titleText="Title Test"
-            app:subtitleText="Subheading Test"
-            app:centerTitle="false"
-            android:layout_marginTop="12dp"/>
-
-        <com.qmdeve.blurview.widget.BlurTitlebarView
-            android:id="@+id/blurTitlebar4"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
             app:overlayColor="#D1FFFFFF"
-            app:blurRadius="30dp"
             app:showBack="false"
-            app:titleText="Title Test"
             app:subtitleText="Subheading Test"
-            app:centerTitle="false"
-            android:layout_marginTop="12dp"/>
+            app:titleText="Title Test" />
 
         <com.qmdeve.blurview.widget.BlurButtonView
             android:id="@+id/button1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
             android:text="Title set to Center"
             app:blurRadius="12dp"
             app:buttonCornerRadius="12dp"
             app:buttonIconPadding="8dp"
             app:buttonIconSize="24dp"
             app:buttonTextBold="true"
-            app:overlayColor="#9CFFFFFF"
-            android:layout_marginTop="30dp"/>
+            app:overlayColor="#9CFFFFFF" />
 
         <com.qmdeve.blurview.widget.BlurButtonView
             android:id="@+id/button2"

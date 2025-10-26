@@ -217,7 +217,7 @@ public class BlurView extends View {
         return true;
     };
 
-    private View getActivityDecorView() {
+    View getActivityDecorView() {
         Context ctx = getContext();
         for (int i = 0; i < 4 && !(ctx instanceof Activity) && ctx instanceof ContextWrapper; i++) {
             ctx = ((ContextWrapper) ctx).getBaseContext();

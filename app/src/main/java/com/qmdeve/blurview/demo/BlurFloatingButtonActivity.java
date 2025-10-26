@@ -5,7 +5,6 @@ import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
-
 import com.qmdeve.blurview.demo.util.Utils;
 import com.qmdeve.blurview.widget.BlurFloatingButtonView;
 
@@ -23,7 +22,7 @@ public class BlurFloatingButtonActivity extends AppCompatActivity {
         BlurFloatingButtonView floatingButtonView = findViewById(R.id.blurFloatingButton);
 
         floatingButtonView.setOnClickListener(view -> {
-            Toast.makeText(BlurFloatingButtonActivity.this, "Click", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Click", Toast.LENGTH_SHORT).show();
         });
 
         floatingButtonView.setOnLongPressListener(view -> {

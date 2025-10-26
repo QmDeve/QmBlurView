@@ -42,19 +42,9 @@
     <com.qmdeve.blurview.widget.ProgressiveBlurView
         android:layout_width="match_parent"
         android:layout_height="150dp"
-        android:layout_alignParentTop="true"
+        android:layout_centerInParent="true"
         app:blurRadius="20dp"
         app:progressiveDirection="topToBottom"
-        app:progressiveLayers="5"
-        app:progressiveOverlayColor="#80FFFFFF" />
-
-    <com.qmdeve.blurview.widget.ProgressiveBlurView
-        android:layout_width="match_parent"
-        android:layout_height="150dp"
-        android:layout_alignParentBottom="true"
-        app:blurRadius="20dp"
-        app:progressiveBlurRadius="25dp"
-        app:progressiveDirection="bottomToTop"
         app:progressiveLayers="5"
         app:progressiveOverlayColor="#80FFFFFF" />
 </RelativeLayout>

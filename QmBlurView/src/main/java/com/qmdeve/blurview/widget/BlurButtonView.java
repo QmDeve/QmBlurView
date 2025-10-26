@@ -55,11 +55,9 @@ public class BlurButtonView extends BlurView {
     private float mButtonCornerRadius;
     private int mContentWidth = 0;
     private int mContentHeight = 0;
-    private Paint mHighlightPaint;
-    private final float mHighlightAlpha = 0.3f;
-    private final Rect mHighlightRect = new Rect();
-    private float mCurrentHighlightAlpha = 0f;
-    private float mTargetHighlightAlpha = 0f;
+    private final float mPressedScale = 0.94f;
+    private float mCurrentScale = 1.0f;
+    private float mTargetScale = 1.0f;
     private long mAnimationStartTime = 0;
     private boolean mIsAnimating = false;
     private final Interpolator mInterpolator = new DecelerateInterpolator();
@@ -91,8 +89,6 @@ public class BlurButtonView extends BlurView {
     private void init(Context context, AttributeSet attrs) {
         mTextPaint = new TextPaint(Paint.ANTI_ALIAS_FLAG);
         mTextPaint.density = getResources().getDisplayMetrics().density;
-        mHighlightPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
-        mHighlightPaint.setStyle(Paint.Style.FILL);
 
         TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.BlurButtonView);
 
@@ -102,7 +98,7 @@ public class BlurButtonView extends BlurView {
         mTextColor = a.getColor(R.styleable.BlurButtonView_android_textColor, DEFAULT_TEXT_COLOR);
         mTextColorPressed = a.getColor(R.styleable.BlurButtonView_buttonTextColorPressed, mTextColor);
         mTextColorDisabled = a.getColor(R.styleable.BlurButtonView_buttonTextColorDisabled,
-                applyAlpha(mTextColor, 0.5f));
+                applyAlpha(mTextColor));
         mTextBold = a.getBoolean(R.styleable.BlurButtonView_buttonTextBold, true);
         mIcon = a.getDrawable(R.styleable.BlurButtonView_android_icon);
         mIconSize = a.getDimensionPixelSize(R.styleable.BlurButtonView_buttonIconSize,
@@ -208,78 +204,62 @@ public class BlurButtonView extends BlurView {
         }
     }
 
-    private int applyAlpha(int color, float alpha) {
-        int alphaValue = Math.round(Color.alpha(color) * alpha);
+    private int applyAlpha(int color) {
+        int alphaValue = Math.round(Color.alpha(color) * (float) 0.5);
         return Color.argb(alphaValue, Color.red(color), Color.green(color), Color.blue(color));
     }
 
     @Override
     protected void onDraw(@NonNull Canvas canvas) {
         setCornerRadius(mButtonCornerRadius);
-        super.onDraw(canvas);
 
-        drawButtonContent(canvas);
-        if (mCurrentHighlightAlpha > 0) {
-            drawHighlight(canvas);
+        if (mCurrentScale != 1.0f) {
+            canvas.save();
+            float scale = mCurrentScale;
+            float pivotX = getWidth() / 2f;
+            float pivotY = getHeight() / 2f;
+            canvas.scale(scale, scale, pivotX, pivotY);
+            super.onDraw(canvas);
+            drawButtonContent(canvas);
+            canvas.restore();
+        } else {
+            super.onDraw(canvas);
+            drawButtonContent(canvas);
         }
     }
 
-    @Override
-    protected void onSizeChanged(int w, int h, int oldw, int oldh) {
-        super.onSizeChanged(w, h, oldw, oldh);
-        mHighlightRect.set(0, 0, w, h);
-    }
-
-    private void drawHighlight(Canvas canvas) {
-        if (getWidth() == 0 || getHeight() == 0) return;
-
-        int mHighlightColor = Color.WHITE;
-        int highlightColorWithAlpha = applyAlpha(mHighlightColor, mCurrentHighlightAlpha);
-        mHighlightPaint.setColor(highlightColorWithAlpha);
-
-        canvas.drawRoundRect(
-                mHighlightRect.left,
-                mHighlightRect.top,
-                mHighlightRect.right,
-                mHighlightRect.bottom,
-                mButtonCornerRadius,
-                mButtonCornerRadius,
-                mHighlightPaint
-        );
-    }
-
-    private void updateHighlightAnimation() {
+    private void updateScaleAnimation() {
         if (!mIsAnimating) return;
 
         long currentTime = AnimationUtils.currentAnimationTimeMillis();
         long elapsed = currentTime - mAnimationStartTime;
-        int mAnimationDuration = 150;
-        if (elapsed >= mAnimationDuration) {
-            mCurrentHighlightAlpha = mTargetHighlightAlpha;
+
+        if (elapsed >= 140) {
+            mCurrentScale = mTargetScale;
             mIsAnimating = false;
             invalidate();
             return;
         }
 
-        float input = (float) elapsed / mAnimationDuration;
+        float input = (float) elapsed / 140;
         float interpolation = mInterpolator.getInterpolation(input);
-        float startAlpha = mTargetHighlightAlpha == mHighlightAlpha ? 0f : mHighlightAlpha;
-        float endAlpha = mTargetHighlightAlpha;
-        mCurrentHighlightAlpha = startAlpha + (endAlpha - startAlpha) * interpolation;
+        float startScale = mTargetScale == mPressedScale ? 1.0f : mPressedScale;
+        float endScale = mTargetScale;
+        mCurrentScale = startScale + (endScale - startScale) * interpolation;
         invalidate();
     }
 
-    private void startHighlightAnimation(boolean show) {
-        mTargetHighlightAlpha = show ? mHighlightAlpha : 0f;
+    private void startScaleAnimation(boolean pressed) {
+        mTargetScale = pressed ? mPressedScale : 1.0f;
         mAnimationStartTime = AnimationUtils.currentAnimationTimeMillis();
         mIsAnimating = true;
 
-        if (!show && mCurrentHighlightAlpha == 0f) {
+        if (!pressed && mCurrentScale == 1.0f) {
             mIsAnimating = false;
             return;
         }
 
-        if (show && mCurrentHighlightAlpha >= mHighlightAlpha) {
+        if (pressed && mCurrentScale <= mPressedScale) {
             mIsAnimating = false;
             return;
         }
@@ -397,7 +377,7 @@ public class BlurButtonView extends BlurView {
                 mTouchDownY = y;
                 mIsInButtonBounds = true;
                 mIsPressed = true;
-                startHighlightAnimation(true);
+                startScaleAnimation(true);
                 updateTextColor();
                 break;
 
@@ -407,12 +387,12 @@ public class BlurButtonView extends BlurView {
                     float dy = Math.abs(y - mTouchDownY);
                     if (dx > mTouchSlop || dy > mTouchSlop) {
                         mIsInButtonBounds = isInside;
-                        startHighlightAnimation(mIsInButtonBounds);
+                        startScaleAnimation(mIsInButtonBounds);
                     }
                 } else {
                     if (isInside) {
                         mIsInButtonBounds = true;
-                        startHighlightAnimation(true);
+                        startScaleAnimation(true);
                     }
                 }
                 break;
@@ -425,14 +405,14 @@ public class BlurButtonView extends BlurView {
                 }
                 mIsPressed = false;
                 mIsInButtonBounds = false;
-                startHighlightAnimation(false);
+                startScaleAnimation(false);
                 updateTextColor();
                 break;
 
             case MotionEvent.ACTION_CANCEL:
                 mIsPressed = false;
                 mIsInButtonBounds = false;
-                startHighlightAnimation(false);
+                startScaleAnimation(false);
                 updateTextColor();
                 break;
         }
@@ -444,7 +424,7 @@ public class BlurButtonView extends BlurView {
     public void computeScroll() {
         super.computeScroll();
         if (mIsAnimating) {
-            updateHighlightAnimation();
+            updateScaleAnimation();
         }
     }
 
@@ -455,7 +435,7 @@ public class BlurButtonView extends BlurView {
         if (!enabled) {
             mIsPressed = false;
             mIsInButtonBounds = false;
-            startHighlightAnimation(false);
+            startScaleAnimation(false);
         }
         invalidate();
     }
