@@ -19,6 +19,11 @@
 
 English | [简体中文](https://github.com/QmDeve/QmBlurView/blob/master/README_zh.md)
 
+<br>
+<br>
+  
+  [Telegram Group](https://t.me/QmDeves)
+
 </div>
 
 ---
