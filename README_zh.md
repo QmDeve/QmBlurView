@@ -327,3 +327,6 @@ BlurUtils.blurFile();
 **详细请参考 `Demo`**
 
 **如果你觉得这个项目有帮助，欢迎点个 `Star` 支持一下！**
+---
+## 我的其他开源库
+ - **[AndroidLiquidGlassView](https://github.com/QmDeve/AndroidLiquidGlassView)**
