@@ -12,8 +12,8 @@
   <img src="https://img.shields.io/badge/🚀-Feature-purple" alt="Feature"/>
   <img src="https://img.shields.io/badge/Version-v1.0.4.3-blue" alt="Version"/>
   <img src="https://img.shields.io/badge/Release-v1.0.4.3-green" alt="Release"/>
-  <img src="https://img.shields.io/github/stars/QmDeve/QmBlurView" alt="Stars"/>
   <img src="https://img.shields.io/maven-central/v/io.github.qmdeve/QmBlurView" alt="maven"/>
+  <img src="https://img.shields.io/github/stars/QmDeve/QmBlurView" alt="Stars"/>
   <br>
   <br>
 
