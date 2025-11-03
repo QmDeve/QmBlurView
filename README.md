@@ -85,4 +85,4 @@ English | [简体中文](https://github.com/QmDeve/QmBlurView/blob/master/README
 ---
 
 ### My other open-source library
- - **[QmBlurView](https://github.com/QmDeve/QmBlurView)**
+ - **[AndroidLiquidGlassView](https://github.com/QmDeve/AndroidLiquidGlassView)**
