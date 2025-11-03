@@ -74,7 +74,7 @@
 
 ```gradle
 dependencies {
-   implementation '	io.github.qmdeve:QmBlurView:1.0.4.3'
+   implementation 'io.github.qmdeve:QmBlurView:1.0.4.3'
 }
 ```
 
