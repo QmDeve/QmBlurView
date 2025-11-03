@@ -7,6 +7,7 @@ import android.graphics.Canvas;
 
 import java.util.concurrent.*;
 import java.util.concurrent.atomic.AtomicBoolean;
+
 public class BlurNative implements Blur {
 
     private static final int DEFAULT_THREAD_COUNT = 4;

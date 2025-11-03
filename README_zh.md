@@ -10,10 +10,10 @@
   <img src="https://img.shields.io/badge/minSdk-21-green" alt="minSdk"/>
   <img src="https://img.shields.io/badge/targetSdk-36-green" alt="targetSdk"/>
   <img src="https://img.shields.io/badge/🚀-Feature-purple" alt="Feature"/>
-  <img src="https://img.shields.io/badge/Version-v1.0.4.2-blue" alt="Version"/>
-  <img src="https://img.shields.io/badge/Release-v1.0.4.2-green" alt="Release"/>
-  <img src="https://jitpack.io/v/QmDeve/QmBlurView.svg" alt="Jitpack"/>
+  <img src="https://img.shields.io/badge/Version-v1.0.4.3-blue" alt="Version"/>
+  <img src="https://img.shields.io/badge/Release-v1.0.4.3-green" alt="Release"/>
   <img src="https://img.shields.io/github/stars/QmDeve/QmBlurView" alt="Stars"/>
+  <img src="https://img.shields.io/maven-central/v/io.github.qmdeve/QmBlurView" alt="maven"/>
   <br>
   <br>
 
@@ -69,25 +69,12 @@
 ---
 
 ## 快速集成
-### 1. 添加仓库：
-在项目根目录的 settings.gradle 中添加：
-
-```gradle
-dependencyResolutionManagement {
-    repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
-    repositories {
-       mavenCentral()
-       maven { url 'https://jitpack.io' }
-  }
-}
-```
-
-### 2. 添加依赖：
+### 添加依赖项：
 在模块的 build.gradle 中添加：
 
 ```gradle
 dependencies {
-   implementation 'com.github.QmDeve:QmBlurView:v1.0.4.2'
+   implementation '	io.github.qmdeve:QmBlurView:1.0.4.3'
 }
 ```
 
