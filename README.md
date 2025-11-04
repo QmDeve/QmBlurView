@@ -9,11 +9,10 @@
   <img src="https://img.shields.io/badge/Android-5.0%2B-brightgreen.svg" alt="Android 5"/>
   <img src="https://img.shields.io/badge/minSdk-21-green" alt="minSdk"/>
   <img src="https://img.shields.io/badge/targetSdk-36-green" alt="targetSdk"/>
-  <img src="https://img.shields.io/badge/🚀-Feature-purple" alt="Feature"/>
   <img src="https://img.shields.io/badge/Version-v1.0.4.3-blue" alt="Version"/>
   <img src="https://img.shields.io/badge/Release-v1.0.4.3-green" alt="Release"/>
+  <img src="https://img.shields.io/maven-central/v/com.qmdeve/QmBlurView" alt="maven"/>
   <img src="https://img.shields.io/github/stars/QmDeve/QmBlurView" alt="Stars"/>
-  <img src="https://img.shields.io/maven-central/v/io.github.qmdeve/QmBlurView" alt="maven"/>
   <br>
   <br>
 
@@ -21,8 +20,8 @@ English | [简体中文](https://github.com/QmDeve/QmBlurView/blob/master/README
 
 <br>
 <br>
-  
-  [Telegram Group](https://t.me/QmDeves)
+
+[Telegram Group](https://t.me/QmDeves)
 
 </div>
 
@@ -82,3 +81,7 @@ English | [简体中文](https://github.com/QmDeve/QmBlurView/blob/master/README
 **For details, please refer to `Demo`**
 
 **If you find this project helpful, feel free to give it a `Star` to show your support!**
+---
+
+### My other open-source library
+- **[AndroidLiquidGlassView](https://github.com/QmDeve/AndroidLiquidGlassView)**

@@ -9,11 +9,10 @@
   <img src="https://img.shields.io/badge/Android-5.0%2B-brightgreen.svg" alt="Android 5"/>
   <img src="https://img.shields.io/badge/minSdk-21-green" alt="minSdk"/>
   <img src="https://img.shields.io/badge/targetSdk-36-green" alt="targetSdk"/>
-  <img src="https://img.shields.io/badge/🚀-Feature-purple" alt="Feature"/>
   <img src="https://img.shields.io/badge/Version-v1.0.4.3-blue" alt="Version"/>
   <img src="https://img.shields.io/badge/Release-v1.0.4.3-green" alt="Release"/>
+  <img src="https://img.shields.io/maven-central/v/com.qmdeve/QmBlurView" alt="maven"/>
   <img src="https://img.shields.io/github/stars/QmDeve/QmBlurView" alt="Stars"/>
-  <img src="https://img.shields.io/maven-central/v/io.github.qmdeve/QmBlurView" alt="maven"/>
   <br>
   <br>
 
@@ -21,8 +20,8 @@
 
 <br>
 <br>
-  
-  [QQ 交流群](https://qm.qq.com/q/RMj52yM7Cg)
+
+[QQ 交流群](https://qm.qq.com/q/RMj52yM7Cg)
 
 </div>
 
@@ -74,7 +73,7 @@
 
 ```gradle
 dependencies {
-   implementation '	io.github.qmdeve:QmBlurView:1.0.4.3'
+   implementation 'com.qmdeve:QmBlurView:1.0.4.3'
 }
 ```
 
@@ -312,5 +311,17 @@ BlurUtils.blurFile();
 ---
 
 **详细请参考 `Demo`**
-
 **如果你觉得这个项目有帮助，欢迎点个 `Star` 支持一下！**
+
+---
+
+### 我的其他开源库
+- **[AndroidLiquidGlassView](https://github.com/QmDeve/AndroidLiquidGlassView)**
+
+---
+
+### 赞助我们
+
+**如果您觉得我们的项目对您有帮助，欢迎通过以下方式赞助支持：**
+
+![赞助二维码](https://youke1.picui.cn/s1/2025/11/04/6909d2ae165f0.png)
