@@ -19,7 +19,6 @@
 [English](https://github.com/QmDeve/QmBlurView/blob/master/README.md) | 简体中文
 
 <br>
-<br>
 
 [QQ 交流群](https://qm.qq.com/q/RMj52yM7Cg)
 
@@ -63,7 +62,7 @@
 ---
 
 ## Demo 体验
-[下载 Demo](https://github.com/QmDeve/QmBlurView/blob/master/app/release/app-release.apk)
+[下载 Demo](https://github.com/QmDeve/QmBlurView/blob/master/app/release/app-release.apk?raw=true)
 
 ---
 
