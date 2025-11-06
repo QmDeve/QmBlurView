@@ -62,7 +62,7 @@ English | [简体中文](https://github.com/QmDeve/QmBlurView/blob/master/README
 ---
 
 ## Demo experience
-[Download Demo](https://github.com/QmDeve/QmBlurView/blob/master/app/release/app-release.apk)
+[Download Demo](https://github.com/QmDeve/QmBlurView/blob/master/app/release/app-release.apk?raw=true)
 
 ---
 
@@ -81,3 +81,4 @@ English | [简体中文](https://github.com/QmDeve/QmBlurView/blob/master/README
 
 ### My other open-source library
 - **[AndroidLiquidGlassView](https://github.com/QmDeve/AndroidLiquidGlassView)**
+- **[QmReflection](https://github.com/QmDeve/QmReflection)**
