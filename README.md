@@ -19,7 +19,6 @@
 English | [简体中文](https://github.com/QmDeve/QmBlurView/blob/master/README_zh.md)
 
 <br>
-<br>
 
 [Telegram Group](https://t.me/QmDeves)
 
@@ -69,11 +68,7 @@ English | [简体中文](https://github.com/QmDeve/QmBlurView/blob/master/README
 
 ## Quick use
 
-<h3 align="center">
-  <a href="https://github.com/QmDeve/QmBlurView/wiki">
-    Please check the Wiki for usage instructions
-  </a>
-</h3>
+**Usage: [Docs](https://blur.docs.qmdeve.com/)**
 
 ---
 
