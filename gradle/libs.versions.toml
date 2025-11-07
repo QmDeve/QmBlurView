@@ -1,5 +1,5 @@
 [versions]
-agp = "8.13.0"
+agp = "8.13.0-alpha02"
 annotationJvm = "1.9.1"
 appcompat = "1.7.1"
 activity = "1.11.0"
@@ -14,4 +14,3 @@ core = { module = "androidx.core:core", version.ref = "core" }
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
 android-library = { id = "com.android.library", version.ref = "agp" }
-
