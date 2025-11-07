@@ -9,8 +9,6 @@
   <img src="https://img.shields.io/badge/Android-5.0%2B-brightgreen.svg" alt="Android 5"/>
   <img src="https://img.shields.io/badge/minSdk-21-green" alt="minSdk"/>
   <img src="https://img.shields.io/badge/targetSdk-36-green" alt="targetSdk"/>
-  <img src="https://img.shields.io/badge/Version-v1.0.4.3-blue" alt="Version"/>
-  <img src="https://img.shields.io/badge/Release-v1.0.4.3-green" alt="Release"/>
   <img src="https://img.shields.io/maven-central/v/com.qmdeve/QmBlurView" alt="maven"/>
   <img src="https://img.shields.io/github/stars/QmDeve/QmBlurView" alt="Stars"/>
   <br>
@@ -18,7 +16,6 @@
 
 English | [简体中文](https://github.com/QmDeve/QmBlurView/blob/master/README_zh.md)
 
-<br>
 <br>
 
 [Telegram Group](https://t.me/QmDeves)
@@ -63,17 +60,13 @@ English | [简体中文](https://github.com/QmDeve/QmBlurView/blob/master/README
 ---
 
 ## Demo experience
-[Download Demo](https://github.com/QmDeve/QmBlurView/blob/master/app/release/app-release.apk)
+[Download Demo](https://github.com/QmDeve/QmBlurView/blob/master/app/release/app-release.apk?raw=true)
 
 ---
 
 ## Quick use
 
-<h3 align="center">
-  <a href="https://github.com/QmDeve/QmBlurView/wiki">
-    Please check the Wiki for usage instructions
-  </a>
-</h3>
+**Usage: [Docs](https://blur.docs.qmdeve.com/)**
 
 ---
 
@@ -81,7 +74,9 @@ English | [简体中文](https://github.com/QmDeve/QmBlurView/blob/master/README
 **For details, please refer to `Demo`**
 
 **If you find this project helpful, feel free to give it a `Star` to show your support!**
+
 ---
 
 ### My other open-source library
 - **[AndroidLiquidGlassView](https://github.com/QmDeve/AndroidLiquidGlassView)**
+- **[QmReflection](https://github.com/QmDeve/QmReflection)**
