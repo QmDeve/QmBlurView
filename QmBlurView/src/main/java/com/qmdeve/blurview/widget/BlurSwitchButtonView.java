@@ -47,6 +47,9 @@ public class BlurSwitchButtonView extends BlurView {
     private boolean dragStarted = false;
     private static final float DRAG_THRESHOLD = 4f;
     private boolean dimensionsCalculated = false;
+    private boolean mUseSolidColorMode = false;
+    private int mSolidOnColor;
+    private int mSolidOffColor;
 
     private OnCheckedChangeListener listener;
 
@@ -71,12 +74,26 @@ public class BlurSwitchButtonView extends BlurView {
         @SuppressLint("Recycle")
         TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.BlurSwitchButtonView);
         mBaseColor = a.getColor(R.styleable.BlurSwitchButtonView_baseColor, 0xFF0161F2);
+        mUseSolidColorMode = a.getBoolean(R.styleable.BlurSwitchButtonView_useSolidColorMode, false);
 
+        int solidOnColor = a.getColor(R.styleable.BlurSwitchButtonView_solidOnColor, 0);
+        int solidOffColor = a.getColor(R.styleable.BlurSwitchButtonView_solidOffColor, 0);
 
         setBlurRadius(16f);
         setCornerRadius(100f);
         setOverlayColor(0x10FFFFFF);
-        calculateColorsFromBase();
+
+        calculateColors();
+
+        if (mUseSolidColorMode) {
+            if (solidOnColor != 0) {
+                mSolidOnColor = solidOnColor;
+            }
+            if (solidOffColor != 0) {
+                mSolidOffColor = solidOffColor;
+            }
+        }
+
         mTrackPaint.setStyle(Paint.Style.FILL);
         mThumbPaint.setStyle(Paint.Style.FILL);
         mHighlightPaint.setStyle(Paint.Style.FILL);
@@ -127,7 +144,15 @@ public class BlurSwitchButtonView extends BlurView {
         setMeasuredDimension(measuredWidth, measuredHeight);
     }
 
-    private void calculateColorsFromBase() {
+    private void calculateColors() {
+        if (mUseSolidColorMode) {
+            calculateSolidColors();
+        } else {
+            calculateBlurColors();
+        }
+    }
+
+    private void calculateBlurColors() {
         int pureColor = mBaseColor;
         if (Color.alpha(mBaseColor) < 255) {
             pureColor = mBaseColor | 0xFF000000;
@@ -135,6 +160,27 @@ public class BlurSwitchButtonView extends BlurView {
 
         mTrackOnColor = (pureColor & 0x00FFFFFF) | 0x90000000;
         mTrackOffColor = makeColorDarkerAndTransparent(pureColor);
+    }
+
+    private void calculateSolidColors() {
+        int pureColor = mBaseColor;
+        if (Color.alpha(mBaseColor) < 255) {
+            pureColor = mBaseColor | 0xFF000000;
+        }
+
+        mSolidOnColor = pureColor;
+        mSolidOffColor = makeColorLighterGray(pureColor);
+    }
+
+    private int makeColorLighterGray(int color) {
+        float[] hsv = new float[3];
+        Color.colorToHSV(color, hsv);
+
+        hsv[1] = hsv[1] * 0.2f;
+        hsv[2] = Math.min(1.0f, hsv[2] * 1.1f);
+
+        int grayColor = Color.HSVToColor(hsv);
+        return (grayColor & 0x00FFFFFF) | 0xCC000000;
     }
 
     private int makeColorDarkerAndTransparent(int color) {
@@ -185,7 +231,7 @@ public class BlurSwitchButtonView extends BlurView {
         }
 
         float targetX = isChecked ? thumbEndX : thumbStartX;
-        int targetColor = isChecked ? mTrackOnColor : mTrackOffColor;
+        int targetColor = getTargetTrackColor();
 
         if (!animate) {
             thumbCenterX = targetX;
@@ -193,6 +239,14 @@ public class BlurSwitchButtonView extends BlurView {
             invalidate();
         } else {
             startSwitchAnimation();
+        }
+    }
+
+    private int getTargetTrackColor() {
+        if (mUseSolidColorMode) {
+            return isChecked ? mSolidOnColor : mSolidOffColor;
+        } else {
+            return isChecked ? mTrackOnColor : mTrackOffColor;
         }
     }
 
@@ -301,7 +355,7 @@ public class BlurSwitchButtonView extends BlurView {
 
         if (thumbCenterX == 0) {
             thumbCenterX = isChecked ? thumbEndX : thumbStartX;
-            mCurrentTrackColor = isChecked ? mTrackOnColor : mTrackOffColor;
+            mCurrentTrackColor = getTargetTrackColor();
         }
 
         if (thumbCenterX < thumbStartX) thumbCenterX = thumbStartX;
@@ -361,7 +415,12 @@ public class BlurSwitchButtonView extends BlurView {
                     thumbCenterX += deltaX;
                     thumbCenterX = Math.max(thumbStartX, Math.min(thumbEndX, thumbCenterX));
                     float progress = (thumbCenterX - thumbStartX) / (thumbEndX - thumbStartX);
-                    mCurrentTrackColor = (int) argbEvaluator.evaluate(progress, mTrackOffColor, mTrackOnColor);
+
+                    if (mUseSolidColorMode) {
+                        mCurrentTrackColor = (int) argbEvaluator.evaluate(progress, mSolidOffColor, mSolidOnColor);
+                    } else {
+                        mCurrentTrackColor = (int) argbEvaluator.evaluate(progress, mTrackOffColor, mTrackOnColor);
+                    }
 
                     invalidate();
                 }
@@ -436,7 +495,7 @@ public class BlurSwitchButtonView extends BlurView {
         float endX = isChecked ? thumbEndX : thumbStartX;
 
         int startColor = mCurrentTrackColor;
-        int endColor = isChecked ? mTrackOnColor : mTrackOffColor;
+        int endColor = getTargetTrackColor();
 
         cancelAnimations();
 
@@ -498,8 +557,38 @@ public class BlurSwitchButtonView extends BlurView {
 
     public void setBaseColor(int color) {
         this.mBaseColor = color;
-        calculateColorsFromBase();
-        mCurrentTrackColor = isChecked ? mTrackOnColor : mTrackOffColor;
+        calculateColors();
+        mCurrentTrackColor = getTargetTrackColor();
         invalidate();
+    }
+
+    public void setUseSolidColorMode(boolean useSolidColorMode) {
+        if (this.mUseSolidColorMode != useSolidColorMode) {
+            this.mUseSolidColorMode = useSolidColorMode;
+            calculateColors();
+            mCurrentTrackColor = getTargetTrackColor();
+            invalidate();
+        }
+    }
+
+    public boolean isUseSolidColorMode() {
+        return mUseSolidColorMode;
+    }
+
+    public void setSolidColors(int onColor, int offColor) {
+        this.mSolidOnColor = onColor;
+        this.mSolidOffColor = offColor;
+        if (mUseSolidColorMode) {
+            mCurrentTrackColor = getTargetTrackColor();
+            invalidate();
+        }
+    }
+
+    public int getSolidOnColor() {
+        return mSolidOnColor;
+    }
+
+    public int getSolidOffColor() {
+        return mSolidOffColor;
     }
 }
