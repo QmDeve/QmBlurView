@@ -49,6 +49,9 @@
     </declare-styleable>
 
     <declare-styleable name="BlurSwitchButtonView">
-        <attr name="baseColor" format="color"/>
+        <attr name="baseColor" format="color" />
+        <attr name="useSolidColorMode" format="boolean" />
+        <attr name="solidOnColor" format="color" />
+        <attr name="solidOffColor" format="color" />
     </declare-styleable>
 </resources>
