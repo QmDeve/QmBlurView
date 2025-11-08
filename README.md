@@ -70,6 +70,12 @@ English | [简体中文](https://github.com/QmDeve/QmBlurView/blob/master/README
 
 ---
 
+## Star History
+
+[![Star History Chart](https://api.star-history.com/svg?repos=QmDeve/QmBlurView&type=date&legend=bottom-right)](https://www.star-history.com/#QmDeve/QmBlurView&type=date&legend=bottom-right)
+
+---
+
 ## Contributors
 [![QmDeve](https://images.weserv.nl/?url=https://github.com/QmDeve.png?size=70&mask=circle&dpr=2&w=20&h=20)](https://github.com/QmDeve)
 
