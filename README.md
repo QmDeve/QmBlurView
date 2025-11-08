@@ -70,10 +70,8 @@ English | [简体中文](https://github.com/QmDeve/QmBlurView/blob/master/README
 
 ---
 
-
-**For details, please refer to `Demo`**
-
-**If you find this project helpful, feel free to give it a `Star` to show your support!**
+## Contributors
+[![QmDeve](https://images.weserv.nl/?url=https://github.com/QmDeve.png?size=70&mask=circle&dpr=2&w=20&h=20)](https://github.com/QmDeve)
 
 ---
 
