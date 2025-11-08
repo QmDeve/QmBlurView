@@ -75,8 +75,8 @@
 
 ---
 
-**详细请参考 `Demo`**
-**如果你觉得这个项目有帮助，欢迎点个 `Star` 支持一下！**
+## 贡献者
+[![QmDeve](https://images.weserv.nl/?url=https://github.com/QmDeve.png?size=70&mask=circle&dpr=2&w=20&h=20)](https://github.com/QmDeve)
 
 ---
 
