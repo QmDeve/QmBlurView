@@ -3,26 +3,42 @@
 # QmBlurView is an Android UI component library that integrates a variety of blur effects, including BlurView, BlurButtonView, ProgressiveBlurView, BlurTitleBarView, BlurSwitchButtonView, and BlurFloatingButtonView
 
   <br>
-  <br>
+
+  [![GitHub](https://img.shields.io/badge/GitHub-Repository-black?logo=github)](https://GitHub.com/QmDeve/QmBlurView/)
+  [![GitLab](https://img.shields.io/badge/GitLab-Repository-orange?logo=gitlab)](https://gitlab.com/QmDeve/QmBlurView)
+  [![Gitee](https://img.shields.io/badge/Gitee-Repository-red?logo=gitee)](https://gitee.com/QmDeve/QmBlurView)
+  [![GitCode](https://img.shields.io/badge/GitCode-Repository-blue?logo=gitcode)](https://gitcode.com/QmDeve/QmBlurView)
+
+  [![Telegram](https://img.shields.io/badge/Telegram%20Group-QmDeves-blue.svg?logo=telegram)](https://t.me/QmDeves)
+  [![Discord](https://img.shields.io/badge/Discord-Chat-7289DA.svg?logo=discord)](https://discord.gg/UJYfc5jMX)
+  [![QQ Group](https://img.shields.io/badge/QQ%20Group-1046829337-blue.svg?logo=qq)](https://qm.qq.com/q/OEVn8ZslMq)
+
   <img src="https://img.shields.io/badge/License-Apache%202.0-blue.svg" alt="Apache"/>
-  <img src="https://img.shields.io/badge/Java-8-orange" alt="Java 8"/>
   <img src="https://img.shields.io/badge/Android-5.0%2B-brightgreen.svg" alt="Android 5"/>
-  <img src="https://img.shields.io/badge/minSdk-21-green" alt="minSdk"/>
   <img src="https://img.shields.io/badge/targetSdk-36-green" alt="targetSdk"/>
   <img src="https://img.shields.io/maven-central/v/com.qmdeve/QmBlurView" alt="maven"/>
   <img src="https://img.shields.io/github/stars/QmDeve/QmBlurView" alt="Stars"/>
+
   <br>
   <br>
 
 English | [简体中文](https://github.com/QmDeve/QmBlurView/blob/master/README_zh.md)
 
-<br>
-
-[Telegram Group](https://t.me/QmDeves)
-
 </div>
 
 ---
+
+> **Note: Mirror Repository**
+>
+> This project is maintained on multiple platforms to facilitate developers in different regions. The content of all warehouses should be consistent
+> - **Main Repository**：[GitHub](https://github.com/QmDeve/QmBlurView)
+> - **Other Repository**：
+>   - [GitLab](https://gitlab.com/QmDeve/QmBlurView)
+>   - [Gitee](https://gitee.com/QmDeve/QmBlurView)
+>   - [GitCode](https://gitcode.com/QmDeve/QmBlurView)
+
+---
+
 ## Characteristic
 - **View**
   - `BlurView`
@@ -39,23 +55,23 @@ English | [简体中文](https://github.com/QmDeve/QmBlurView/blob/master/README
 
 ## Screenshot
 ### BlurView
-<img src="https://github.com/QmDeve/QmBlurView/blob/master/img/blurview.jpg?raw=true" alt="Stars"/>
+<img src="./img/blurview.jpg" alt="Stars"/>
 
 ### BlurButtonView
-<img src="https://github.com/QmDeve/QmBlurView/blob/master/img/blurButton.jpg?raw=true" alt="Stars"/>
+<img src="./img/blurButton.jpg" alt="Stars"/>
 
 ### ProgressiveBlurView
-<img src="https://github.com/QmDeve/QmBlurView/blob/master/img/progressiveBlurView.jpg?raw=true" alt="Stars"/>
+<img src="./img/progressiveBlurView.jpg" alt="Stars"/>
 
 ### BlurTitleBarView
-<img src="https://github.com/QmDeve/QmBlurView/blob/master/img/blurTitlebarView.jpg?raw=true" alt="Stars"/>
+<img src="./img/blurTitlebarView.jpg" alt="Stars"/>
 
 ### BlurSwitchButtonView
-<img src="https://github.com/QmDeve/QmBlurView/blob/master/img/blurSwitchButton_false.jpg?raw=true" alt="Stars"/>
-<img src="https://github.com/QmDeve/QmBlurView/blob/master/img/blurSwitchButton_true.jpg?raw=true" alt="Stars"/>
+<img src="./img/blurSwitchButton_false.jpg" alt="Stars"/>
+<img src="./img/blurSwitchButton_true.jpg" alt="Stars"/>
 
 ### BlurFloatingButtonView
-<img src="https://github.com/QmDeve/QmBlurView/blob/master/img/blurFloatingButton.jpg?raw=true" alt="Stars"/>
+<img src="./img/blurFloatingButton.jpg" alt="Stars"/>
 
 ---
 
@@ -70,10 +86,14 @@ English | [简体中文](https://github.com/QmDeve/QmBlurView/blob/master/README
 
 ---
 
+## Star History
 
-**For details, please refer to `Demo`**
+[![Star History Chart](https://api.star-history.com/svg?repos=QmDeve/QmBlurView&type=date&legend=bottom-right)](https://www.star-history.com/#QmDeve/QmBlurView&type=date&legend=bottom-right)
 
-**If you find this project helpful, feel free to give it a `Star` to show your support!**
+---
+
+## Contributors
+[![QmDeve](https://images.weserv.nl/?url=https://github.com/QmDeve.png?size=70&mask=circle&dpr=2&w=20&h=20)](https://github.com/QmDeve)
 
 ---
 

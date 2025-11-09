@@ -3,26 +3,42 @@
 # QmBlurView - 一个集成了多种模糊效果的Android UI组件库，包括模糊视图 (BlurView)、模糊按钮 (BlurButtonView)、渐进模糊视图 (ProgressiveBlurView)、模糊标题栏 (BlurTitleBarView)、模糊切换按钮 (BlurSwitchButtonView) 和模糊悬浮按钮 (BlurFloatingButtonView)
 
   <br>
-  <br>
+
+  [![GitHub](https://img.shields.io/badge/GitHub-Repository-black?logo=github)](https://GitHub.com/QmDeve/QmBlurView/)
+  [![GitLab](https://img.shields.io/badge/GitLab-Repository-orange?logo=gitlab)](https://gitlab.com/QmDeve/QmBlurView)
+  [![Gitee](https://img.shields.io/badge/Gitee-Repository-red?logo=gitee)](https://gitee.com/QmDeve/QmBlurView)
+  [![GitCode](https://img.shields.io/badge/GitCode-Repository-blue?logo=gitcode)](https://gitcode.com/QmDeve/QmBlurView)
+
+  [![Telegram](https://img.shields.io/badge/Telegram%20Group-QmDeves-blue.svg?logo=telegram)](https://t.me/QmDeves)
+  [![Discord](https://img.shields.io/badge/Discord-Chat-7289DA.svg?logo=discord)](https://discord.gg/UJYfc5jMX)
+  [![QQ Group](https://img.shields.io/badge/QQ%20Group-1046829337-blue.svg?logo=qq)](https://qm.qq.com/q/OEVn8ZslMq)
+
   <img src="https://img.shields.io/badge/License-Apache%202.0-blue.svg" alt="Apache"/>
-  <img src="https://img.shields.io/badge/Java-8-orange" alt="Java 8"/>
   <img src="https://img.shields.io/badge/Android-5.0%2B-brightgreen.svg" alt="Android 5"/>
-  <img src="https://img.shields.io/badge/minSdk-21-green" alt="minSdk"/>
   <img src="https://img.shields.io/badge/targetSdk-36-green" alt="targetSdk"/>
   <img src="https://img.shields.io/maven-central/v/com.qmdeve/QmBlurView" alt="maven"/>
   <img src="https://img.shields.io/github/stars/QmDeve/QmBlurView" alt="Stars"/>
+
   <br>
   <br>
 
 [English](https://github.com/QmDeve/QmBlurView/blob/master/README.md) | 简体中文
 
-<br>
-
-[QQ 交流群](https://qm.qq.com/q/RMj52yM7Cg)
-
 </div>
 
 ---
+
+> **Note: 镜像存储库**
+>
+> 该项目在多个平台上维护，以方便不同地区的开发人员使用。所有仓库的内容都应保持一致
+> - **Main Repository**：[GitHub](https://github.com/QmDeve/QmBlurView)
+> - **Other Repository**：
+>   - [GitLab](https://gitlab.com/QmDeve/QmBlurView)
+>   - [Gitee](https://gitee.com/QmDeve/QmBlurView)
+>   - [GitCode](https://gitcode.com/QmDeve/QmBlurView)
+
+---
+
 ## 特性
 - **View**
   - `BlurView` - 通用模糊视图
@@ -39,23 +55,23 @@
 
 ## 截图
 ### BlurView
-<img src="https://github.com/QmDeve/QmBlurView/blob/master/img/blurview.jpg?raw=true" alt="Stars"/>
+<img src="./img/blurview.jpg" alt="Stars"/>
 
 ### BlurButtonView
-<img src="https://github.com/QmDeve/QmBlurView/blob/master/img/blurButton.jpg?raw=true" alt="Stars"/>
+<img src="./img/blurButton.jpg" alt="Stars"/>
 
 ### ProgressiveBlurView
-<img src="https://github.com/QmDeve/QmBlurView/blob/master/img/progressiveBlurView.jpg?raw=true" alt="Stars"/>
+<img src="./img/progressiveBlurView.jpg" alt="Stars"/>
 
 ### BlurTitleBarView
-<img src="https://github.com/QmDeve/QmBlurView/blob/master/img/blurTitlebarView.jpg?raw=true" alt="Stars"/>
+<img src="./img/blurTitlebarView.jpg" alt="Stars"/>
 
 ### BlurSwitchButtonView
-<img src="https://github.com/QmDeve/QmBlurView/blob/master/img/blurSwitchButton_false.jpg?raw=true" alt="Stars"/>
-<img src="https://github.com/QmDeve/QmBlurView/blob/master/img/blurSwitchButton_true.jpg?raw=true" alt="Stars"/>
+<img src="./img/blurSwitchButton_false.jpg" alt="Stars"/>
+<img src="./img/blurSwitchButton_true.jpg" alt="Stars"/>
 
 ### BlurFloatingButtonView
-<img src="https://github.com/QmDeve/QmBlurView/blob/master/img/blurFloatingButton.jpg?raw=true" alt="Stars"/>
+<img src="./img/blurFloatingButton.jpg" alt="Stars"/>
 
 ---
 
@@ -75,8 +91,12 @@
 
 ---
 
-**详细请参考 `Demo`**
-**如果你觉得这个项目有帮助，欢迎点个 `Star` 支持一下！**
+## 贡献者
+[![QmDeve](https://images.weserv.nl/?url=https://github.com/QmDeve.png?size=70&mask=circle&dpr=2&w=20&h=20)](https://github.com/QmDeve)
+
+**我们希望有更多的贡献者一起维护这个项目**
+<br>
+**我的邮箱: me@qmdeve.com**
 
 ---
 
