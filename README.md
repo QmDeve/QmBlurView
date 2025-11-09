@@ -10,7 +10,6 @@
   [![GitCode](https://img.shields.io/badge/GitCode-Repository-blue?logo=gitcode)](https://gitcode.com/QmDeve/QmBlurView)
 
   [![Telegram](https://img.shields.io/badge/Telegram%20Group-QmDeves-blue.svg?logo=telegram)](https://t.me/QmDeves)
-  [![Discord](https://img.shields.io/badge/Discord-Chat-7289DA.svg?logo=discord)](https://discord.gg/UJYfc5jMX)
   [![QQ Group](https://img.shields.io/badge/QQ%20Group-1046829337-blue.svg?logo=qq)](https://qm.qq.com/q/OEVn8ZslMq)
 
   <img src="https://img.shields.io/badge/License-Apache%202.0-blue.svg" alt="Apache"/>
