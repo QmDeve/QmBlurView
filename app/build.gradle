@@ -11,7 +11,7 @@ android {
         minSdk 21
         targetSdk 36
         versionCode 3
-        versionName "1.0.4.4"
+        versionName "1.0.4.5-Beta1"
     }
 
     buildTypes {
