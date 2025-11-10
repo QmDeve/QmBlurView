@@ -41,6 +41,7 @@
 ## 特性
 - **View**
   - `BlurView` - 通用模糊视图
+  - `BlurViewGroup`
   - `BlurButtonView` - 模糊按钮视图
   - `ProgressiveBlurView` - 渐进模糊视图
   - `BlurTitlebarView` - 模糊标题栏视图

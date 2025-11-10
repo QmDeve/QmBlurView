@@ -41,6 +41,7 @@ English | [简体中文](https://github.com/QmDeve/QmBlurView/blob/master/README
 ## Characteristic
 - **View**
   - `BlurView`
+  - `BlurViewGroup`
   - `BlurButtonView`
   - `ProgressiveBlurView`
   - `BlurTitlebarView`
