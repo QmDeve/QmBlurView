@@ -13,6 +13,10 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
+/**
+ * @deprecated The BlurUtils class is Deprecated and will be removed in future versions
+ */
+@Deprecated(since = "1.0.4.5-Beta1", forRemoval = true)
 public class BlurUtils {
     private static final int DEFAULT_RADIUS = 24;
     private static final int DEFAULT_THREAD_COUNT = 4;
