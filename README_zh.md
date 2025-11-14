@@ -1,6 +1,6 @@
 <div align="center">
 
-# QmBlurView - 一个集成了多种模糊效果的Android UI组件库，包括模糊视图 (BlurView)、模糊按钮 (BlurButtonView)、渐进模糊视图 (ProgressiveBlurView)、模糊标题栏 (BlurTitleBarView)、模糊底部导航栏视图 (BlurBottomNavigationView)、模糊切换按钮 (BlurSwitchButtonView) 和模糊悬浮按钮 (BlurFloatingButtonView)
+# 高性能的 Android UI 高斯模糊组件库
 
   <br>
 

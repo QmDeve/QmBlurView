@@ -1,7 +1,7 @@
 <div align="center">
 
-# QmBlurView is an Android UI component library that integrates a variety of blur effects, including BlurView, BlurButtonView, ProgressiveBlurView, BlurTitleBarView, BlurBottomNavigationView, BlurSwitchButtonView, and BlurFloatingButtonView
-
+# High-performance Android UI Gaussian blur component library
+  
   <br>
 
   [![GitHub](https://img.shields.io/badge/GitHub-Repository-black?logo=github)](https://GitHub.com/QmDeve/QmBlurView/)
