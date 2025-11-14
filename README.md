@@ -1,5 +1,7 @@
 <div align="center">
 
+<img src="https://socialify.git.ci/QmDeve/QmBlurView/image?description=1&font=Inter&name=1&owner=1&pattern=Floating+Cogs&theme=Light" alt="GitHub" width="100%"/>
+
 # High-performance Android UI Gaussian blur component library
   
   <br>
@@ -17,7 +19,6 @@
   <img src="https://img.shields.io/badge/targetSdk-36-green" alt="targetSdk"/>
   <img src="https://img.shields.io/badge/Maven%20Central%20Release%20Version-1.0.4.4-blue" alt="maven"/>
   <img src="https://img.shields.io/maven-central/v/com.qmdeve/QmBlurView?label=Maven%20Central%20Version" alt="maven"/>
-
 
   <br>
   <br>
@@ -93,7 +94,7 @@ English | [简体中文](https://github.com/QmDeve/QmBlurView/blob/master/README
 
 ## Star History
 
-[![Star History Chart](https://api.star-history.com/svg?repos=QmDeve/QmBlurView&type=date&legend=bottom-right)](https://www.star-history.com/#QmDeve/QmBlurView&type=date&legend=bottom-right)
+[![Star History Chart](https://starchart.cc/QmDeve/QmBlurView.svg)](https://starchart.cc/QmDeve/QmBlurView.svg)
 
 ---
 

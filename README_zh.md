@@ -1,5 +1,7 @@
 <div align="center">
 
+<img src="https://socialify.git.ci/QmDeve/QmBlurView/image?description=1&font=Inter&name=1&owner=1&pattern=Floating+Cogs&theme=Light" alt="GitHub" width="100%"/>
+
 # 高性能的 Android UI 高斯模糊组件库
 
   <br>
@@ -91,7 +93,7 @@
 
 ## Star History
 
-[![Star History Chart](https://api.star-history.com/svg?repos=QmDeve/QmBlurView&type=date&legend=bottom-right)](https://www.star-history.com/#QmDeve/QmBlurView&type=date&legend=bottom-right)
+[![Star History Chart](https://starchart.cc/QmDeve/QmBlurView.svg)](https://starchart.cc/QmDeve/QmBlurView.svg)
 
 ---
 
