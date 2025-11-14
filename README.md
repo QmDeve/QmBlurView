@@ -18,6 +18,7 @@
   <img src="https://img.shields.io/badge/Maven%20Central%20Release%20Version-1.0.4.4-blue" alt="maven"/>
   <img src="https://img.shields.io/maven-central/v/com.qmdeve/QmBlurView?label=Maven%20Central%20Version" alt="maven"/>
 
+
   <br>
   <br>
 
