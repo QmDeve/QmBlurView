@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <androidx.viewpager.widget.ViewPager
+        android:id="@+id/viewpager"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <com.qmdeve.blurview.widget.BlurBottomNavigationView
+        android:id="@+id/bottomnav"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:item_iconSize="24dp"
+        app:item_textBold="true"
+        app:item_textSize="12dp"
+        app:menu="@menu/bottom_nav_menu"
+        app:navOverlayColor="#AAFFFFFF"
+        app:navSelectedColor="#0161F2"
+        app:navUnselectedColor="#000"
+        android:layout_alignParentBottom="true" />
+</RelativeLayout>

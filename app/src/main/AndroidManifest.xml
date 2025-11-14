@@ -12,6 +12,9 @@
         android:theme="@style/Theme.AndroidBlurView"
         android:hardwareAccelerated="true">
         <activity
+            android:name=".BlurBottomNavigationActivity"
+            android:exported="false" />
+        <activity
             android:name=".BlurFloatingButtonActivity"
             android:exported="false" />
         <activity

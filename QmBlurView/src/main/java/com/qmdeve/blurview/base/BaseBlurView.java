@@ -1,10 +1,8 @@
 package com.qmdeve.blurview.base;
 
-import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.content.ContextWrapper;
-import android.content.res.TypedArray;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Paint;
@@ -12,7 +10,6 @@ import android.graphics.Path;
 import android.graphics.Rect;
 import android.graphics.RectF;
 import android.util.AttributeSet;
-import android.util.TypedValue;
 import android.view.View;
 import android.view.ViewTreeObserver;
 
@@ -47,17 +44,7 @@ public abstract class BaseBlurView extends View {
         initAttributes(context, attrs);
     }
 
-    protected void initAttributes(Context context, AttributeSet attrs) {
-        @SuppressLint("CustomViewStyleable")
-        TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.BlurView);
-        mBlurRadius = a.getDimension(
-                R.styleable.BlurView_blurRadius,
-                TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 10, getResources().getDisplayMetrics())
-        );
-        mOverlayColor = a.getColor(R.styleable.BlurView_overlayColor, 0xAAFFFFFF);
-        mCornerRadius = a.getDimension(R.styleable.BlurView_cornerRadius, 0);
-        a.recycle();
-    }
+    protected void initAttributes(Context context, AttributeSet attrs) {}
 
     public void setBlurRadius(float radius) {
         if (mBlurRadius != radius && radius >= 0) {

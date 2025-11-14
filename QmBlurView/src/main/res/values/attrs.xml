@@ -12,6 +12,8 @@
         <attr name="android:textColor" />
         <attr name="android:icon" />
         <attr name="android:gravity" />
+        <attr name="buttonBlurRadius" format="dimension" />
+        <attr name="buttonOverlayColor" format="color" />
         <attr name="buttonTextColorPressed" format="color" />
         <attr name="buttonTextColorDisabled" format="color" />
         <attr name="buttonTextBold" format="boolean" />

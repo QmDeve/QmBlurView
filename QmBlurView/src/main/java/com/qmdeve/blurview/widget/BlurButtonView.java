@@ -81,8 +81,7 @@ public class BlurButtonView extends BlurView {
             }
 
             @Override
-            public void onViewDetachedFromWindow(@NonNull View v) {
-            }
+            public void onViewDetachedFromWindow(@NonNull View v) {}
         });
     }
 

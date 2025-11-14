@@ -6,7 +6,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.content.res.Resources;
 
-import com.qmdeve.blurview.Native;
+import com.qmdeve.blurview.BlurNative;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -38,7 +38,7 @@ public class BlurUtils {
         try {
             Bitmap mutableBitmap = bitmap.copy(Bitmap.Config.ARGB_8888, true);
             for (int i = 0; i < threadCount; i++) {
-                Native.blur(mutableBitmap, radius, threadCount, i, round);
+                BlurNative.blur(mutableBitmap, radius, threadCount, i, round);
             }
             return mutableBitmap;
         } catch (Exception e) {

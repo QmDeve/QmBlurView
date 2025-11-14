@@ -1,15 +1,16 @@
 [versions]
-agp = "8.13.0-alpha02"
+agp = "9.0.0-alpha14"
 annotationJvm = "1.9.1"
 appcompat = "1.7.1"
-activity = "1.11.0"
 core = "1.17.0"
+viewpager = "1.1.0"
 
 [libraries]
 annotation-jvm = { module = "androidx.annotation:annotation-jvm", version.ref = "annotationJvm" }
 appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "appcompat" }
-activity = { group = "androidx.activity", name = "activity", version.ref = "activity" }
 core = { module = "androidx.core:core", version.ref = "core" }
+viewpager = { module = "androidx.viewpager:viewpager", version.ref = "viewpager" }
+viewpager2 = { module = "androidx.viewpager2:viewpager2", version.ref = "viewpager" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

@@ -284,7 +284,7 @@ void qmblurJob(unsigned char* src,
     }
 }
 
-JNIEXPORT void JNICALL Java_com_qmdeve_blurview_Native_blur(JNIEnv* env, jclass clzz, jobject bitmapOut, jint radius, jint threadCount, jint threadIndex, jint round) {
+JNIEXPORT void JNICALL Java_com_qmdeve_blurview_BlurNative_blur(JNIEnv* env, jclass clzz, jobject bitmapOut, jint radius, jint threadCount, jint threadIndex, jint round) {
     AndroidBitmapInfo   infoOut;
     void*               pixelsOut;
 

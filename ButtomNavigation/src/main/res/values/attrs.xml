@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="BlurBottomNavigationView">
+        <attr name="navBlurRadius" format="dimension" />
+        <attr name="navOverlayColor" format="color"/>
+        <attr name="menu" format="reference" />
+        <attr name="navSelectedColor" format="color" />
+        <attr name="navUnselectedColor" format="color" />
+        <attr name="item_iconSize" format="dimension" />
+        <attr name="item_textSize" format="dimension" />
+        <attr name="item_textBold" format="boolean" />
+    </declare-styleable>
+</resources>

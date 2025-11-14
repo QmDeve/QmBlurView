@@ -1,23 +1,18 @@
 plugins {
-    alias(libs.plugins.android.application)
+    alias(libs.plugins.android.library)
 }
 
 android {
-    namespace 'com.qmdeve.blurview.demo'
+    namespace 'com.qmdeve.blurview.bottomnavigation'
     compileSdk { version = release(36) }
 
     defaultConfig {
-        applicationId "com.qmdeve.blurview.demo"
         minSdk { version = release(21) }
-        targetSdk { version = release(36) }
-        versionCode 3
-        versionName "1.0.4.5-Beta2"
     }
 
     buildTypes {
         release {
-            minifyEnabled true
-            shrinkResources true
+            minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
@@ -30,6 +25,6 @@ android {
 
 dependencies {
     implementation project(':QmBlurView')
-    implementation project(':ButtomNavigation')
-    implementation libs.appcompat
+    implementation libs.viewpager
+    implementation libs.viewpager2
 }
