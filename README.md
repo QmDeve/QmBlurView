@@ -99,7 +99,9 @@ English | [简体中文](https://github.com/QmDeve/QmBlurView/blob/master/README
 ---
 
 ## Contributors
-[![QmDeve](https://images.weserv.nl/?url=https://github.com/QmDeve.png?size=70&mask=circle&dpr=2&w=20&h=20)](https://github.com/QmDeve)
+<a href="https://github.com/QmDeve/QmBlurView/graphs/contributors">
+  <img src="https://contrib.rocks/image?repo=QmDeve/QmBlurView" alt="Contributors"/>
+</a>
 
 ---
 

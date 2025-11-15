@@ -98,11 +98,9 @@
 ---
 
 ## 贡献者
-[![QmDeve](https://images.weserv.nl/?url=https://github.com/QmDeve.png?size=70&mask=circle&dpr=2&w=20&h=20)](https://github.com/QmDeve)
-
-**我们希望有更多的贡献者一起维护这个项目**
-<br>
-**我的邮箱: me@qmdeve.com**
+<a href="https://github.com/QmDeve/QmBlurView/graphs/contributors">
+  <img src="https://contrib.rocks/image?repo=QmDeve/QmBlurView" alt="Contributors"/>
+</a>
 
 ---
 
