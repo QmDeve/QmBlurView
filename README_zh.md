@@ -92,8 +92,7 @@
 ---
 
 ## Star History
-
-[![Star History Chart](https://starchart.cc/QmDeve/QmBlurView.svg)](https://starchart.cc/QmDeve/QmBlurView.svg)
+[![Star History](https://starchart.qmdeve.com/QmDeve/QmBlurView.svg?variant=adaptive)](https://starchart.qmdeve.com/QmDeve/QmBlurView)
 
 ---
 
