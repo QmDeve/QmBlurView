@@ -9,7 +9,6 @@ import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.Rect;
 import android.graphics.RectF;
-import android.os.Build;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.View;
@@ -19,12 +18,9 @@ import androidx.annotation.NonNull;
 
 import com.qmdeve.blurview.Blur;
 import com.qmdeve.blurview.BlurNative;
-import com.qmdeve.blurview.R;
 import com.qmdeve.blurview.util.Utils;
 
 public abstract class BaseBlurView extends View {
-    private static final String TAG = "BaseBlurView";
-
     protected int mOverlayColor;
     protected float mBlurRadius;
     protected final Blur mBlur;
@@ -49,79 +45,6 @@ public abstract class BaseBlurView extends View {
     }
 
     protected void initAttributes(Context context, AttributeSet attrs) {}
-
-    /**
-     * Ensure bitmap is software-compatible for blur processing.
-     * Converts hardware bitmaps to software bitmaps to prevent
-     * "Software rendering doesn't support hardware bitmaps" error.
-     *
-     * @param bitmap The bitmap to check
-     * @return Software-compatible bitmap
-     */
-    private Bitmap ensureSoftwareBitmap(Bitmap bitmap) {
-        if (bitmap == null) {
-            return null;
-        }
-
-        // Hardware bitmaps were introduced in Android O (API 26)
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            if (bitmap.getConfig() == Bitmap.Config.HARDWARE) {
-                Log.d(TAG, "Converting hardware bitmap to software bitmap for blur processing");
-                try {
-                    return bitmap.copy(Bitmap.Config.ARGB_8888, false);
-                } catch (Exception e) {
-                    Log.e(TAG, "Failed to convert hardware bitmap: " + e.getMessage());
-                    return bitmap; // Return original if copy fails
-                }
-            }
-        }
-
-        return bitmap;
-    }
-
-    /**
-     * Recursively disable hardware bitmaps in a view hierarchy.
-     * This prevents "Software rendering doesn't support hardware bitmaps" errors
-     * when views are drawn onto software canvases for blur processing.
-     */
-    private void disableHardwareBitmapsInView(View view) {
-        if (view == null || Build.VERSION.SDK_INT < Build.VERSION_CODES.O) {
-            return;
-        }
-
-        try {
-            // Handle ImageView specifically
-            if (view instanceof android.widget.ImageView) {
-                android.widget.ImageView imageView = (android.widget.ImageView) view;
-                android.graphics.drawable.Drawable drawable = imageView.getDrawable();
-
-                if (drawable instanceof android.graphics.drawable.BitmapDrawable) {
-                    android.graphics.drawable.BitmapDrawable bitmapDrawable =
-                        (android.graphics.drawable.BitmapDrawable) drawable;
-                    Bitmap bitmap = bitmapDrawable.getBitmap();
-
-                    if (bitmap != null && bitmap.getConfig() == Bitmap.Config.HARDWARE) {
-                        Log.d(TAG, "Converting hardware bitmap in ImageView to software");
-                        Bitmap softwareBitmap = bitmap.copy(Bitmap.Config.ARGB_8888, false);
-                        if (softwareBitmap != null) {
-                            imageView.setImageBitmap(softwareBitmap);
-                        }
-                    }
-                }
-            }
-
-            // Recursively process children if it's a ViewGroup
-            if (view instanceof android.view.ViewGroup) {
-                android.view.ViewGroup viewGroup = (android.view.ViewGroup) view;
-                int childCount = viewGroup.getChildCount();
-                for (int i = 0; i < childCount; i++) {
-                    disableHardwareBitmapsInView(viewGroup.getChildAt(i));
-                }
-            }
-        } catch (Exception e) {
-            Log.e(TAG, "Error disabling hardware bitmaps: " + e.getMessage());
-        }
-    }
 
     public void setBlurRadius(float radius) {
         if (mBlurRadius != radius && radius >= 0) {
@@ -204,8 +127,8 @@ public abstract class BaseBlurView extends View {
                 mBlurredBitmap = Bitmap.createBitmap(scaledWidth, scaledHeight, Bitmap.Config.ARGB_8888);
 
                 // Ensure software bitmaps for compatibility
-                mBitmapToBlur = ensureSoftwareBitmap(mBitmapToBlur);
-                mBlurredBitmap = ensureSoftwareBitmap(mBlurredBitmap);
+                mBitmapToBlur = Utils.ensureSoftwareBitmap(mBitmapToBlur);
+                mBlurredBitmap = Utils.ensureSoftwareBitmap(mBlurredBitmap);
             } catch (OutOfMemoryError e) {
                 release();
                 return false;
@@ -222,12 +145,12 @@ public abstract class BaseBlurView extends View {
     protected void blur(Bitmap input, Bitmap output) {
         try {
             // Ensure input is software bitmap
-            Bitmap softwareInput = ensureSoftwareBitmap(input);
+            Bitmap softwareInput = Utils.ensureSoftwareBitmap(input);
             mBlur.blur(softwareInput, output);
         } catch (IllegalArgumentException e) {
             if (e.getMessage() != null &&
                 e.getMessage().contains("Software rendering doesn't support hardware bitmaps")) {
-                Log.e(TAG, "Hardware bitmap error detected, converting and retrying");
+                Log.e(Utils.TAG, "Hardware bitmap error detected, converting and retrying");
                 // Force conversion and retry
                 Bitmap softwareInput = input.copy(Bitmap.Config.ARGB_8888, false);
                 Bitmap softwareOutput = output.copy(Bitmap.Config.ARGB_8888, false);
@@ -276,9 +199,9 @@ public abstract class BaseBlurView extends View {
                     } catch (IllegalArgumentException e) {
                         if (e.getMessage() != null &&
                             e.getMessage().contains("Software rendering doesn't support hardware bitmaps")) {
-                            Log.w(TAG, "Hardware bitmap detected during draw, converting and retrying");
+                            Log.w(Utils.TAG, "Hardware bitmap detected during draw, converting and retrying");
                             // Convert hardware bitmaps in the view hierarchy
-                            disableHardwareBitmapsInView(decor);
+                            Utils.disableHardwareBitmapsInView(decor);
                             // Retry the draw
                             try {
                                 mBlurringCanvas.restoreToCount(saveCount);
@@ -287,7 +210,7 @@ public abstract class BaseBlurView extends View {
                                 mBlurringCanvas.translate(-offsetX, -offsetY);
                                 decor.draw(mBlurringCanvas);
                             } catch (Exception retryError) {
-                                Log.e(TAG, "Retry after hardware bitmap conversion failed: " + retryError.getMessage());
+                                Log.e(Utils.TAG, "Retry after hardware bitmap conversion failed: " + retryError.getMessage());
                             }
                         } else {
                             throw e;

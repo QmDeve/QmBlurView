@@ -86,24 +86,49 @@ public class BlurViewGroup extends ViewGroup {
     }
 
     @Override
+    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
+        int widthUsed = getPaddingLeft() + getPaddingRight();
+        int heightUsed = getPaddingTop() + getPaddingBottom();
+
+        for (int i = 0; i < getChildCount(); i++) {
+            View child = getChildAt(i);
+            if (child.getVisibility() != GONE) {
+                measureChildWithMargins(child, widthMeasureSpec, widthUsed,
+                        heightMeasureSpec, heightUsed);
+            }
+        }
+
+        setMeasuredDimension(
+                resolveSize(getSuggestedMinimumWidth(), widthMeasureSpec),
+                resolveSize(getSuggestedMinimumHeight(), heightMeasureSpec));
+    }
+
+    @Override
     protected void onLayout(boolean changed, int l, int t, int r, int b) {
         for (int i = 0; i < getChildCount(); i++) {
             View child = getChildAt(i);
             if (child.getVisibility() != GONE) {
-                child.layout(0, 0, child.getMeasuredWidth(), child.getMeasuredHeight());
+                MarginLayoutParams lp = (MarginLayoutParams) child.getLayoutParams();
+                child.layout(getPaddingLeft() + lp.leftMargin,
+                        getPaddingTop() + lp.topMargin,
+                        getPaddingLeft() + lp.leftMargin + child.getMeasuredWidth(),
+                        getPaddingTop() + lp.topMargin + child.getMeasuredHeight());
             }
         }
     }
 
     @Override
-    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-        super.onMeasure(widthMeasureSpec, heightMeasureSpec);
+    protected LayoutParams generateDefaultLayoutParams() {
+        return new MarginLayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
+    }
 
-        for (int i = 0; i < getChildCount(); i++) {
-            View child = getChildAt(i);
-            if (child.getVisibility() != GONE) {
-                measureChild(child, widthMeasureSpec, heightMeasureSpec);
-            }
-        }
+    @Override
+    public LayoutParams generateLayoutParams(AttributeSet attrs) {
+        return new MarginLayoutParams(getContext(), attrs);
+    }
+
+    @Override
+    protected LayoutParams generateLayoutParams(LayoutParams p) {
+        return new MarginLayoutParams(p);
     }
 }

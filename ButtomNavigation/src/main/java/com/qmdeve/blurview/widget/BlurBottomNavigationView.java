@@ -156,7 +156,7 @@ public class BlurBottomNavigationView extends BaseBlurView {
     private void initMenu() {
         mMenuItems = MenuUtils.parseMenu(getContext(), mMenuResId);
 
-        if (mMenuItems == null || mMenuItems.isEmpty()) {
+        if (mMenuItems.isEmpty()) {
             return;
         }
 
@@ -172,6 +172,47 @@ public class BlurBottomNavigationView extends BaseBlurView {
     @Override
     public boolean onTouchEvent(MotionEvent event) {
         return mTabViewManager.handleTouchEvent(event, mTabViews, mFixedHeightPx);
+    }
+
+    private void setViewPager1Listener(ViewPager viewPager) {
+        viewPager.addOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
+            @Override
+            public void onPageSelected(int position) {
+                setSelectedTab(position);
+            }
+        });
+    }
+
+    private void setViewPager2Listener(ViewPager2 viewPager2) {
+        viewPager2.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
+            @Override
+            public void onPageSelected(int position) {
+                setSelectedTab(position);
+            }
+        });
+    }
+
+    private void setInitialSelectedTab(Object viewPager) {
+        int currentItem = -1;
+        int itemCount = 0;
+
+        if (viewPager instanceof ViewPager) {
+            ViewPager vp1 = (ViewPager) viewPager;
+            if (vp1.getAdapter() != null) {
+                currentItem = vp1.getCurrentItem();
+                itemCount = vp1.getAdapter().getCount();
+            }
+        } else if (viewPager instanceof ViewPager2) {
+            ViewPager2 vp2 = (ViewPager2) viewPager;
+            if (vp2.getAdapter() != null) {
+                currentItem = vp2.getCurrentItem();
+                itemCount = vp2.getAdapter().getItemCount();
+            }
+        }
+
+        if (currentItem >= 0 && itemCount > 0) {
+            setSelectedTab(currentItem);
+        }
     }
 
     /**
@@ -257,43 +298,22 @@ public class BlurBottomNavigationView extends BaseBlurView {
     }
 
     /**
-     * Bind the {@link androidx.viewpager.widget.ViewPager}
-     * @param viewPager ViewPager instance
+     * Bind the {@link androidx.viewpager.widget.ViewPager} or {@link androidx.viewpager2.widget.ViewPager2}
+     * @param viewPager Object instance of ViewPager or ViewPager2
      */
-    public void bind(ViewPager viewPager) {
-        this.mViewPager = viewPager;
-        if (viewPager != null) {
-            viewPager.addOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
-                @Override
-                public void onPageSelected(int position) {
-                    setSelectedTab(position);
-                }
-            });
-
-            if (viewPager.getAdapter() != null && viewPager.getAdapter().getCount() > 0) {
-                setSelectedTab(viewPager.getCurrentItem());
-            }
+    public void bind(Object viewPager) {
+        if (viewPager instanceof ViewPager) {
+            this.mViewPager = (ViewPager) viewPager;
+            setViewPager1Listener((ViewPager) viewPager);
+        } else if (viewPager instanceof ViewPager2) {
+            this.mViewPager2 = (ViewPager2) viewPager;
+            setViewPager2Listener((ViewPager2) viewPager);
+        } else {
+            throw new IllegalArgumentException("Parameter must be instance of ViewPager or ViewPager2");
         }
-    }
 
-    /**
-     * Bind the {@link androidx.viewpager2.widget.ViewPager2}
-     * @param viewPager2 ViewPager2 instance
-     */
-    public void bind2(ViewPager2 viewPager2) {
-        this.mViewPager2 = viewPager2;
-        if (viewPager2 != null) {
-            viewPager2.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
-                @Override
-                public void onPageSelected(int position) {
-                    setSelectedTab(position);
-                }
-            });
-
-            if (viewPager2.getAdapter() != null && viewPager2.getAdapter().getItemCount() > 0) {
-                setSelectedTab(viewPager2.getCurrentItem());
-            }
-        }
+        // Set initial selected tab
+        setInitialSelectedTab(viewPager);
     }
 
     /**
