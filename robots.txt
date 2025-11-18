@@ -1,0 +1,4 @@
+User-agent:*
+Disallow:
+
+Sitemap: https://blur.docs.qmdeve.com/sitemap.xml
