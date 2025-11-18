@@ -17,8 +17,8 @@
   <img src="https://img.shields.io/badge/License-Apache%202.0-blue.svg" alt="Apache"/>
   <img src="https://img.shields.io/badge/Android-5.0%2B-brightgreen.svg" alt="Android 5"/>
   <img src="https://img.shields.io/badge/targetSdk-36-green" alt="targetSdk"/>
-  <img src="https://img.shields.io/badge/Maven%20Central%20Release%20Version-1.0.4.4-blue" alt="maven"/>
-  <img src="https://img.shields.io/maven-central/v/com.qmdeve/QmBlurView?label=Maven%20Central%20Version" alt="maven"/>
+  <img src="https://img.shields.io/badge/Maven%20Central%20Release%20Version-1.0.4.5-blue" alt="maven"/>
+  <img src="https://img.shields.io/maven-central/v/com.qmdeve/QmBlurView?label=Maven%20Central%20Latest%20Version" alt="maven"/>
 
   <br>
   <br>
