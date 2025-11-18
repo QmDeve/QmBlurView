@@ -9,6 +9,7 @@ import android.graphics.Canvas;
 import android.graphics.Path;
 import android.graphics.RectF;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.View;
 import android.view.ViewTreeObserver;
@@ -136,6 +137,10 @@ public class BaseBlurViewGroup {
                 mBitmapToBlur = Bitmap.createBitmap(scaledWidth, scaledHeight, Bitmap.Config.ARGB_8888);
                 mBlurringCanvas = new Canvas(mBitmapToBlur);
                 mBlurredBitmap = Bitmap.createBitmap(scaledWidth, scaledHeight, Bitmap.Config.ARGB_8888);
+
+                // Ensure software bitmaps for compatibility
+                mBitmapToBlur = Utils.ensureSoftwareBitmap(mBitmapToBlur);
+                mBlurredBitmap = Utils.ensureSoftwareBitmap(mBlurredBitmap);
             } catch (OutOfMemoryError e) {
                 release();
                 return false;
@@ -150,7 +155,26 @@ public class BaseBlurViewGroup {
     }
 
     private void blur(Bitmap input, Bitmap output) {
-        mBlur.blur(input, output);
+        try {
+            // Ensure input is software bitmap
+            Bitmap softwareInput = Utils.ensureSoftwareBitmap(input);
+            mBlur.blur(softwareInput, output);
+        } catch (IllegalArgumentException e) {
+            if (e.getMessage() != null &&
+                    e.getMessage().contains("Software rendering doesn't support hardware bitmaps")) {
+                Log.e(Utils.TAG, "Hardware bitmap error detected, converting and retrying");
+                // Force conversion and retry
+                Bitmap softwareInput = input.copy(Bitmap.Config.ARGB_8888, false);
+                Bitmap softwareOutput = output.copy(Bitmap.Config.ARGB_8888, false);
+                if (softwareInput != null && softwareOutput != null) {
+                    mBlur.blur(softwareInput, softwareOutput);
+                } else {
+                    throw new RuntimeException("Failed to convert hardware bitmaps for blur processing", e);
+                }
+            } else {
+                throw e;
+            }
+        }
     }
 
     private final ViewTreeObserver.OnPreDrawListener preDrawListener = new ViewTreeObserver.OnPreDrawListener() {
@@ -181,7 +205,29 @@ public class BaseBlurViewGroup {
                     float scaleY = 1f * mBitmapToBlur.getHeight() / mHostView.getHeight();
                     mBlurringCanvas.scale(scaleX, scaleY);
                     mBlurringCanvas.translate(-offsetX, -offsetY);
-                    decor.draw(mBlurringCanvas);
+
+                    try {
+                        decor.draw(mBlurringCanvas);
+                    } catch (IllegalArgumentException e) {
+                        if (e.getMessage() != null &&
+                                e.getMessage().contains("Software rendering doesn't support hardware bitmaps")) {
+                            Log.w(Utils.TAG, "Hardware bitmap detected during draw, converting and retrying");
+                            // Convert hardware bitmaps in the view hierarchy
+                            Utils.disableHardwareBitmapsInView(decor);
+                            // Retry the draw
+                            try {
+                                mBlurringCanvas.restoreToCount(saveCount);
+                                saveCount = mBlurringCanvas.save();
+                                mBlurringCanvas.scale(scaleX, scaleY);
+                                mBlurringCanvas.translate(-offsetX, -offsetY);
+                                decor.draw(mBlurringCanvas);
+                            } catch (Exception retryError) {
+                                Log.e(Utils.TAG, "Retry after hardware bitmap conversion failed: " + retryError.getMessage());
+                            }
+                        } else {
+                            throw e;
+                        }
+                    }
                 } finally {
                     mIsRendering = false;
                     mBlurringCanvas.restoreToCount(saveCount);
