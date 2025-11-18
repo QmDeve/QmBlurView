@@ -15,7 +15,7 @@
         android:layout_height="wrap_content"
         app:item_iconSize="24dp"
         app:item_textBold="true"
-        app:item_textSize="12dp"
+        app:item_textSize="13dp"
         app:menu="@menu/bottom_nav_menu"
         app:navOverlayColor="#AAFFFFFF"
         app:navSelectedColor="#0161F2"

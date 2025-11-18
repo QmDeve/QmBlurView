@@ -26,8 +26,7 @@ public class BlurBottomNavigationActivity extends AppCompatActivity {
         ViewPager viewPager = findViewById(R.id.viewpager);
         BlurBottomNavigationView bottomNavigationView = findViewById(R.id.bottomnav);
 
-        ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager(),
-                FragmentPagerAdapter.BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
+        ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager(), FragmentPagerAdapter.BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
         for (int i = 1; i <= 4; i++) {
             ContentFragment fragment = ContentFragment.newInstance();
             adapter.addFragment(fragment);
