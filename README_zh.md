@@ -2,7 +2,7 @@
 
 <img src="https://socialify.git.ci/QmDeve/QmBlurView/image?description=1&font=Inter&name=1&owner=1&pattern=Floating+Cogs&theme=Light" alt="GitHub" width="100%"/>
 
-# 高性能的 Android UI 高斯模糊组件库
+# Android UI 高斯模糊组件库
 
   <br>
 
@@ -40,7 +40,7 @@
 
 ---
 
-## 特性
+### 特性
 - **View**
   - `BlurView` - 通用模糊视图
   - `BlurViewGroup`
@@ -56,60 +56,70 @@
 
 ---
 
-## 截图
-### BlurView
+### 截图
+#### BlurView
 <img src="./img/blurview.jpg" alt="Stars"/>
 
-### BlurButtonView
+#### BlurButtonView
 <img src="./img/blurButton.jpg" alt="Stars"/>
 
-### ProgressiveBlurView
+#### ProgressiveBlurView
 <img src="./img/progressiveBlurView.jpg" alt="Stars"/>
 
-### BlurTitleBarView
+#### BlurTitleBarView
 <img src="./img/blurTitlebarView.jpg" alt="Stars"/>
 
-### BlurSwitchButtonView
+#### BlurSwitchButtonView
 <img src="./img/blurSwitchButton_false.jpg" alt="Stars"/>
 <img src="./img/blurSwitchButton_true.jpg" alt="Stars"/>
 
-### BlurFloatingButtonView
+#### BlurFloatingButtonView
 <img src="./img/blurFloatingButton.jpg" alt="Stars"/>
 
-### BlurBottomNavigationView
+#### BlurBottomNavigationView
 <img src="./img/blurBottomNavigation.jpg" alt="Stars"/>
 
----
-
 ## Demo 体验
-[下载 Demo](https://github.com/QmDeve/QmBlurView/blob/master/app/release/app-release.apk?raw=true)
+**[下载 Demo](https://github.com/QmDeve/QmBlurView/blob/master/app/release/app-release.apk?raw=true)**
+
+# 开始使用
+### 快速集成
+
+<img src="https://img.shields.io/maven-central/v/com.qmdeve/QmBlurView?label=Maven%20Central%20Latest%20Version" alt="maven"/>
+
+**在 `build.gradle` 的 `dependencies{}` 块中添加依赖项**
+```gradle
+// 核心依赖项
+implementation 'com.qmdeve:QmBlurView:<Version>'
+
+// BottomNavigationView 依赖项
+implementation 'com.qmdeve:QmBlurView.BottomNavigation:<Version>'
+```
+
+### 如何使用
+**请查看文档：[blur.docs.qmdeve.com](https://blur.docs.qmdeve.com/zh/)**
 
 ---
 
-## 如何使用
-**请查看文档：[Docs](https://blur.docs.qmdeve.com/zh/)**
-
----
-
-## Star History
+#### Star History
 [![Star History](https://starchart.qmdeve.com/QmDeve/QmBlurView.svg?variant=adaptive)](https://starchart.qmdeve.com/QmDeve/QmBlurView)
 
 ---
 
-## 贡献者
+#### 贡献者
 <a href="https://github.com/QmDeve/QmBlurView/graphs/contributors">
   <img src="https://contrib.rocks/image?repo=QmDeve/QmBlurView" alt="Contributors"/>
 </a>
 
 ---
 
-### 我的其他开源库
+#### 我的其他开源库
 - **[AndroidLiquidGlassView](https://github.com/QmDeve/AndroidLiquidGlassView)**
 - **[QmReflection](https://github.com/QmDeve/QmReflection)**
 
 ---
 
-### 赞助我们
+#### 赞助我们
 
 **如果您觉得我们的项目对您有帮助，欢迎通过以下方式赞助支持：**
 

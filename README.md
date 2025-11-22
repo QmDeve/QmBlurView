@@ -2,7 +2,7 @@
 
 <img src="https://socialify.git.ci/QmDeve/QmBlurView/image?description=1&font=Inter&name=1&owner=1&pattern=Floating+Cogs&theme=Light" alt="GitHub" width="100%"/>
 
-# High-performance Android UI Gaussian blur component library
+# Android UI Gaussian blur component library
   
   <br>
 
@@ -40,7 +40,7 @@ English | [简体中文](https://github.com/QmDeve/QmBlurView/blob/master/README
 
 ---
 
-## Characteristic
+### Characteristic
 - **View**
   - `BlurView`
   - `BlurViewGroup`
@@ -56,54 +56,63 @@ English | [简体中文](https://github.com/QmDeve/QmBlurView/blob/master/README
 
 ---
 
-## Screenshot
-### BlurView
+### Screenshot
+#### BlurView
 <img src="./img/blurview.jpg" alt="Stars"/>
 
-### BlurButtonView
+#### BlurButtonView
 <img src="./img/blurButton.jpg" alt="Stars"/>
 
-### ProgressiveBlurView
+#### ProgressiveBlurView
 <img src="./img/progressiveBlurView.jpg" alt="Stars"/>
 
-### BlurTitleBarView
+#### BlurTitleBarView
 <img src="./img/blurTitlebarView.jpg" alt="Stars"/>
 
-### BlurSwitchButtonView
+#### BlurSwitchButtonView
 <img src="./img/blurSwitchButton_false.jpg" alt="Stars"/>
 <img src="./img/blurSwitchButton_true.jpg" alt="Stars"/>
 
-### BlurFloatingButtonView
+#### BlurFloatingButtonView
 <img src="./img/blurFloatingButton.jpg" alt="Stars"/>
 
-### BlurBottomNavigationView
+#### BlurBottomNavigationView
 <img src="./img/blurBottomNavigation.jpg" alt="Stars"/>
 
----
-
 ## Demo experience
-[Download Demo](https://github.com/QmDeve/QmBlurView/blob/master/app/release/app-release.apk?raw=true)
+**[Download Demo](https://github.com/QmDeve/QmBlurView/blob/master/app/release/app-release.apk?raw=true)**
+
+# Start using
+### Quick integration
+
+<img src="https://img.shields.io/maven-central/v/com.qmdeve/QmBlurView?label=Maven%20Central%20Latest%20Version" alt="maven"/>
+
+**Add dependencies in the `dependencies{}` block of `build.gradle`**
+```gradle
+// QmBlurView Core Dependencies
+implementation 'com.qmdeve:QmBlurView:<Version>'
+
+// BottomNavigationView Dependencies
+implementation 'com.qmdeve:QmBlurView.BottomNavigation:<Version>'
+```
+
+### Quick use
+**Usage: [blur.docs.qmdeve.com](https://blur.docs.qmdeve.com/)**
 
 ---
 
-## Quick use
-
-**Usage: [Docs](https://blur.docs.qmdeve.com/)**
-
----
-
-## Star History
+#### Star History
 [![Star History](https://starchart.qmdeve.com/QmDeve/QmBlurView.svg?variant=adaptive)](https://starchart.qmdeve.com/QmDeve/QmBlurView)
 
 ---
 
-## Contributors
+#### Contributors
 <a href="https://github.com/QmDeve/QmBlurView/graphs/contributors">
   <img src="https://contrib.rocks/image?repo=QmDeve/QmBlurView" alt="Contributors"/>
 </a>
 
 ---
 
-### My other open-source library
+#### My other open-source library
 - **[AndroidLiquidGlassView](https://github.com/QmDeve/AndroidLiquidGlassView)**
 - **[QmReflection](https://github.com/QmDeve/QmReflection)**
