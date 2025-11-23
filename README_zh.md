@@ -2,7 +2,7 @@
 
 <img src="https://socialify.git.ci/QmDeve/QmBlurView/image?description=1&font=Inter&name=1&owner=1&pattern=Floating+Cogs&theme=Light" alt="GitHub" width="100%"/>
 
-# Android UI 高斯模糊组件库
+## Android UI 高斯模糊组件库
 
   <br>
 
@@ -16,31 +16,29 @@
 
   <img src="https://img.shields.io/badge/License-Apache%202.0-blue.svg" alt="Apache"/>
   <img src="https://img.shields.io/badge/Android-5.0%2B-brightgreen.svg" alt="Android 5"/>
-  <img src="https://img.shields.io/badge/targetSdk-36-green" alt="targetSdk"/>
-  <img src="https://img.shields.io/badge/Maven%20Central%20Release%20Version-1.0.4.6-blue" alt="maven"/>
   <img src="https://img.shields.io/maven-central/v/com.qmdeve/QmBlurView?label=Maven%20Central%20Latest%20Version" alt="maven"/>
 
   <br>
   <br>
 
-[English](https://github.com/QmDeve/QmBlurView/blob/master/README.md) | 简体中文
+[English](./README.md) | [Français](./README_fr.md) | 简体中文 | | [Русский](./README_ru.md)
 
 </div>
 
 ---
 
-> **Note: 镜像存储库**
+> **Note: 其他存储库**
 >
 > 该项目在多个平台上维护，以方便不同地区的开发人员使用。所有仓库的内容都应保持一致
-> - **Main Repository**：[GitHub](https://github.com/QmDeve/QmBlurView)
-> - **Other Repository**：
+> - **主存储库**：[GitHub](https://github.com/QmDeve/QmBlurView)
+> - **其他存储库**：
 >   - [GitLab](https://gitlab.com/QmDeve/QmBlurView)
 >   - [Gitee](https://gitee.com/QmDeve/QmBlurView)
 >   - [GitCode](https://gitcode.com/QmDeve/QmBlurView)
 
 ---
 
-### 特性
+## 特性
 - **View**
   - `BlurView` - 通用模糊视图
   - `BlurViewGroup`
@@ -56,38 +54,38 @@
 
 ---
 
-### 截图
-#### BlurView
+## 预览
+### BlurView
 <img src="./img/blurview.jpg" alt="Stars"/>
 
-#### BlurButtonView
+### BlurButtonView
 <img src="./img/blurButton.jpg" alt="Stars"/>
 
-#### ProgressiveBlurView
+### ProgressiveBlurView
 <img src="./img/progressiveBlurView.jpg" alt="Stars"/>
 
-#### BlurTitleBarView
+### BlurTitleBarView
 <img src="./img/blurTitlebarView.jpg" alt="Stars"/>
 
-#### BlurSwitchButtonView
+### BlurSwitchButtonView
 <img src="./img/blurSwitchButton_false.jpg" alt="Stars"/>
 <img src="./img/blurSwitchButton_true.jpg" alt="Stars"/>
 
-#### BlurFloatingButtonView
+### BlurFloatingButtonView
 <img src="./img/blurFloatingButton.jpg" alt="Stars"/>
 
-#### BlurBottomNavigationView
+### BlurBottomNavigationView
 <img src="./img/blurBottomNavigation.jpg" alt="Stars"/>
 
 ## Demo 体验
-**[下载 Demo](https://github.com/QmDeve/QmBlurView/blob/master/app/release/app-release.apk?raw=true)**
+**[下载 Demo](./app/release/app-release.apk?raw=true)**
 
 # 开始使用
 ### 快速集成
 
 <img src="https://img.shields.io/maven-central/v/com.qmdeve/QmBlurView?label=Maven%20Central%20Latest%20Version" alt="maven"/>
 
-**在 `build.gradle` 的 `dependencies{}` 块中添加依赖项**
+**在 `build.gradle` 文件的 `dependencies{}` 块中添加依赖项**
 ```gradle
 // 核心依赖项
 implementation 'com.qmdeve:QmBlurView:<Version>'
@@ -96,30 +94,46 @@ implementation 'com.qmdeve:QmBlurView:<Version>'
 implementation 'com.qmdeve:QmBlurView.BottomNavigation:<Version>'
 ```
 
-### 如何使用
-**请查看文档：[blur.docs.qmdeve.com](https://blur.docs.qmdeve.com/zh/)**
+## 如何使用
+**请查看文档：[https://blur.docs.qmdeve.com](https://blur.docs.qmdeve.com/zh/)**
 
 ---
 
-#### Star History
+## Star History
 [![Star History](https://starchart.qmdeve.com/QmDeve/QmBlurView.svg?variant=adaptive)](https://starchart.qmdeve.com/QmDeve/QmBlurView)
 
 ---
 
-#### 贡献者
+## 贡献者
 <a href="https://github.com/QmDeve/QmBlurView/graphs/contributors">
   <img src="https://contrib.rocks/image?repo=QmDeve/QmBlurView" alt="Contributors"/>
 </a>
 
+## License
+```
+Copyright 2025 QmDeve
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+```
+
+## 我的开源项目
+ - **[AndroidLiquidGlassView](https://github.com/QmDeve/AndroidLiquidGlassView)**
+ - **[QmReflection](https://github.com/QmDeve/QmReflection)**
+ - **[Qm Authenticator for Android](https://github.com/Rouneant/Qm-Authenticator-for-Android)**
+
 ---
 
-#### 我的其他开源库
-- **[AndroidLiquidGlassView](https://github.com/QmDeve/AndroidLiquidGlassView)**
-- **[QmReflection](https://github.com/QmDeve/QmReflection)**
-
----
-
-#### 赞助我们
+## 赞助我们
 
 **如果您觉得我们的项目对您有帮助，欢迎通过以下方式赞助支持：**
 
