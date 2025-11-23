@@ -18,7 +18,7 @@
   <br>
   <br>
 
-[English](./README.md) | Français | [简体中文](./README_zh.md) | | [Русский](./README_ru.md)
+[English](./README.md) | Français | [简体中文](./README_zh.md) | [Русский](./README_ru.md)
 
 </div>
 
