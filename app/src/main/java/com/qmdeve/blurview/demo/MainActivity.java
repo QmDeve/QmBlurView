@@ -28,6 +28,7 @@ public class MainActivity extends AppCompatActivity {
         findViewById(R.id.blurFloatingButton).setOnClickListener(v -> startActivity(new Intent(this, BlurFloatingButtonActivity.class)));
         findViewById(R.id.blurBottomNavigationButton).setOnClickListener(v -> startActivity(new Intent(this, BlurBottomNavigationActivity.class)));
         findViewById(R.id.textureViewButton).setOnClickListener(v -> startActivity(new Intent(this, TextureViewActivity.class)));
+        findViewById(R.id.surfaceViewButton).setOnClickListener(v -> startActivity(new Intent(this, SurfaceViewActivity.class)));
 
         findViewById(R.id.github).setOnClickListener(v -> {
             Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://github.com/QmDeve/QmBlurView"));

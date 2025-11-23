@@ -35,6 +35,9 @@
         <activity
             android:name=".TextureViewActivity"
             android:exported="false" />
+        <activity
+            android:name=".SurfaceViewActivity"
+            android:exported="false" />
 
         <activity
             android:name=".MainActivity"
