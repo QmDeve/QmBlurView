@@ -32,7 +32,7 @@ dependencies {
 }
 
 mavenPublishing {
-    coordinates("com.qmdeve", "QmBlurView.BottomNavigation", "1.0.4.5")
+    coordinates("com.qmdeve", "QmBlurView.BottomNavigation", "1.0.4.6")
 
     pom {
         name = 'QmBlurView BottomNavigation '
