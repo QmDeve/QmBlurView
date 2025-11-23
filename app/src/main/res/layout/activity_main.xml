@@ -76,6 +76,15 @@
             app:overlayColor="#0161F2" />
 
         <com.qmdeve.blurview.widget.BlurButtonView
+            android:id="@+id/textureViewButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Blur TextureView"
+            android:textColor="@color/white"
+            app:buttonCornerRadius="12dp"
+            app:overlayColor="#0161F2" />
+
+        <com.qmdeve.blurview.widget.BlurButtonView
             android:id="@+id/github"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

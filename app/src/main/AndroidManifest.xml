@@ -32,6 +32,9 @@
         <activity
             android:name=".ProgerssiveBlurActivity"
             android:exported="false" />
+        <activity
+            android:name=".TextureViewActivity"
+            android:exported="false" />
 
         <activity
             android:name=".MainActivity"
