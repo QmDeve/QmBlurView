@@ -32,4 +32,5 @@ dependencies {
     implementation project(':QmBlurView')
     implementation project(':ButtomNavigation')
     implementation libs.appcompat
+    implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
 }
