@@ -1,6 +1,6 @@
 plugins {
     alias(libs.plugins.android.library)
-    id "com.vanniktech.maven.publish" version "0.34.0"
+    id "com.vanniktech.maven.publish" version "0.35.0"
     id 'signing'
 }
 
@@ -32,10 +32,10 @@ dependencies {
 }
 
 mavenPublishing {
-    coordinates("com.qmdeve", "QmBlurView.BottomNavigation", "1.0.4.6")
+    coordinates("com.qmdeve", "QmBlurView.BottomNavigation", "1.0.4.7")
 
     pom {
-        name = 'QmBlurView BottomNavigation '
+        name = 'QmBlurView BottomNavigation'
         description = 'QmBlurView is an Android UI component library that integrates a variety of blur effects, including BlurView, BlurButtonView, ProgressiveBlurView, BlurTitleBarView, BottomNavigationView, BlurSwitchButtonView, and BlurFloatingButtonView'
         url = 'https://github.com/QmDeve/QmBlurView'
         inceptionYear = '2025'
@@ -67,7 +67,7 @@ mavenPublishing {
             connection = 'scm:git:github.com/QmDeve/QmBlurView.git'
             developerConnection = 'scm:git:ssh://github.com/QmDeve/QmBlurView.git'
             url = 'https://github.com/QmDeve/QmBlurView'
-            tag = 'v1.0.4.5'
+            tag = 'v1.0.4.7'
         }
 
         properties = [

@@ -1,6 +1,6 @@
 plugins {
     alias(libs.plugins.android.library)
-    id "com.vanniktech.maven.publish" version "0.34.0"
+    id "com.vanniktech.maven.publish" version "0.35.0"
     id 'signing'
 }
 
@@ -55,7 +55,7 @@ dependencies {
 }
 
 mavenPublishing {
-    coordinates("com.qmdeve", "QmBlurView", "1.0.4.6")
+    coordinates("com.qmdeve", "QmBlurView", "1.0.4.7")
 
     pom {
         name = 'QmBlurView Library'
@@ -65,7 +65,7 @@ mavenPublishing {
 
         organization {
             name = 'QmDeve'
-            url = 'https://github.com/QmDeve'
+            url = 'https://me.qmdeve.com'
         }
 
         licenses {
@@ -84,13 +84,20 @@ mavenPublishing {
                 organization = 'QmDeve'
                 organizationUrl = 'https://github.com/QmDeve'
             }
+
+            developer {
+                id = 'sbaiahmed1'
+                name = 'Ahmed Sbai'
+                email = 'ahmedclubust@gmail.com'
+                organizationUrl = 'https://github.com/sbaiahmed1'
+            }
         }
 
         scm {
             connection = 'scm:git:github.com/QmDeve/QmBlurView.git'
             developerConnection = 'scm:git:ssh://github.com/QmDeve/QmBlurView.git'
             url = 'https://github.com/QmDeve/QmBlurView'
-            tag = 'v1.0.4.5'
+            tag = 'v1.0.4.7'
         }
 
         properties = [
