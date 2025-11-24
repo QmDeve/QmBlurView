@@ -53,6 +53,9 @@ public abstract class BaseBlurView extends View {
     private final Map<SurfaceView, Boolean> mPendingPixelCopies = new WeakHashMap<>();
     private final Handler mHandler = new Handler(Looper.getMainLooper());
 
+    private boolean mFirstDraw = true;
+    private boolean mForceRedraw = false;
+
     public BaseBlurView(Context context, AttributeSet attrs) {
         super(context, attrs);
         mBlur = new BlurNative();
@@ -108,7 +111,7 @@ public abstract class BaseBlurView extends View {
 
                 if (drawable instanceof android.graphics.drawable.BitmapDrawable) {
                     android.graphics.drawable.BitmapDrawable bitmapDrawable =
-                        (android.graphics.drawable.BitmapDrawable) drawable;
+                            (android.graphics.drawable.BitmapDrawable) drawable;
                     Bitmap bitmap = bitmapDrawable.getBitmap();
 
                     if (bitmap != null && bitmap.getConfig() == Bitmap.Config.HARDWARE) {
@@ -222,6 +225,7 @@ public abstract class BaseBlurView extends View {
         if (mBlurRadius != radius && radius >= 0) {
             mBlurRadius = radius;
             mDirty = true;
+            mForceRedraw = true;
             invalidate();
         }
     }
@@ -229,6 +233,7 @@ public abstract class BaseBlurView extends View {
     public void setOverlayColor(int color) {
         if (mOverlayColor != color) {
             mOverlayColor = color;
+            mForceRedraw = true;
             invalidate();
         }
     }
@@ -236,6 +241,7 @@ public abstract class BaseBlurView extends View {
     public void setCornerRadius(float radius) {
         if (mCornerRadius != radius && radius >= 0) {
             mCornerRadius = radius;
+            mForceRedraw = true;
             invalidate();
         }
     }
@@ -321,7 +327,7 @@ public abstract class BaseBlurView extends View {
             mBlur.blur(softwareInput, output);
         } catch (IllegalArgumentException e) {
             if (e.getMessage() != null &&
-                e.getMessage().contains("Software rendering doesn't support hardware bitmaps")) {
+                    e.getMessage().contains("Software rendering doesn't support hardware bitmaps")) {
                 Log.e(Utils.TAG, "Hardware bitmap error detected, converting and retrying");
                 // Force conversion and retry
                 Bitmap softwareInput = input.copy(Bitmap.Config.ARGB_8888, false);
@@ -337,73 +343,77 @@ public abstract class BaseBlurView extends View {
         }
     }
 
-    public final ViewTreeObserver.OnPreDrawListener preDrawListener = new ViewTreeObserver.OnPreDrawListener() {
-        @Override
-        public boolean onPreDraw() {
-            if (!isShown()) return true;
+    private boolean performBlurSync() {
+        if (!isShown() || mDecorView == null) return false;
 
-            Bitmap old = mBlurredBitmap;
-            View decor = mDecorView;
+        Bitmap old = mBlurredBitmap;
 
-            if (decor != null && prepare()) {
-                boolean redrawBitmap = mBlurredBitmap != old;
+        if (!prepare()) return false;
 
-                int[] locDecor = new int[2];
-                int[] locSelf = new int[2];
-                decor.getLocationOnScreen(locDecor);
-                getLocationOnScreen(locSelf);
+        boolean redrawBitmap = mBlurredBitmap != old;
 
-                int offsetX = locSelf[0] - locDecor[0];
-                int offsetY = locSelf[1] - locDecor[1];
+        int[] locDecor = new int[2];
+        int[] locSelf = new int[2];
+        mDecorView.getLocationOnScreen(locDecor);
+        getLocationOnScreen(locSelf);
 
-                mBitmapToBlur.eraseColor(0);
+        int offsetX = locSelf[0] - locDecor[0];
+        int offsetY = locSelf[1] - locDecor[1];
 
-                int saveCount = mBlurringCanvas.save();
-                mIsRendering = true;
-                try {
-                    float scaleX = 1f * mBitmapToBlur.getWidth() / getWidth();
-                    float scaleY = 1f * mBitmapToBlur.getHeight() / getHeight();
-                    mBlurringCanvas.scale(scaleX, scaleY);
-                    mBlurringCanvas.translate(-offsetX, -offsetY);
+        mBitmapToBlur.eraseColor(0);
 
+        int saveCount = mBlurringCanvas.save();
+        mIsRendering = true;
+        try {
+            float scaleX = 1f * mBitmapToBlur.getWidth() / getWidth();
+            float scaleY = 1f * mBitmapToBlur.getHeight() / getHeight();
+            mBlurringCanvas.scale(scaleX, scaleY);
+            mBlurringCanvas.translate(-offsetX, -offsetY);
+
+            try {
+                mDecorView.draw(mBlurringCanvas);
+            } catch (IllegalArgumentException e) {
+                if (e.getMessage() != null &&
+                        e.getMessage().contains("Software rendering doesn't support hardware bitmaps")) {
+                    Log.w(Utils.TAG, "Hardware bitmap detected during draw, converting and retrying");
+                    // Convert hardware bitmaps in the view hierarchy
+                    Utils.disableHardwareBitmapsInView(mDecorView);
+                    // Retry the draw
                     try {
-                        decor.draw(mBlurringCanvas);
-                    } catch (IllegalArgumentException e) {
-                        if (e.getMessage() != null &&
-                            e.getMessage().contains("Software rendering doesn't support hardware bitmaps")) {
-                            Log.w(Utils.TAG, "Hardware bitmap detected during draw, converting and retrying");
-                            // Convert hardware bitmaps in the view hierarchy
-                            Utils.disableHardwareBitmapsInView(decor);
-                            // Retry the draw
-                            try {
-                                mBlurringCanvas.restoreToCount(saveCount);
-                                saveCount = mBlurringCanvas.save();
-                                mBlurringCanvas.scale(scaleX, scaleY);
-                                mBlurringCanvas.translate(-offsetX, -offsetY);
-                                decor.draw(mBlurringCanvas);
-                            } catch (Exception retryError) {
-                                Log.e(Utils.TAG, "Retry after hardware bitmap conversion failed: " + retryError.getMessage());
-                            }
-                        } else {
-                            throw e;
-                        }
+                        mBlurringCanvas.restoreToCount(saveCount);
+                        saveCount = mBlurringCanvas.save();
+                        mBlurringCanvas.scale(scaleX, scaleY);
+                        mBlurringCanvas.translate(-offsetX, -offsetY);
+                        mDecorView.draw(mBlurringCanvas);
+                    } catch (Exception retryError) {
+                        Log.e(Utils.TAG, "Retry after hardware bitmap conversion failed: " + retryError.getMessage());
                     }
-
-                    drawTextureViews(decor, mBlurringCanvas);
-                    drawSurfaceViews(decor, mBlurringCanvas);
-                } finally {
-                    mIsRendering = false;
-                    mBlurringCanvas.restoreToCount(saveCount);
-                }
-
-                blur(mBitmapToBlur, mBlurredBitmap);
-
-                if (redrawBitmap || mDifferentRoot) {
-                    postInvalidateOnAnimation();
+                } else {
+                    throw e;
                 }
             }
-            return true;
+
+            drawTextureViews(mDecorView, mBlurringCanvas);
+            drawSurfaceViews(mDecorView, mBlurringCanvas);
+        } finally {
+            mIsRendering = false;
+            mBlurringCanvas.restoreToCount(saveCount);
         }
+
+        blur(mBitmapToBlur, mBlurredBitmap);
+
+        return redrawBitmap || mDifferentRoot || mForceRedraw;
+    }
+
+    public final ViewTreeObserver.OnPreDrawListener preDrawListener = () -> {
+        if (!isShown()) return true;
+
+        if (performBlurSync()) {
+            postInvalidateOnAnimation();
+        }
+
+        mForceRedraw = false;
+        return true;
     };
 
     public View getActivityDecorView() {
@@ -421,6 +431,8 @@ public abstract class BaseBlurView extends View {
         if (mDecorView != null) {
             mDecorView.getViewTreeObserver().addOnPreDrawListener(preDrawListener);
             mDifferentRoot = mDecorView.getRootView() != getRootView();
+            mFirstDraw = true;
+            mForceRedraw = true;
         }
     }
 
@@ -436,7 +448,20 @@ public abstract class BaseBlurView extends View {
 
     @Override
     public void draw(@NonNull Canvas canvas) {
-        if (!mIsRendering) super.draw(canvas);
+        if (!mIsRendering) {
+            if (mFirstDraw || mForceRedraw) {
+                performBlurSync();
+                mFirstDraw = false;
+                mForceRedraw = false;
+            }
+            super.draw(canvas);
+        }
+    }
+
+    @Override
+    protected void onDraw(@NonNull Canvas canvas) {
+        super.onDraw(canvas);
+        drawBlurredBitmap(canvas);
     }
 
     public void drawBlurredBitmap(Canvas canvas) {
