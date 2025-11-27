@@ -17,3 +17,10 @@ local.properties
 # Project exclude paths
 /QmBlurView/build/
 /QmBlurView/build/intermediates/javac/debug/compileDebugJavaWithJavac/classes/
+.idea/gradle.xml
+.idea/markdown.xml
+app/release/baselineProfiles/1/app-release.dm
+app/release/output-metadata.json
+app/release/baselineProfiles/0/app-release.dm
+.idea/vcs.xml
+.idea/misc.xml
