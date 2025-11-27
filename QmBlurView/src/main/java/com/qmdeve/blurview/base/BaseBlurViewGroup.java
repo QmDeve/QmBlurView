@@ -221,6 +221,7 @@ public class BaseBlurViewGroup {
 
         int saveCount = mBlurringCanvas.save();
         mIsRendering = true;
+        Utils.sIsGlobalCapturing = true;
         try {
             float scaleX = 1f * mBitmapToBlur.getWidth() / width;
             float scaleY = 1f * mBitmapToBlur.getHeight() / height;
@@ -251,6 +252,7 @@ public class BaseBlurViewGroup {
             }
         } finally {
             mIsRendering = false;
+            Utils.sIsGlobalCapturing = false;
             mBlurringCanvas.restoreToCount(saveCount);
         }
 

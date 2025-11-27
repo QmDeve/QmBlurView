@@ -17,6 +17,7 @@ import android.util.TypedValue;
 import androidx.annotation.NonNull;
 
 import com.qmdeve.blurview.R;
+import com.qmdeve.blurview.util.Utils;
 
 public class ProgressiveBlurView extends BlurView {
     public static final int DIRECTION_BOTTOM_TO_TOP = 0;
@@ -68,6 +69,10 @@ public class ProgressiveBlurView extends BlurView {
 
     @Override
     protected void onDraw(@NonNull Canvas canvas) {
+        if (Utils.sIsGlobalCapturing && !mIsRendering) {
+            return;
+        }
+
         if (isInEditMode()) {
             drawPreviewProgressiveBackground(canvas);
             return;

@@ -33,11 +33,9 @@ public class BlurView extends BaseBlurView {
     protected void onDraw(@NonNull Canvas canvas) {
         if (isInEditMode()) {
             drawPreviewBackground(canvas);
+            return;
         }
 
-        if (!isInEditMode()) {
-            super.onDraw(canvas);
-            drawBlurredBitmap(canvas);
-        }
+        super.onDraw(canvas);
     }
 }

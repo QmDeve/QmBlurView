@@ -379,6 +379,7 @@ public abstract class BaseBlurView extends View {
 
         int saveCount = mBlurringCanvas.save();
         mIsRendering = true;
+        Utils.sIsGlobalCapturing = true;
         try {
             float scaleX = 1f * mBitmapToBlur.getWidth() / getWidth();
             float scaleY = 1f * mBitmapToBlur.getHeight() / getHeight();
@@ -412,6 +413,7 @@ public abstract class BaseBlurView extends View {
             drawSurfaceViews(mDecorView, mBlurringCanvas);
         } finally {
             mIsRendering = false;
+            Utils.sIsGlobalCapturing = false;
             mBlurringCanvas.restoreToCount(saveCount);
         }
 
@@ -480,6 +482,9 @@ public abstract class BaseBlurView extends View {
     }
 
     public void drawBlurredBitmap(Canvas canvas) {
+        if (Utils.sIsGlobalCapturing && !mIsRendering) {
+            return;
+        }
         if (mBlurredBitmap != null) {
             mRectSrc.set(0, 0, mBlurredBitmap.getWidth(), mBlurredBitmap.getHeight());
             mRectDst.set(0, 0, getWidth(), getHeight());
