@@ -30,6 +30,10 @@ public class BlurViewGroup extends ViewGroup {
         mBaseBlurViewGroup.setBlurRadius(radius);
     }
 
+    public void setDownsampleFactor(float factor) {
+        mBaseBlurViewGroup.setDownsampleFactor(factor);
+    }
+
     public void setOverlayColor(int color) {
         mBaseBlurViewGroup.setOverlayColor(color);
     }

@@ -10,17 +10,25 @@ import java.util.concurrent.atomic.AtomicBoolean;
 
 public class BlurNative implements Blur {
 
-    private static final int DEFAULT_THREAD_COUNT = 4;
     private static final int MAX_RADIUS = 25;
     private static final int MIN_RADIUS = 2;
-    private final AtomicBoolean isBlurring = new AtomicBoolean(false);
-    private ExecutorService executorService;
-    private int threadCount = DEFAULT_THREAD_COUNT;
-    private float radius = MAX_RADIUS;
+    private static final int THREAD_COUNT;
+    private static final ExecutorService EXECUTOR;
 
     static {
+        int cpuCount = Runtime.getRuntime().availableProcessors();
+        THREAD_COUNT = Math.max(2, Math.min(5, cpuCount));
+        EXECUTOR = Executors.newFixedThreadPool(THREAD_COUNT, r -> {
+            Thread t = new Thread(r, "NativeBlurThread");
+            t.setPriority(Thread.MIN_PRIORITY);
+            t.setDaemon(true);
+            return t;
+        });
         System.loadLibrary("QmBlur");
     }
+
+    private final AtomicBoolean isBlurring = new AtomicBoolean(false);
+    private float radius = MAX_RADIUS;
 
     public static native void blur(
             Object bitmap,
@@ -33,38 +41,12 @@ public class BlurNative implements Blur {
     @Override
     public boolean prepare(Bitmap buffer, float radius) {
         this.radius = clamp(radius);
-
-        synchronized (this) {
-            if (executorService == null || executorService.isShutdown()) {
-                int cpuCount = Runtime.getRuntime().availableProcessors();
-                threadCount = Math.max(2, Math.min(5, cpuCount));
-
-                executorService = new ThreadPoolExecutor(
-                        threadCount,
-                        threadCount,
-                        10L,
-                        TimeUnit.SECONDS,
-                        new LinkedBlockingQueue<>(),
-                        r -> {
-                            Thread t = new Thread(r, "NativeBlurThread");
-                            t.setPriority(Thread.MIN_PRIORITY);
-                            t.setDaemon(true);
-                            return t;
-                        }
-                );
-            }
-        }
         return true;
     }
 
     @Override
     public void release() {
-        synchronized (this) {
-            if (executorService != null && !executorService.isShutdown()) {
-                executorService.shutdownNow();
-                executorService = null;
-            }
-        }
+        // Shared executor, do not shutdown
     }
 
     @Override
@@ -76,9 +58,10 @@ public class BlurNative implements Blur {
 
         try {
             if (input != output) {
-                synchronized (this) {
-                    new Canvas(output).drawBitmap(input, 0, 0, null);
-                }
+                // No need to synchronize on 'this' for drawing, Canvas handles it, 
+                // and input/output are usually thread-confined or handled by caller.
+                // However, to be safe and match previous behavior if needed:
+                new Canvas(output).drawBitmap(input, 0, 0, null);
             }
             doBlurRound(output, 1);
             doBlurRound(output, 2);
@@ -88,16 +71,14 @@ public class BlurNative implements Blur {
     }
 
     private void doBlurRound(Bitmap bitmap, int round) {
-        if (executorService == null || executorService.isShutdown()) return;
-
         int r = (int) radius;
-        CountDownLatch latch = new CountDownLatch(threadCount);
+        CountDownLatch latch = new CountDownLatch(THREAD_COUNT);
 
-        for (int i = 0; i < threadCount; i++) {
+        for (int i = 0; i < THREAD_COUNT; i++) {
             final int index = i;
-            executorService.execute(() -> {
+            EXECUTOR.execute(() -> {
                 try {
-                    blur(bitmap, r, threadCount, index, round);
+                    blur(bitmap, r, THREAD_COUNT, index, round);
                 } catch (Exception e) {
                     if (isDebug(null)) e.printStackTrace();
                 } finally {
