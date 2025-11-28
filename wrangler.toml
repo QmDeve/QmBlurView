@@ -1,5 +1,5 @@
-name = "blog"
+name = "docs"
 compatibility_date = "2025-11-29"
 
 [site]
-bucket = "."
+bucket = "./"
