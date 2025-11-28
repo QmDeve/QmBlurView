@@ -55,7 +55,7 @@ dependencies {
 }
 
 mavenPublishing {
-    coordinates("com.qmdeve", "QmBlurView", "1.0.5-Beta01")
+    coordinates("com.qmdeve", "QmBlurView", "1.0.5-Beta02")
 
     pom {
         name = 'QmBlurView Library'
@@ -97,13 +97,13 @@ mavenPublishing {
             connection = 'scm:git:github.com/QmDeve/QmBlurView.git'
             developerConnection = 'scm:git:ssh://github.com/QmDeve/QmBlurView.git'
             url = 'https://github.com/QmDeve/QmBlurView'
-            tag = 'v1.0.5-Beta01'
+            tag = 'v1.0.5-Beta02'
         }
 
         properties = [
                 'project.icon': 'https://github.com/QmDeve/QmBlurView/raw/main/logo.png',
                 'project.logo': 'https://github.com/QmDeve/QmBlurView/raw/main/logo.png',
-                'project.documentationUrl': 'https://blur.docs.qmdeve.com'
+                'project.documentationUrl': 'https://blur-docs.qmdeve.com'
         ]
     }
 
