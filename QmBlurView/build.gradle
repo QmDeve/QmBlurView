@@ -70,8 +70,8 @@ mavenPublishing {
 
         licenses {
             license {
-                name = 'The Apache License, Version 2.0'
-                url = 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+                name = 'MIT License'
+                url = 'https://github.com/QmDeve/QmBlurView/blob/master/LICENSE'
                 distribution = 'repo'
             }
         }
@@ -103,7 +103,7 @@ mavenPublishing {
         properties = [
                 'project.icon': 'https://github.com/QmDeve/QmBlurView/raw/main/logo.png',
                 'project.logo': 'https://github.com/QmDeve/QmBlurView/raw/main/logo.png',
-                'project.documentationUrl': 'https://blur.docs.qmdeve.com'
+                'project.documentationUrl': 'https://blur-docs.qmdeve.com'
         ]
     }
 
