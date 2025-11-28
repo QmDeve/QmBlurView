@@ -25,6 +25,7 @@ public class BlurView extends BaseBlurView {
         mBlurRadius = a.getDimension(R.styleable.BlurView_blurRadius, Utils.dp2px(getResources(), 25));
         mOverlayColor = a.getColor(R.styleable.BlurView_overlayColor, 0xAAFFFFFF);
         mCornerRadius = a.getDimension(R.styleable.BlurView_cornerRadius, 0);
+        mDownsampleFactor = a.getFloat(R.styleable.BlurView_downsampleFactor, 0f);
         a.recycle();
     }
 
@@ -32,11 +33,9 @@ public class BlurView extends BaseBlurView {
     protected void onDraw(@NonNull Canvas canvas) {
         if (isInEditMode()) {
             drawPreviewBackground(canvas);
+            return;
         }
 
-        if (!isInEditMode()) {
-            super.onDraw(canvas);
-            drawBlurredBitmap(canvas);
-        }
+        super.onDraw(canvas);
     }
 }

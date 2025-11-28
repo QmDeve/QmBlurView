@@ -20,6 +20,7 @@ import androidx.core.view.WindowInsetsCompat;
 @RestrictTo(LIBRARY_GROUP)
 public class Utils {
     public static final String TAG = "BaseBlurView";
+    public static boolean sIsGlobalCapturing = false;
 
     public static float dp2px(Resources res, float dp) {
         return TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp, res.getDisplayMetrics());

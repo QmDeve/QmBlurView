@@ -4,6 +4,7 @@
         <attr name="blurRadius" format="dimension" />
         <attr name="overlayColor" format="color" />
         <attr name="cornerRadius" format="dimension" />
+        <attr name="downsampleFactor" format="float" />
     </declare-styleable>
 
     <declare-styleable name="BlurButtonView">
