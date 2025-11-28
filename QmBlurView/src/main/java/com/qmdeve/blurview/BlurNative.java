@@ -47,6 +47,7 @@ public class BlurNative implements Blur {
     @Override
     public void release() {
         // Shared executor, do not shutdown
+        // But we can clear any thread-local resources if needed
     }
 
     @Override
@@ -58,13 +59,14 @@ public class BlurNative implements Blur {
 
         try {
             if (input != output) {
-                // No need to synchronize on 'this' for drawing, Canvas handles it, 
-                // and input/output are usually thread-confined or handled by caller.
-                // However, to be safe and match previous behavior if needed:
+                // Clear the output bitmap first
+                output.eraseColor(0);
                 new Canvas(output).drawBitmap(input, 0, 0, null);
             }
             doBlurRound(output, 1);
             doBlurRound(output, 2);
+        } catch (Exception e) {
+            if (isDebug(null)) e.printStackTrace();
         } finally {
             isBlurring.set(false);
         }
