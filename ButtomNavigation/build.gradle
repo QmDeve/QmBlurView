@@ -32,7 +32,7 @@ dependencies {
 }
 
 mavenPublishing {
-    coordinates("com.qmdeve", "QmBlurView.BottomNavigation", "1.0.5-Beta02")
+    coordinates("com.qmdeve", "QmBlurView.BottomNavigation", "1.0.5-Beta01")
 
     pom {
         name = 'QmBlurView BottomNavigation'
@@ -67,13 +67,13 @@ mavenPublishing {
             connection = 'scm:git:github.com/QmDeve/QmBlurView.git'
             developerConnection = 'scm:git:ssh://github.com/QmDeve/QmBlurView.git'
             url = 'https://github.com/QmDeve/QmBlurView'
-            tag = 'v1.0.5-Beta02'
+            tag = 'v1.0.5-Beta01'
         }
 
         properties = [
                 'project.icon': 'https://github.com/QmDeve/QmBlurView/raw/main/logo.png',
                 'project.logo': 'https://github.com/QmDeve/QmBlurView/raw/main/logo.png',
-                'project.documentationUrl': 'https://blur-docs.qmdeve.com'
+                'project.documentationUrl': 'https://blur.docs.qmdeve.com'
         ]
     }
 

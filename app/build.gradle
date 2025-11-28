@@ -11,7 +11,7 @@ android {
         minSdk { version = release(21) }
         targetSdk { version = release(36) }
         versionCode 3
-        versionName "1.0.5-Beta02"
+        versionName "1.0.5-Beta01"
     }
 
     buildTypes {
@@ -31,7 +31,6 @@ android {
 dependencies {
     implementation project(':QmBlurView')
     implementation project(':ButtomNavigation')
-    implementation project(':Transform')
     implementation libs.appcompat
     implementation libs.constraintlayout
 }
