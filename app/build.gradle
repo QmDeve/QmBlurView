@@ -11,7 +11,7 @@ android {
         minSdk { version = release(21) }
         targetSdk { version = release(36) }
         versionCode 3
-        versionName "1.0.4.7"
+        versionName "1.0.5-Beta01"
     }
 
     buildTypes {

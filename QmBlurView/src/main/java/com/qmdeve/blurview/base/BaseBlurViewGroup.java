@@ -22,6 +22,7 @@ import com.qmdeve.blurview.util.Utils;
 public class BaseBlurViewGroup {
     private int mOverlayColor;
     private float mBlurRadius;
+    private float mDownsampleFactor = 0f;
     private final Blur mBlur;
     private boolean mDirty = true;
     private Bitmap mBitmapToBlur, mBlurredBitmap;
@@ -50,12 +51,24 @@ public class BaseBlurViewGroup {
         );
         mOverlayColor = a.getColor(R.styleable.BlurView_overlayColor, 0xAAFFFFFF);
         mCornerRadius = a.getDimension(R.styleable.BlurView_cornerRadius, 0);
+        mDownsampleFactor = a.getFloat(R.styleable.BlurView_downsampleFactor, 0f);
         a.recycle();
     }
 
     public void setBlurRadius(float radius) {
         if (mBlurRadius != radius && radius >= 0) {
             mBlurRadius = radius;
+            mDirty = true;
+            mForceRedraw = true;
+            if (mHostView != null) {
+                mHostView.invalidate();
+            }
+        }
+    }
+
+    public void setDownsampleFactor(float factor) {
+        if (mDownsampleFactor != factor && factor >= 0) {
+            mDownsampleFactor = factor;
             mDirty = true;
             mForceRedraw = true;
             if (mHostView != null) {
@@ -119,9 +132,10 @@ public class BaseBlurViewGroup {
             return false;
         }
 
-        float downsampleFactor = 2.52f;
+        float downsampleFactor = mDownsampleFactor > 0 ? mDownsampleFactor : 2.52f;
         float radius = mBlurRadius / downsampleFactor;
-        if (radius > 25) {
+        
+        if (mDownsampleFactor <= 0 && radius > 25) {
             downsampleFactor *= radius / 25;
             radius = 25;
         }
@@ -207,6 +221,7 @@ public class BaseBlurViewGroup {
 
         int saveCount = mBlurringCanvas.save();
         mIsRendering = true;
+        Utils.sIsGlobalCapturing = true;
         try {
             float scaleX = 1f * mBitmapToBlur.getWidth() / width;
             float scaleY = 1f * mBitmapToBlur.getHeight() / height;
@@ -237,6 +252,7 @@ public class BaseBlurViewGroup {
             }
         } finally {
             mIsRendering = false;
+            Utils.sIsGlobalCapturing = false;
             mBlurringCanvas.restoreToCount(saveCount);
         }
 

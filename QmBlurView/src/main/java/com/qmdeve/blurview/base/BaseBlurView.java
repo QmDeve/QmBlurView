@@ -34,6 +34,7 @@ public abstract class BaseBlurView extends View {
 
     protected int mOverlayColor;
     protected float mBlurRadius;
+    protected float mDownsampleFactor = 0f;
     protected final Blur mBlur;
     protected boolean mDirty = true;
     protected Bitmap mBitmapToBlur;
@@ -230,6 +231,15 @@ public abstract class BaseBlurView extends View {
         }
     }
 
+    public void setDownsampleFactor(float factor) {
+        if (mDownsampleFactor != factor && factor >= 0) {
+            mDownsampleFactor = factor;
+            mDirty = true;
+            mForceRedraw = true;
+            invalidate();
+        }
+    }
+
     public void setOverlayColor(int color) {
         if (mOverlayColor != color) {
             mOverlayColor = color;
@@ -244,6 +254,10 @@ public abstract class BaseBlurView extends View {
             mForceRedraw = true;
             invalidate();
         }
+    }
+
+    public float getCornerRadius() {
+        return mCornerRadius;
     }
 
     public Bitmap getBlurredBitmap() {
@@ -277,9 +291,10 @@ public abstract class BaseBlurView extends View {
             return false;
         }
 
-        float downsampleFactor = 2.52f;
+        float downsampleFactor = mDownsampleFactor > 0 ? mDownsampleFactor : 2.52f;
         float radius = mBlurRadius / downsampleFactor;
-        if (radius > 25) {
+        
+        if (mDownsampleFactor <= 0 && radius > 25) {
             downsampleFactor *= radius / 25;
             radius = 25;
         }
@@ -364,6 +379,7 @@ public abstract class BaseBlurView extends View {
 
         int saveCount = mBlurringCanvas.save();
         mIsRendering = true;
+        Utils.sIsGlobalCapturing = true;
         try {
             float scaleX = 1f * mBitmapToBlur.getWidth() / getWidth();
             float scaleY = 1f * mBitmapToBlur.getHeight() / getHeight();
@@ -397,6 +413,7 @@ public abstract class BaseBlurView extends View {
             drawSurfaceViews(mDecorView, mBlurringCanvas);
         } finally {
             mIsRendering = false;
+            Utils.sIsGlobalCapturing = false;
             mBlurringCanvas.restoreToCount(saveCount);
         }
 
@@ -465,6 +482,9 @@ public abstract class BaseBlurView extends View {
     }
 
     public void drawBlurredBitmap(Canvas canvas) {
+        if (Utils.sIsGlobalCapturing && !mIsRendering) {
+            return;
+        }
         if (mBlurredBitmap != null) {
             mRectSrc.set(0, 0, mBlurredBitmap.getWidth(), mBlurredBitmap.getHeight());
             mRectDst.set(0, 0, getWidth(), getHeight());

@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 
 import com.qmdeve.blurview.base.BaseBlurViewGroup;
+import com.qmdeve.blurview.util.Utils;
 
 public class BlurViewGroup extends ViewGroup {
 
@@ -28,6 +29,10 @@ public class BlurViewGroup extends ViewGroup {
 
     public void setBlurRadius(float radius) {
         mBaseBlurViewGroup.setBlurRadius(radius);
+    }
+
+    public void setDownsampleFactor(float factor) {
+        mBaseBlurViewGroup.setDownsampleFactor(factor);
     }
 
     public void setOverlayColor(int color) {
@@ -69,9 +74,14 @@ public class BlurViewGroup extends ViewGroup {
 
     @Override
     protected void dispatchDraw(@NonNull Canvas canvas) {
-        if (!isInEditMode()) {
+        boolean shouldDrawBlur = true;
+        if (Utils.sIsGlobalCapturing && !mBaseBlurViewGroup.isRendering()) {
+            shouldDrawBlur = false;
+        }
+
+        if (!isInEditMode() && shouldDrawBlur) {
             mBaseBlurViewGroup.drawBlurredBitmap(canvas, getWidth(), getHeight());
-        } else {
+        } else if (isInEditMode()) {
             mBaseBlurViewGroup.drawPreviewBackground(canvas, getWidth(), getHeight());
         }
 
