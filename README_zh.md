@@ -14,7 +14,7 @@
   [![Telegram](https://img.shields.io/badge/Telegram%20Group-QmDeves-blue.svg?logo=telegram)](https://t.me/QmDeves)
   [![QQ Group](https://img.shields.io/badge/QQ%20Group-1046829337-blue.svg?logo=qq)](https://qm.qq.com/q/OEVn8ZslMq)
 
-  <img src="https://img.shields.io/badge/License-Apache%202.0-blue.svg" alt="Apache"/>
+  <img src="https://img.shields.io/badge/License-MIT-blue.svg" alt="MIT"/>
   <img src="https://img.shields.io/badge/Android-5.0%2B-brightgreen.svg" alt="Android 5"/>
   <img src="https://img.shields.io/maven-central/v/com.qmdeve/QmBlurView?label=Maven%20Central%20Latest%20Version" alt="maven"/>
 
