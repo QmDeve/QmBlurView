@@ -95,7 +95,7 @@ implementation 'com.qmdeve:QmBlurView.BottomNavigation:<Version>'
 ```
 
 ## 如何使用
-**请查看文档：[https://blur.docs.qmdeve.com](https://blur.docs.qmdeve.com/zh/)**
+**请查看文档：[https://blur-docs.qmdeve.com](https://blur-docs.qmdeve.com/zh/)**
 
 ---
 

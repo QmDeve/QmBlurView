@@ -90,7 +90,7 @@ implementation 'com.qmdeve:QmBlurView.BottomNavigation:<Version>'
 ```
 
 ## Comment utiliser
-**Veuillez vérifier le document: [https://blur.docs.qmdeve.com](https://blur.docs.qmdeve.com/zh/)**
+**Veuillez vérifier le document: [https://blur-docs.qmdeve.com](https://blur-docs.qmdeve.com/fr/)**
 
 ---
 
