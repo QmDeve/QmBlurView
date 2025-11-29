@@ -87,6 +87,12 @@ implementation 'com.qmdeve:QmBlurView:<Version>'
 
 // BottomNavigationView зависимости
 implementation 'com.qmdeve:QmBlurView.BottomNavigation:<Version>'
+
+// BottomNavigationView Dependencies (v1.0.4.5-Beta02 and above)
+implementation 'com.qmdeve:QmBlurView.BottomNavigation:<Version>'
+
+// Transform Dependencies (v1.0.5-Beta02 and above)
+implementation 'com.qmdeve:QmBlurView.Transform:<Version>'
 ```
 
 ## Как использовать

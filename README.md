@@ -85,8 +85,11 @@ English | [Français](./README_fr.md) | [简体中文](./README_zh.md) | [Рус
 // QmBlurView Core Dependencies
 implementation 'com.qmdeve:QmBlurView:<Version>'
 
-// BottomNavigationView Dependencies
+// BottomNavigationView Dependencies (v1.0.4.5-Beta02 and above)
 implementation 'com.qmdeve:QmBlurView.BottomNavigation:<Version>'
+
+// Transform Dependencies (v1.0.5-Beta02 and above)
+implementation 'com.qmdeve:QmBlurView.Transform:<Version>'
 ```
 
 ## Quick use

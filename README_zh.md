@@ -90,8 +90,11 @@
 // 核心依赖项
 implementation 'com.qmdeve:QmBlurView:<Version>'
 
-// BottomNavigationView 依赖项
+// BottomNavigationView 依赖项 (v1.0.4.5-Beta02及以上)
 implementation 'com.qmdeve:QmBlurView.BottomNavigation:<Version>'
+
+// Transform 依赖项 (v1.0.5-Beta02及以上)
+implementation 'com.qmdeve:QmBlurView.Transform:<Version>'
 ```
 
 ## 如何使用
