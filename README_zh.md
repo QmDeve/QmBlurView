@@ -1,132 +1,189 @@
+# QmBlurView
+
 <div align="center">
 
-<img src="https://socialify.git.ci/QmDeve/QmBlurView/image?description=1&font=Inter&name=1&owner=1&pattern=Floating+Cogs&theme=Light" alt="GitHub" width="100%"/>
+<img src="https://socialify.git.ci/QmDeve/QmBlurView/image?description=1&font=Inter&name=1&owner=1&pattern=Floating+Cogs&theme=Light" alt="QmBlurView" width="100%"/>
 
-## Android UI 高斯模糊组件库
+<br>
 
-  <br>
+[![GitHub](https://img.shields.io/badge/GitHub-Repository-black?logo=github)](https://GitHub.com/QmDeve/QmBlurView/)
+[![GitLab](https://img.shields.io/badge/GitLab-Repository-orange?logo=gitlab)](https://gitlab.com/QmDeve/QmBlurView)
+[![Telegram](https://img.shields.io/badge/Telegram%20Group-QmDeves-blue.svg?logo=telegram)](https://t.me/QmDeves)
+[![License](https://img.shields.io/badge/License-MIT-blue.svg)](https://github.com/QmDeve/QmBlurView/blob/master/LICENSE)
+[![Android](https://img.shields.io/badge/Android-5.0%2B-brightgreen.svg)](https://developer.android.com)
+[![Maven Central](https://img.shields.io/maven-central/v/com.qmdeve/QmBlurView?label=Maven%20Central)](https://central.sonatype.com/artifact/com.qmdeve/QmBlurView)
 
-  [![GitHub](https://img.shields.io/badge/GitHub-Repository-black?logo=github)](https://GitHub.com/QmDeve/QmBlurView/)
-  [![GitLab](https://img.shields.io/badge/GitLab-Repository-orange?logo=gitlab)](https://gitlab.com/QmDeve/QmBlurView)
-  [![Gitee](https://img.shields.io/badge/Gitee-Repository-red?logo=gitee)](https://gitee.com/QmDeve/QmBlurView)
-  [![GitCode](https://img.shields.io/badge/GitCode-Repository-blue?logo=gitcode)](https://gitcode.com/QmDeve/QmBlurView)
+<br>
 
-  [![Telegram](https://img.shields.io/badge/Telegram%20Group-QmDeves-blue.svg?logo=telegram)](https://t.me/QmDeves)
-  [![QQ Group](https://img.shields.io/badge/QQ%20Group-1046829337-blue.svg?logo=qq)](https://qm.qq.com/q/OEVn8ZslMq)
-
-  <img src="https://img.shields.io/badge/License-MIT-blue.svg" alt="MIT"/>
-  <img src="https://img.shields.io/badge/Android-5.0%2B-brightgreen.svg" alt="Android 5"/>
-  <img src="https://img.shields.io/maven-central/v/com.qmdeve/QmBlurView?label=Maven%20Central%20Latest%20Version" alt="maven"/>
-
-  <br>
-  <br>
-
-[English](./README.md) | [Français](./README_fr.md) | 简体中文 | | [Русский](./README_ru.md)
+[English](./README.md) | [Français](./README_fr.md) | 简体中文 | [Русский](./README_ru.md)
 
 </div>
 
 ---
 
-> **Note: 其他存储库**
+> **注意：镜像仓库**
 >
-> 该项目在多个平台上维护，以方便不同地区的开发人员使用。所有仓库的内容都应保持一致
-> - **主存储库**：[GitHub](https://github.com/QmDeve/QmBlurView)
-> - **其他存储库**：
->   - [GitLab](https://gitlab.com/QmDeve/QmBlurView)
->   - [Gitee](https://gitee.com/QmDeve/QmBlurView)
->   - [GitCode](https://gitcode.com/QmDeve/QmBlurView)
+> 本项目在多个平台进行维护。所有仓库的内容保持一致。
+> - **主仓库**：[GitHub](https://github.com/QmDeve/QmBlurView)
+> - **镜像**：[GitLab](https://gitlab.com/QmDeve/QmBlurView)
 
 ---
+
+## 简介
+
+**QmBlurView** 是一个高性能的 Android UI 库，提供实时、动态的模糊效果（毛玻璃）。它利用原生 C++ 代码进行高效的图像处理，并提供了一整套模糊 UI 组件来增强您的应用设计。
 
 ## 特性
-- **View**
-  - `BlurView` - 通用模糊视图
-  - `BlurViewGroup`
-  - `BlurButtonView` - 模糊按钮视图
-  - `ProgressiveBlurView` - 渐进模糊视图
-  - `BlurTitlebarView` - 模糊标题栏视图
-  - `BlurSwitchButtonView` - 模糊切换按钮视图
-  - `BlurFloatingButtonView` - 模糊悬浮按钮视图
-  - `BlurBottomNavigationView` - 模糊底部导航栏视图
-- **最低支持 Android 5.0**
-- **高性能**：底层调用 `Native` 实现的原生模糊算法
-- **自动回收机制**：防止内存泄漏
 
----
+- **高性能**：使用 C/C++ 实现的原生模糊算法，确保最大的速度和流畅度。
+- **实时模糊**：随着背景内容的变化自动更新模糊效果。
+- **丰富的组件库**：
+  - `BlurView`：适用于任何布局的可定制容器。
+  - `BlurButtonView`：具有毛玻璃效果的按钮。
+  - `BlurBottomNavigationView`：时尚的模糊底部导航栏。
+  - `BlurTitlebarView`、`BlurSwitchButtonView`、`BlurFloatingButtonView` 和 `ProgressiveBlurView`。
+- **图片加载支持**：内置针对 **Glide** 和 **Picasso** 的变换支持。
+- **易于集成**：简单的 XML 属性和 Java/Kotlin API。
+- **广泛兼容**：支持 Android 5.0 (API 21) 及以上版本。
 
-## 预览
-### BlurView
-<img src="./img/blurview.jpg" alt="Stars"/>
+## 安装
 
-### BlurButtonView
-<img src="./img/blurButton.jpg" alt="Stars"/>
+在模块的 `build.gradle` 文件中添加依赖项：
 
-### ProgressiveBlurView
-<img src="./img/progressiveBlurView.jpg" alt="Stars"/>
-
-### BlurTitleBarView
-<img src="./img/blurTitlebarView.jpg" alt="Stars"/>
-
-### BlurSwitchButtonView
-<img src="./img/blurSwitchButton_false.jpg" alt="Stars"/>
-<img src="./img/blurSwitchButton_true.jpg" alt="Stars"/>
-
-### BlurFloatingButtonView
-<img src="./img/blurFloatingButton.jpg" alt="Stars"/>
-
-### BlurBottomNavigationView
-<img src="./img/blurBottomNavigation.jpg" alt="Stars"/>
-
-## Demo 体验
-**[下载 Demo](./app/release/app-release.apk?raw=true)**
-
-# 开始使用
-### 快速集成
-
-<img src="https://img.shields.io/maven-central/v/com.qmdeve/QmBlurView?label=Maven%20Central%20Latest%20Version" alt="maven"/>
-
-**在 `build.gradle` 文件的 `dependencies{}` 块中添加依赖项**
 ```gradle
-// 核心依赖项
-implementation 'com.qmdeve:QmBlurView:<Version>'
+dependencies {
+    // 核心库（必需）
+    implementation 'com.qmdeve:QmBlurView:1.0.5-Beta03'
 
-// BottomNavigationView 依赖项 (v1.0.4.5-Beta02及以上)
-implementation 'com.qmdeve:QmBlurView.BottomNavigation:<Version>'
+    // 底部导航支持（可选）
+    implementation 'com.qmdeve:QmBlurView.BottomNavigation:1.0.5-Beta03'
 
-// Transform 依赖项 (v1.0.5-Beta02及以上)
-implementation 'com.qmdeve:QmBlurView.Transform:<Version>'
+    // 图片加载变换（可选 - Glide/Picasso）
+    implementation 'com.qmdeve:QmBlurView.Transform:1.0.5-Beta03'
+}
 ```
 
-## 如何使用
-**请查看文档：[https://blur-docs.qmdeve.com](https://blur-docs.qmdeve.com/zh/)**
+*查看上方的徽章以获取最新版本。*
 
----
+## 使用方法
 
-## Star History
+### 1. 基础 BlurView
+
+使用 `BlurView` 模糊 UI 的任何部分。当放置在其他内容之上（例如在 `FrameLayout` 或 `RelativeLayout` 中）时效果最佳。
+
+**XML:**
+```xml
+<com.qmdeve.blurview.widget.BlurView
+    android:id="@+id/blurView"
+    android:layout_width="200dp"
+    android:layout_height="200dp"
+    app:blurRadius="25dp"
+    app:cornerRadius="15dp"
+    app:overlayColor="#80FFFFFF"
+    android:layout_centerInParent="true" />
+```
+
+**Java:**
+```java
+BlurView blurView = findViewById(R.id.blurView);
+blurView.setBlurRadius(25);
+blurView.setCornerRadius(15);
+blurView.setOverlayColor(Color.parseColor("#80FFFFFF"));
+```
+
+### 2. BlurButtonView
+
+具有模糊背景的可定制按钮。
+
+**XML:**
+```xml
+<com.qmdeve.blurview.widget.BlurButtonView
+    android:id="@+id/blurButton"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:text="Blur Button"
+    app:blurRadius="12dp"
+    app:buttonCornerRadius="12dp"
+    app:overlayColor="#80FFFFFF"
+    app:buttonIconSize="24dp"
+    app:buttonTextBold="true" />
+```
+
+### 3. BlurBottomNavigationView
+
+内置模糊效果的底部导航栏。
+
+**XML:**
+```xml
+<com.qmdeve.blurview.widget.BlurBottomNavigationView
+    android:id="@+id/bottomNav"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    app:menu="@menu/bottom_nav_menu"
+    app:navOverlayColor="#AAFFFFFF"
+    app:navSelectedColor="#0161F2"
+    app:navUnselectedColor="#000000"
+    android:layout_alignParentBottom="true" />
+```
+
+### 4. 图片加载变换
+
+直接对使用 Glide 或 Picasso 加载的图片应用模糊。
+
+**Glide:**
+```java
+Glide.with(context)
+    .load(imageUrl)
+    .transform(new com.qmdeve.blurview.transform.glide.BlurTransformation(context, 25, 1)) // 半径, 采样
+    .into(imageView);
+```
+
+**Picasso:**
+```java
+Picasso.get()
+    .load(imageUrl)
+    .transform(new com.qmdeve.blurview.transform.picasso.BlurTransformation(context, 25))
+    .into(imageView);
+```
+
+## 常用属性
+
+| 属性 | 描述 |
+|---|---|
+| `app:blurRadius` | 模糊效果的半径（值越大越模糊）。 |
+| `app:overlayColor` | 绘制在模糊图像之上的覆盖颜色。 |
+| `app:cornerRadius` | 视图背景的圆角半径。 |
+| `app:downsampleFactor` | 用于性能优化的降采样因子。 |
+
+## 截图
+
+| BlurView | BlurButtonView | ProgressiveBlurView |
+|:---:|:---:|:---:|
+| <img src="./img/blurview.jpg" width="250"/> | <img src="./img/blurButton.jpg" width="250"/> | <img src="./img/progressiveBlurView.jpg" width="250"/> |
+
+| BlurTitleBarView | BlurSwitchButtonView | BlurBottomNavigationView |
+|:---:|:---:|:---:|
+| <img src="./img/blurTitlebarView.jpg" width="250"/> | <img src="./img/blurSwitchButton_true.jpg" width="250"/> | <img src="./img/blurBottomNavigation.jpg" width="250"/> |
+
+## Star 历史
+
 [![Star History](https://starchart.qmdeve.com/QmDeve/QmBlurView.svg?variant=adaptive)](https://starchart.qmdeve.com/QmDeve/QmBlurView)
 
----
-
 ## 贡献者
+
 <a href="https://github.com/QmDeve/QmBlurView/graphs/contributors">
   <img src="https://contrib.rocks/image?repo=QmDeve/QmBlurView" alt="Contributors"/>
 </a>
 
-## 我的开源项目
- - **[AndroidLiquidGlassView](https://github.com/QmDeve/AndroidLiquidGlassView)**
- - **[QmReflection](https://github.com/QmDeve/QmReflection)**
- - **[Qm Authenticator for Android](https://github.com/Rouneant/Qm-Authenticator-for-Android)**
+## 其他项目
 
----
+- **[AndroidLiquidGlassView](https://github.com/QmDeve/AndroidLiquidGlassView)**
+- **[QmReflection](https://github.com/QmDeve/QmReflection)**
+- **[Qm Authenticator for Android](https://github.com/Rouneant/Qm-Authenticator-for-Android)**
 
-## 赞助我们
+## 许可证
 
-**如果您觉得我们的项目对您有帮助，欢迎通过以下方式赞助支持：**
-
-![赞助二维码](https://youke1.picui.cn/s1/2025/11/04/6909d2ae165f0.png)
-
-## License
-```
+```text
 Copyright ©️ 2025 QmDeve
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
