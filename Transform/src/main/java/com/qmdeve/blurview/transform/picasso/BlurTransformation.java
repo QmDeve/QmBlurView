@@ -12,14 +12,21 @@ import com.qmdeve.blurview.BlurNative;
 import com.squareup.picasso.Transformation;
 
 public class BlurTransformation implements Transformation {
+    private static final BlurNative BLUR_NATIVE = new BlurNative();
     private final float blurRadius;
     private final float roundedCorners;
-    private final BlurNative blurNative;
+
+    public BlurTransformation() {
+        this(25f, 0f);
+    }
+
+    public BlurTransformation(float blurRadius) {
+        this(blurRadius, 0f);
+    }
 
     public BlurTransformation(float blurRadius, float roundedCorners) {
         this.blurRadius = blurRadius;
         this.roundedCorners = roundedCorners;
-        this.blurNative = new BlurNative();
     }
 
     @NonNull
@@ -45,8 +52,8 @@ public class BlurTransformation implements Transformation {
         Bitmap blurred = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
 
         try {
-            if (blurNative.prepare(blurred, blurRadius)) {
-                blurNative.blur(source, blurred);
+            if (BLUR_NATIVE.prepare(blurred, blurRadius)) {
+                BLUR_NATIVE.blur(source, blurred);
             } else {
                 blurred.recycle();
                 return source;

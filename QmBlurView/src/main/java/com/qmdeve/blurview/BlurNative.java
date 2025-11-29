@@ -47,7 +47,6 @@ public class BlurNative implements Blur {
     @Override
     public void release() {
         // Shared executor, do not shutdown
-        // But we can clear any thread-local resources if needed
     }
 
     @Override
@@ -59,14 +58,17 @@ public class BlurNative implements Blur {
 
         try {
             if (input != output) {
-                // Clear the output bitmap first
+                // Clear the output bitmap to ensure no previous content remains
+                // This is important when bitmaps are reused from pools
                 output.eraseColor(0);
                 new Canvas(output).drawBitmap(input, 0, 0, null);
             }
             doBlurRound(output, 1);
             doBlurRound(output, 2);
         } catch (Exception e) {
-            if (isDebug(null)) e.printStackTrace();
+            // Only print stack trace if debug mode is enabled
+            // Note: DEBUG may be null if Context was never provided
+            if (Boolean.TRUE.equals(DEBUG)) e.printStackTrace();
         } finally {
             isBlurring.set(false);
         }
@@ -82,7 +84,9 @@ public class BlurNative implements Blur {
                 try {
                     blur(bitmap, r, THREAD_COUNT, index, round);
                 } catch (Exception e) {
-                    if (isDebug(null)) e.printStackTrace();
+                    // Only print stack trace if debug mode is enabled
+                    // Note: DEBUG may be null if Context was never provided
+                    if (Boolean.TRUE.equals(DEBUG)) e.printStackTrace();
                 } finally {
                     latch.countDown();
                 }

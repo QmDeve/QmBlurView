@@ -18,9 +18,9 @@ public class BlurTransformation extends BitmapTransformation {
 
     private static final String ID = "com.qmdeve.blurview.transform.glide.BlurTransformation";
     private static final byte[] ID_BYTES = ID.getBytes(CHARSET);
+    private static final BlurNative BLUR_NATIVE = new BlurNative();
     private final float blurRadius;
     private final float roundedCorners;
-    private final BlurNative blurNative;
 
     public BlurTransformation() {
         this(25f, 0f);
@@ -33,7 +33,6 @@ public class BlurTransformation extends BitmapTransformation {
     public BlurTransformation(float blurRadius, float roundedCorners) {
         this.blurRadius = blurRadius;
         this.roundedCorners = roundedCorners;
-        this.blurNative = new BlurNative();
     }
 
     @Override
@@ -48,12 +47,15 @@ public class BlurTransformation extends BitmapTransformation {
         // Get a bitmap from the pool to reuse memory
         Bitmap.Config config = getSafeConfig(toTransform);
         Bitmap blurred = pool.get(width, height, config);
+        if (blurred == null) {
+            blurred = Bitmap.createBitmap(width, height, config);
+        }
 
         boolean blurSuccess = false;
         try {
             // Prepare and apply blur
-            if (blurNative.prepare(blurred, blurRadius)) {
-                blurNative.blur(toTransform, blurred);
+            if (BLUR_NATIVE.prepare(blurred, blurRadius)) {
+                BLUR_NATIVE.blur(toTransform, blurred);
                 blurSuccess = true;
             }
         } catch (Exception e) {
