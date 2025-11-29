@@ -4,6 +4,8 @@ annotationJvm = "1.9.1"
 appcompat = "1.7.1"
 constraintlayout = "2.2.1"
 core = "1.17.0"
+glide = "5.0.5"
+picasso = "2.8"
 viewpager = "1.1.0"
 
 [libraries]
@@ -11,6 +13,8 @@ annotation-jvm = { module = "androidx.annotation:annotation-jvm", version.ref = 
 appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "appcompat" }
 constraintlayout = { module = "androidx.constraintlayout:constraintlayout", version.ref = "constraintlayout" }
 core = { module = "androidx.core:core", version.ref = "core" }
+glide = { module = "com.github.bumptech.glide:glide", version.ref = "glide" }
+picasso = { module = "com.squareup.picasso:picasso", version.ref = "picasso" }
 viewpager = { module = "androidx.viewpager:viewpager", version.ref = "viewpager" }
 viewpager2 = { module = "androidx.viewpager2:viewpager2", version.ref = "viewpager" }
 

@@ -10,7 +10,6 @@ android {
 
     defaultConfig {
         minSdk { version = release(21) }
-        consumerProguardFiles "consumer-rules.pro"
 
         externalNativeBuild {
             cmake {
@@ -55,7 +54,7 @@ dependencies {
 }
 
 mavenPublishing {
-    coordinates("com.qmdeve", "QmBlurView", "1.0.5-Beta01")
+    coordinates(GROUP_NAME, ARTIFACT_NAME, QMBLURVIEW_VERSION)
 
     pom {
         name = 'QmBlurView Library'
@@ -97,7 +96,7 @@ mavenPublishing {
             connection = 'scm:git:github.com/QmDeve/QmBlurView.git'
             developerConnection = 'scm:git:ssh://github.com/QmDeve/QmBlurView.git'
             url = 'https://github.com/QmDeve/QmBlurView'
-            tag = 'v1.0.5-Beta01'
+            tag = "v${QMBLURVIEW_VERSION}"
         }
 
         properties = [

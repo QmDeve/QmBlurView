@@ -5,7 +5,7 @@ plugins {
 }
 
 android {
-    namespace 'com.qmdeve.blurview.bottomnavigation'
+    namespace 'com.qmdeve.blurview.transform'
     compileSdk { version = release(36) }
 
     defaultConfig {
@@ -27,15 +27,16 @@ android {
 
 dependencies {
     implementation project(':QmBlurView')
-    implementation libs.viewpager
-    implementation libs.viewpager2
+    implementation libs.annotation.jvm
+    implementation libs.glide
+    implementation libs.picasso
 }
 
 mavenPublishing {
-    coordinates(GROUP_NAME, BOTTOMNAVIGATION_ARTIFACT_NAME, QMBLURVIEW_VERSION)
+    coordinates(GROUP_NAME, TRANSFORM_ARTIFACT_NAME, QMBLURVIEW_VERSION)
 
     pom {
-        name = 'QmBlurView BottomNavigation'
+        name = 'QmBlurView Transform'
         description = 'QmBlurView is an Android UI component library that integrates a variety of blur effects, including BlurView, BlurButtonView, ProgressiveBlurView, BlurTitleBarView, BottomNavigationView, BlurSwitchButtonView, and BlurFloatingButtonView'
         url = 'https://github.com/QmDeve/QmBlurView'
         inceptionYear = '2025'
@@ -71,8 +72,8 @@ mavenPublishing {
         }
 
         properties = [
-                'project.icon': 'https://github.com/QmDeve/QmBlurView/raw/main/logo.png',
-                'project.logo': 'https://github.com/QmDeve/QmBlurView/raw/main/logo.png',
+                'project.icon'            : 'https://github.com/QmDeve/QmBlurView/raw/main/logo.png',
+                'project.logo'            : 'https://github.com/QmDeve/QmBlurView/raw/main/logo.png',
                 'project.documentationUrl': 'https://blur-docs.qmdeve.com'
         ]
     }
