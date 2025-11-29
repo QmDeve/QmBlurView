@@ -26,6 +26,10 @@ public class SurfaceViewActivity extends AppCompatActivity implements SurfaceHol
         Utils.transparentNavigationBar(getWindow());
 
         mSurfaceView = findViewById(R.id.surfaceView);
+
+        // NOTE: No need to call setZOrderMediaOverlay(true) manually!
+        // BlurView automatically detects and configures SurfaceView for proper blur rendering
+
         mSurfaceView.getHolder().addCallback(this);
     }
 

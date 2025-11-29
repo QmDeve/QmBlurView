@@ -26,7 +26,9 @@ import com.qmdeve.blurview.Blur;
 import com.qmdeve.blurview.BlurNative;
 import com.qmdeve.blurview.util.Utils;
 
+import java.util.Collections;
 import java.util.Map;
+import java.util.Set;
 import java.util.WeakHashMap;
 
 public abstract class BaseBlurView extends View {
@@ -52,10 +54,12 @@ public abstract class BaseBlurView extends View {
 
     private final Map<SurfaceView, Bitmap> mSurfaceViewBitmaps = new WeakHashMap<>();
     private final Map<SurfaceView, Boolean> mPendingPixelCopies = new WeakHashMap<>();
+    private final Set<SurfaceView> mConfiguredSurfaceViews = Collections.newSetFromMap(new WeakHashMap<>());
     private final Handler mHandler = new Handler(Looper.getMainLooper());
 
     private boolean mFirstDraw = true;
     private boolean mForceRedraw = false;
+    private boolean mSurfaceViewWarningLogged = false;
 
     public BaseBlurView(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -173,6 +177,30 @@ public abstract class BaseBlurView extends View {
         if (view instanceof SurfaceView) {
             SurfaceView surfaceView = (SurfaceView) view;
             if (surfaceView.getVisibility() == View.VISIBLE) {
+                // Automatically configure SurfaceView for proper z-ordering
+                if (!mConfiguredSurfaceViews.contains(surfaceView)) {
+                    try {
+                        surfaceView.setZOrderMediaOverlay(true);
+                        Log.i(TAG, "Automatically configured SurfaceView with setZOrderMediaOverlay(true) for proper blur rendering");
+                        mConfiguredSurfaceViews.add(surfaceView);
+                    } catch (Exception e) {
+                        Log.e(TAG, "Failed to auto-configure SurfaceView: " + e.getMessage());
+                    }
+                }
+
+                // Log helpful warning if SurfaceView blur might not work properly
+                if (!mSurfaceViewWarningLogged) {
+                    if (Build.VERSION.SDK_INT < Build.VERSION_CODES.N) {
+                        Log.w(TAG, "SurfaceView blur requires Android 7.0+ (API 24). " +
+                                "Current API level: " + Build.VERSION.SDK_INT + ". " +
+                                "SurfaceView content will NOT be blurred. Consider using TextureView instead.");
+                    } else {
+                        Log.i(TAG, "SurfaceView detected and automatically configured for blur. " +
+                                "Note: There may be a slight lag (1-2 frames) due to asynchronous PixelCopy.");
+                    }
+                    mSurfaceViewWarningLogged = true;
+                }
+
                 // Draw the last known bitmap if available
                 Bitmap cachedBitmap = mSurfaceViewBitmaps.get(surfaceView);
                 if (cachedBitmap != null && !cachedBitmap.isRecycled()) {
@@ -194,22 +222,41 @@ public abstract class BaseBlurView extends View {
                 // Request a new snapshot if not already pending
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N && !Boolean.TRUE.equals(mPendingPixelCopies.get(surfaceView))) {
                     if (surfaceView.getWidth() > 0 && surfaceView.getHeight() > 0) {
-                        final Bitmap bitmap = Bitmap.createBitmap(surfaceView.getWidth(), surfaceView.getHeight(), Bitmap.Config.ARGB_8888);
-                        mPendingPixelCopies.put(surfaceView, true);
-                        try {
-                            PixelCopy.request(surfaceView, bitmap, copyResult -> {
+                        // Check if surface is valid before requesting PixelCopy
+                        if (surfaceView.getHolder().getSurface() != null && surfaceView.getHolder().getSurface().isValid()) {
+                            final Bitmap bitmap = Bitmap.createBitmap(surfaceView.getWidth(), surfaceView.getHeight(), Bitmap.Config.ARGB_8888);
+                            mPendingPixelCopies.put(surfaceView, true);
+                            try {
+                                PixelCopy.request(surfaceView, bitmap, copyResult -> {
+                                    mPendingPixelCopies.put(surfaceView, false);
+                                    if (copyResult == PixelCopy.SUCCESS) {
+                                        Log.d(TAG, "PixelCopy success for SurfaceView");
+                                        Bitmap old = mSurfaceViewBitmaps.put(surfaceView, bitmap);
+                                        if (old != null) old.recycle(); // Recycle the old one
+                                        invalidate();
+                                    } else {
+                                        // Log all errors for debugging
+                                        Log.w(TAG, "PixelCopy failed. Result: " + copyResult);
+                                        
+                                        // Retry on common transient errors
+                                        // 1=ERROR_UNKNOWN, 2=ERROR_TIMEOUT, 3=ERROR_SOURCE_NO_DATA
+                                        if (copyResult == PixelCopy.ERROR_SOURCE_NO_DATA || 
+                                            copyResult == PixelCopy.ERROR_UNKNOWN || 
+                                            copyResult == PixelCopy.ERROR_TIMEOUT) {
+                                            postInvalidateDelayed(100);
+                                        }
+                                        bitmap.recycle();
+                                    }
+                                }, mHandler);
+                            } catch (IllegalArgumentException e) {
+                                Log.e(TAG, "PixelCopy request failed: " + e.getMessage() +
+                                        ". Make sure surfaceView.setZOrderMediaOverlay(true) is called.");
                                 mPendingPixelCopies.put(surfaceView, false);
-                                if (copyResult == PixelCopy.SUCCESS) {
-                                    Bitmap old = mSurfaceViewBitmaps.put(surfaceView, bitmap);
-                                    if (old != null) old.recycle(); // Recycle the old one
-                                    invalidate();
-                                } else {
-                                    bitmap.recycle();
-                                }
-                            }, mHandler);
-                        } catch (IllegalArgumentException e) {
-                            mPendingPixelCopies.put(surfaceView, false);
-                            bitmap.recycle();
+                                bitmap.recycle();
+                            }
+                        } else {
+                            // Surface not valid yet, try again later
+                            postInvalidateDelayed(100);
                         }
                     }
                 }

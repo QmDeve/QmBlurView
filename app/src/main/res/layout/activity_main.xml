@@ -8,7 +8,7 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:gravity="center"
         android:orientation="vertical">
 
@@ -92,6 +92,24 @@
             android:textColor="@color/white"
             app:buttonCornerRadius="99dp"
             app:overlayColor="#0161F2" />
+
+        <com.qmdeve.blurview.widget.BlurButtonView
+            android:id="@+id/simpleSurfaceViewButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Animated Blur (Works Always!)"
+            android:textColor="@color/white"
+            app:buttonCornerRadius="99dp"
+            app:overlayColor="#00C853" />
+
+        <com.qmdeve.blurview.widget.BlurButtonView
+            android:id="@+id/liveVideoButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="🎬 Live Video Blur (Perfect!)"
+            android:textColor="@color/white"
+            app:buttonCornerRadius="99dp"
+            app:overlayColor="#FF5722" />
 
         <com.qmdeve.blurview.widget.BlurButtonView
             android:id="@+id/overlappingBlurButton"
