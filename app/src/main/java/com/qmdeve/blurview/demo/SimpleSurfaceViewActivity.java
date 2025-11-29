@@ -12,7 +12,11 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.qmdeve.blurview.demo.util.Utils;
 
-public class SurfaceViewActivity extends AppCompatActivity implements SurfaceHolder.Callback {
+/**
+ * Simple animated SurfaceView demo (no video) to test blur functionality.
+ * This uses Canvas drawing instead of MediaPlayer to ensure it always works.
+ */
+public class SimpleSurfaceViewActivity extends AppCompatActivity implements SurfaceHolder.Callback {
 
     private SurfaceView mSurfaceView;
     private RenderThread mRenderThread;
@@ -20,16 +24,15 @@ public class SurfaceViewActivity extends AppCompatActivity implements SurfaceHol
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_surface_view);
+        setContentView(R.layout.activity_simple_surface_view);
 
         Utils.transparentStatusBar(getWindow());
         Utils.transparentNavigationBar(getWindow());
 
         mSurfaceView = findViewById(R.id.surfaceView);
 
-        // NOTE: No need to call setZOrderMediaOverlay(true) manually!
-        // BlurView automatically detects and configures SurfaceView for proper blur rendering
-
+        // Set z-order for proper blur rendering
+        mSurfaceView.setZOrderMediaOverlay(true);
         mSurfaceView.getHolder().addCallback(this);
     }
 
@@ -41,7 +44,7 @@ public class SurfaceViewActivity extends AppCompatActivity implements SurfaceHol
 
     @Override
     public void surfaceChanged(@NonNull SurfaceHolder holder, int format, int width, int height) {
-        // Handle size change if needed
+        // Handle size changes if needed
     }
 
     @Override
@@ -60,6 +63,7 @@ public class SurfaceViewActivity extends AppCompatActivity implements SurfaceHol
     private static class RenderThread extends Thread {
         private final SurfaceHolder mHolder;
         private volatile boolean mRunning = true;
+        private float hue = 0;
 
         public RenderThread(SurfaceHolder holder) {
             mHolder = holder;
@@ -88,30 +92,46 @@ public class SurfaceViewActivity extends AppCompatActivity implements SurfaceHol
             }
         }
 
-        private float x = 0;
-        private float y = 0;
-        private float dx = 10;
-        private float dy = 10;
-        private final Paint paint = new Paint();
-
         private void draw(Canvas canvas) {
-            canvas.drawColor(Color.DKGRAY);
-            paint.setColor(Color.GREEN); // Different color for SurfaceView demo
-            paint.setAntiAlias(true);
-
             int width = canvas.getWidth();
             int height = canvas.getHeight();
 
-            x += dx;
-            y += dy;
+            // Create animated gradient background
+            Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
 
-            if (x < 0 || x > width) dx = -dx;
-            if (y < 0 || y > height) dy = -dy;
+            // Animated color gradient
+            hue += 0.5f;
+            if (hue > 360) hue = 0;
 
-            canvas.drawCircle(x, y, 100, paint);
-            
-            paint.setColor(Color.MAGENTA);
-            canvas.drawRect(width / 2f - 100, height / 2f - 100, width / 2f + 100, height / 2f + 100, paint);
+            float[] hsv = {hue, 0.7f, 0.9f};
+            int color1 = Color.HSVToColor(hsv);
+            hsv[0] = (hue + 60) % 360;
+            int color2 = Color.HSVToColor(hsv);
+            hsv[0] = (hue + 120) % 360;
+            int color3 = Color.HSVToColor(hsv);
+
+            // Draw gradient rectangles
+            paint.setColor(color1);
+            canvas.drawRect(0, 0, width, height / 3f, paint);
+
+            paint.setColor(color2);
+            canvas.drawRect(0, height / 3f, width, 2 * height / 3f, paint);
+
+            paint.setColor(color3);
+            canvas.drawRect(0, 2 * height / 3f, width, height, paint);
+
+            // Draw animated circles
+            paint.setColor(Color.WHITE);
+            float time = System.currentTimeMillis() / 1000f;
+            float x = width / 2f + (float) Math.sin(time) * width / 4f;
+            float y = height / 2f + (float) Math.cos(time * 1.3f) * height / 4f;
+            canvas.drawCircle(x, y, 80, paint);
+
+            // Draw text
+            paint.setTextSize(60);
+            paint.setTextAlign(Paint.Align.CENTER);
+            paint.setShadowLayer(5, 2, 2, Color.BLACK);
+            canvas.drawText("Animated Content", width / 2f, height / 2f, paint);
         }
     }
 }

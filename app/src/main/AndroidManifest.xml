@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
 
+    <!-- Required for loading video from URL -->
+    <uses-permission android:name="android.permission.INTERNET" />
+
     <application
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
@@ -10,7 +13,8 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.AndroidBlurView">
+        android:theme="@style/Theme.AndroidBlurView"
+        android:usesCleartextTraffic="true">
         <activity
             android:name=".BlurBottomNavigationActivity"
             android:exported="false" />
@@ -37,6 +41,14 @@
             android:exported="false" />
         <activity
             android:name=".SurfaceViewActivity"
+            android:exported="false" />
+
+        <activity
+            android:name=".SimpleSurfaceViewActivity"
+            android:exported="false" />
+
+        <activity
+            android:name=".LiveVideoActivity"
             android:exported="false" />
 
         <activity
