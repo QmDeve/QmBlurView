@@ -56,6 +56,8 @@ public abstract class BaseBlurView extends View {
     private final Map<SurfaceView, Boolean> mPendingPixelCopies = new WeakHashMap<>();
     private final Set<SurfaceView> mConfiguredSurfaceViews = Collections.newSetFromMap(new WeakHashMap<>());
     private final Handler mHandler = new Handler(Looper.getMainLooper());
+    private android.os.HandlerThread mPixelCopyThread;
+    private Handler mPixelCopyHandler;
 
     private boolean mFirstDraw = true;
     private boolean mForceRedraw = false;
@@ -64,7 +66,16 @@ public abstract class BaseBlurView extends View {
     public BaseBlurView(Context context, AttributeSet attrs) {
         super(context, attrs);
         mBlur = new BlurNative();
+        initPixelCopyThread();
         initAttributes(context, attrs);
+    }
+
+    private void initPixelCopyThread() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            mPixelCopyThread = new android.os.HandlerThread("BlurViewPixelCopy");
+            mPixelCopyThread.start();
+            mPixelCopyHandler = new Handler(mPixelCopyThread.getLooper());
+        }
     }
 
     protected void initAttributes(Context context, AttributeSet attrs) {}
@@ -227,27 +238,29 @@ public abstract class BaseBlurView extends View {
                             final Bitmap bitmap = Bitmap.createBitmap(surfaceView.getWidth(), surfaceView.getHeight(), Bitmap.Config.ARGB_8888);
                             mPendingPixelCopies.put(surfaceView, true);
                             try {
+                                // Use dedicated handler for PixelCopy to avoid main thread contention
+                                Handler handler = mPixelCopyHandler != null ? mPixelCopyHandler : mHandler;
                                 PixelCopy.request(surfaceView, bitmap, copyResult -> {
-                                    mPendingPixelCopies.put(surfaceView, false);
-                                    if (copyResult == PixelCopy.SUCCESS) {
-                                        Log.d(TAG, "PixelCopy success for SurfaceView");
-                                        Bitmap old = mSurfaceViewBitmaps.put(surfaceView, bitmap);
-                                        if (old != null) old.recycle(); // Recycle the old one
-                                        invalidate();
-                                    } else {
-                                        // Log all errors for debugging
-                                        Log.w(TAG, "PixelCopy failed. Result: " + copyResult);
-                                        
-                                        // Retry on common transient errors
-                                        // 1=ERROR_UNKNOWN, 2=ERROR_TIMEOUT, 3=ERROR_SOURCE_NO_DATA
-                                        if (copyResult == PixelCopy.ERROR_SOURCE_NO_DATA || 
-                                            copyResult == PixelCopy.ERROR_UNKNOWN || 
-                                            copyResult == PixelCopy.ERROR_TIMEOUT) {
-                                            postInvalidateDelayed(100);
+                                    // Callback runs on handler thread, post to main thread for UI updates
+                                    mHandler.post(() -> {
+                                        mPendingPixelCopies.put(surfaceView, false);
+                                        if (copyResult == PixelCopy.SUCCESS) {
+                                            Bitmap old = mSurfaceViewBitmaps.put(surfaceView, bitmap);
+                                            if (old != null) old.recycle(); // Recycle the old one
+                                            invalidate();
+                                        } else {
+                                            Log.w(TAG, "PixelCopy failed. Result: " + copyResult);
+                                            
+                                            // Retry on common transient errors
+                                            if (copyResult == PixelCopy.ERROR_SOURCE_NO_DATA || 
+                                                copyResult == PixelCopy.ERROR_UNKNOWN || 
+                                                copyResult == PixelCopy.ERROR_TIMEOUT) {
+                                                postInvalidateDelayed(100);
+                                            }
+                                            bitmap.recycle();
                                         }
-                                        bitmap.recycle();
-                                    }
-                                }, mHandler);
+                                    });
+                                }, handler);
                             } catch (IllegalArgumentException e) {
                                 Log.e(TAG, "PixelCopy request failed: " + e.getMessage() +
                                         ". Make sure surfaceView.setZOrderMediaOverlay(true) is called.");
@@ -330,6 +343,11 @@ public abstract class BaseBlurView extends View {
     public void release() {
         releaseBitmap();
         mBlur.release();
+        if (mPixelCopyThread != null) {
+            mPixelCopyThread.quitSafely();
+            mPixelCopyThread = null;
+            mPixelCopyHandler = null;
+        }
     }
 
     protected boolean prepare() {
