@@ -8,10 +8,14 @@
 
 [![GitHub](https://img.shields.io/badge/GitHub-Repository-black?logo=github)](https://GitHub.com/QmDeve/QmBlurView/)
 [![GitLab](https://img.shields.io/badge/GitLab-Repository-orange?logo=gitlab)](https://gitlab.com/QmDeve/QmBlurView)
+
 [![Telegram](https://img.shields.io/badge/Telegram%20Group-QmDeves-blue.svg?logo=telegram)](https://t.me/QmDeves)
-[![License](https://img.shields.io/badge/License-MIT-blue.svg)](https://github.com/QmDeve/QmBlurView/blob/master/LICENSE)
+
+[![License](https://img.shields.io/github/license/QmDeve/QmBlurView.svg?logo=github&color=blue&label=License)](https://github.com/QmDeve/QmBlurView/blob/master/LICENSE)
 [![Android](https://img.shields.io/badge/Android-5.0%2B-brightgreen.svg)](https://developer.android.com)
+
 [![Maven Central](https://img.shields.io/maven-central/v/com.qmdeve/QmBlurView?label=Maven%20Central)](https://central.sonatype.com/artifact/com.qmdeve/QmBlurView)
+[![GitHub Release](https://img.shields.io/github/release/QmDeve/QmBlurView?label=GitHub%20Release)](https://github.com/QmDeve/QmBlurView/releases)
 
 <br>
 
@@ -53,13 +57,13 @@ Add the dependencies to your module's `build.gradle` file:
 ```gradle
 dependencies {
     // Core Library (Required)
-    implementation 'com.qmdeve:QmBlurView:1.0.5-Beta03'
+    implementation 'com.qmdeve:QmBlurView:1.0.5-Beta04'
 
     // Bottom Navigation Support (Optional)
-    implementation 'com.qmdeve:QmBlurView.BottomNavigation:1.0.5-Beta03'
+    implementation 'com.qmdeve:QmBlurView.BottomNavigation:1.0.5-Beta04'
 
     // Image Loading Transformations (Optional - Glide/Picasso)
-    implementation 'com.qmdeve:QmBlurView.Transform:1.0.5-Beta03'
+    implementation 'com.qmdeve:QmBlurView.Transform:1.0.5-Beta04'
 }
 ```
 
@@ -134,7 +138,7 @@ Apply blur directly to images loaded with Glide or Picasso.
 ```java
 Glide.with(context)
     .load(imageUrl)
-    .transform(new com.qmdeve.blurview.transform.glide.BlurTransformation(context, 25, 1)) // radius, sampling
+    .transform(new com.qmdeve.blurview.transform.glide.BlurTransformation(25, 40)) // BlurRadius, CornerRadius
     .into(imageView);
 ```
 
@@ -142,7 +146,7 @@ Glide.with(context)
 ```java
 Picasso.get()
     .load(imageUrl)
-    .transform(new com.qmdeve.blurview.transform.picasso.BlurTransformation(context, 25))
+    .transform(new com.qmdeve.blurview.transform.picasso.BlurTransformation(25, 40)) // BlurRadius, CornerRadius
     .into(imageView);
 ```
 

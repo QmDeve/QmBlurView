@@ -8,10 +8,15 @@
 
 [![GitHub](https://img.shields.io/badge/GitHub-Repository-black?logo=github)](https://GitHub.com/QmDeve/QmBlurView/)
 [![GitLab](https://img.shields.io/badge/GitLab-Repository-orange?logo=gitlab)](https://gitlab.com/QmDeve/QmBlurView)
-[![Telegram](https://img.shields.io/badge/Telegram%20Group-QmDeves-blue.svg?logo=telegram)](https://t.me/QmDeves)
-[![License](https://img.shields.io/badge/License-MIT-blue.svg)](https://github.com/QmDeve/QmBlurView/blob/master/LICENSE)
+
+[![Telegram](https://img.shields.io/badge/Telegram%20群组-QmDeves-blue.svg?logo=telegram)](https://t.me/QmDeves)
+[![QQ](https://img.shields.io/badge/QQ%20群组-1046829337-blue.svg?logo=qq)](https://qm.qq.com/q/wIlrQPTMRO)
+
+[![License](https://img.shields.io/github/license/QmDeve/QmBlurView.svg?logo=github&color=blue&label=License)](https://github.com/QmDeve/QmBlurView/blob/master/LICENSE)
 [![Android](https://img.shields.io/badge/Android-5.0%2B-brightgreen.svg)](https://developer.android.com)
+
 [![Maven Central](https://img.shields.io/maven-central/v/com.qmdeve/QmBlurView?label=Maven%20Central)](https://central.sonatype.com/artifact/com.qmdeve/QmBlurView)
+[![GitHub Release](https://img.shields.io/github/release/QmDeve/QmBlurView?label=GitHub%20Release)](https://github.com/QmDeve/QmBlurView/releases)
 
 <br>
 
@@ -46,20 +51,20 @@
 - **易于集成**：简单的 XML 属性和 Java/Kotlin API。
 - **广泛兼容**：支持 Android 5.0 (API 21) 及以上版本。
 
-## 安装
+## 集成
 
 在模块的 `build.gradle` 文件中添加依赖项：
 
 ```gradle
 dependencies {
     // 核心库（必需）
-    implementation 'com.qmdeve:QmBlurView:1.0.5-Beta03'
+    implementation 'com.qmdeve:QmBlurView:1.0.5-Beta04'
 
     // 底部导航支持（可选）
-    implementation 'com.qmdeve:QmBlurView.BottomNavigation:1.0.5-Beta03'
+    implementation 'com.qmdeve:QmBlurView.BottomNavigation:1.0.5-Beta04'
 
     // 图片加载变换（可选 - Glide/Picasso）
-    implementation 'com.qmdeve:QmBlurView.Transform:1.0.5-Beta03'
+    implementation 'com.qmdeve:QmBlurView.Transform:1.0.5-Beta04'
 }
 ```
 
@@ -134,7 +139,7 @@ blurView.setOverlayColor(Color.parseColor("#80FFFFFF"));
 ```java
 Glide.with(context)
     .load(imageUrl)
-    .transform(new com.qmdeve.blurview.transform.glide.BlurTransformation(context, 25, 1)) // 半径, 采样
+    .transform(new com.qmdeve.blurview.transform.glide.BlurTransformation(25, 40)) // 模糊半径，圆角半径
     .into(imageView);
 ```
 
@@ -142,7 +147,7 @@ Glide.with(context)
 ```java
 Picasso.get()
     .load(imageUrl)
-    .transform(new com.qmdeve.blurview.transform.picasso.BlurTransformation(context, 25))
+    .transform(new com.qmdeve.blurview.transform.picasso.BlurTransformation(25, 40)) // 模糊半径，圆角半径
     .into(imageView);
 ```
 
