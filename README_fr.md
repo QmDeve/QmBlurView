@@ -155,6 +155,9 @@ Picasso.get()
 | `app:cornerRadius` | Rayon des coins pour le fond de la vue. |
 | `app:downsampleFactor` | Facteur de sous-échantillonnage pour l'optimisation des performances. |
 
+## Documentation
+**Detailed Documentation；[https://blur-docs.qmdeve.com](https://blur-docs.qmdeve.com)**
+
 ## Captures d'écran
 
 | BlurView | BlurButtonView | ProgressiveBlurView |

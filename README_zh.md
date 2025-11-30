@@ -155,6 +155,9 @@ Picasso.get()
 | `app:cornerRadius` | 视图背景的圆角半径。 |
 | `app:downsampleFactor` | 用于性能优化的降采样因子。 |
 
+## 文档
+**详细文档请查看；[https://blur-docs.qmdeve.com](https://blur-docs.qmdeve.com)**
+
 ## 截图
 
 | BlurView | BlurButtonView | ProgressiveBlurView |

@@ -155,6 +155,9 @@ Picasso.get()
 | `app:cornerRadius` | Радиус закругления углов фона. |
 | `app:downsampleFactor` | Фактор даунсэмплинга для оптимизации производительности. |
 
+## Документация
+**Подробная Документация；[https://blur-docs.qmdeve.com](https://blur-docs.qmdeve.com)**
+
 ## Скриншоты
 
 | BlurView | BlurButtonView | ProgressiveBlurView |

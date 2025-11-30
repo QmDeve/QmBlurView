@@ -155,6 +155,9 @@ Picasso.get()
 | `app:cornerRadius` | Corner radius for the view background. |
 | `app:downsampleFactor` | Downsampling factor for performance optimization. |
 
+## Documentation
+**Detailed Documentation；[https://blur-docs.qmdeve.com](https://blur-docs.qmdeve.com)**
+
 ## Screenshots
 
 | BlurView | BlurButtonView | ProgressiveBlurView |
