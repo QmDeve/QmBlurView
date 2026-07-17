@@ -40,12 +40,6 @@
 #define LOG_TAG "libbitmaputils"
 #define LOGE(...)  __android_log_print(ANDROID_LOG_ERROR,LOG_TAG,__VA_ARGS__)
 
-#define clamp(a,min,max) \
-    ({__typeof__ (a) _a__ = (a); \
-      __typeof__ (min) _min__ = (min); \
-      __typeof__ (max) _max__ = (max); \
-      _a__ < _min__ ? _min__ : _a__ > _max__ ? _max__ : _a__; })
-
 static unsigned short const qmblur_mul[255] =
 {
         512,512,456,512,328,456,335,512,405,328,271,456,388,335,292,512,
@@ -92,8 +86,10 @@ void qmblurJob(unsigned char* src,
                   unsigned int radius,
                   int cores,
                   int core,
-                  int step)
+                  int step,
+                  int rounds)
 {
+    int rnd;
     unsigned int x, y, xp, yp, i;
     unsigned int sp;
     unsigned int qm_start;
@@ -119,15 +115,22 @@ void qmblurJob(unsigned char* src,
     unsigned int mul_sum = qmblur_mul[radius];
     unsigned char shr_sum = qmblur_shr[radius];
 
-    // Use heap allocation instead of VLA to prevent stack overflow with large radius
-    unsigned char* qm = (unsigned char*)malloc(div * 3);
-    if (!qm) return; // Memory allocation failed
+    // Fixed-size stack buffer sized for the largest radius the mul/shr tables
+    // support (254) — 1527 bytes, cannot overflow the thread stack. A per-call
+    // malloc/free here made all workers contend on the heap lock inside the
+    // parallel section, partially serializing the blur.
+    unsigned char qm[(2 * 254 + 1) * 3];
 
     if (step == 1)
     {
         int minY = core * h / cores;
         int maxY = (core + 1) * h / cores;
 
+        // All rounds run here, inside one call: a horizontal pass only mixes pixels
+        // within a row, so this worker's row band needs no synchronization with other
+        // bands between rounds. The caller used to redispatch + barrier per round;
+        // looping here instead keeps the band cache-hot and pays dispatch once.
+        for (rnd = 0; rnd < rounds; rnd++)
         for(y = minY; y < maxY; y++)
         {
             sum_r = sum_g = sum_b =
@@ -172,10 +175,17 @@ void qmblurJob(unsigned char* src,
             dst_ptr = src + y * w4;
             for(x = 0; x < w; x++)
             {
-                // Optimized: Remove alpha clamping (alpha channel doesn't change during blur)
-                dst_ptr[0] = (unsigned char)clamp((sum_r * mul_sum) >> shr_sum, 0, 255);
-                dst_ptr[1] = (unsigned char)clamp((sum_g * mul_sum) >> shr_sum, 0, 255);
-                dst_ptr[2] = (unsigned char)clamp((sum_b * mul_sum) >> shr_sum, 0, 255);
+                // No clamp needed. "* mul_sum >> shr_sum" divides the weighted sum by
+                // the kernel weight total (r+1)^2 — see qmblur_mul/qmblur_shr above,
+                // which are StackBlur's original mul_table/shg_table (Mario Klingemann,
+                // 2004). Those table pairs are chosen so that even the worst case —
+                // every pixel in the window at 255 — comes out as exactly 255 after
+                // the multiply+shift, for every radius they cover. The result cannot
+                // exceed 255, so clamping it was dead work in the hottest loop; the
+                // reference StackBlur stores these unclamped as well.
+                dst_ptr[0] = (unsigned char)((sum_r * mul_sum) >> shr_sum);
+                dst_ptr[1] = (unsigned char)((sum_g * mul_sum) >> shr_sum);
+                dst_ptr[2] = (unsigned char)((sum_b * mul_sum) >> shr_sum);
                 dst_ptr += 4;
 
                 sum_r -= sum_out_r;
@@ -220,7 +230,6 @@ void qmblurJob(unsigned char* src,
             }
 
         }
-        free(qm);
         return;
     }
 
@@ -229,6 +238,9 @@ void qmblurJob(unsigned char* src,
         int minX = core * w / cores;
         int maxX = (core + 1) * w / cores;
 
+        // Same as step 1: vertical rounds only mix pixels within a column, so all
+        // rounds for this worker's column band run in one call, no barriers between.
+        for (rnd = 0; rnd < rounds; rnd++)
         for(x = minX; x < maxX; x++)
         {
             sum_r =    sum_g =    sum_b =
@@ -272,10 +284,17 @@ void qmblurJob(unsigned char* src,
             dst_ptr = src + 4 * x;
             for(y = 0; y < h; y++)
             {
-                // Optimized: Remove alpha clamping (alpha channel doesn't change during blur)
-                dst_ptr[0] = (unsigned char)clamp((sum_r * mul_sum) >> shr_sum, 0, 255);
-                dst_ptr[1] = (unsigned char)clamp((sum_g * mul_sum) >> shr_sum, 0, 255);
-                dst_ptr[2] = (unsigned char)clamp((sum_b * mul_sum) >> shr_sum, 0, 255);
+                // No clamp needed. "* mul_sum >> shr_sum" divides the weighted sum by
+                // the kernel weight total (r+1)^2 — see qmblur_mul/qmblur_shr above,
+                // which are StackBlur's original mul_table/shg_table (Mario Klingemann,
+                // 2004). Those table pairs are chosen so that even the worst case —
+                // every pixel in the window at 255 — comes out as exactly 255 after
+                // the multiply+shift, for every radius they cover. The result cannot
+                // exceed 255, so clamping it was dead work in the hottest loop; the
+                // reference StackBlur stores these unclamped as well.
+                dst_ptr[0] = (unsigned char)((sum_r * mul_sum) >> shr_sum);
+                dst_ptr[1] = (unsigned char)((sum_g * mul_sum) >> shr_sum);
+                dst_ptr[2] = (unsigned char)((sum_b * mul_sum) >> shr_sum);
                 dst_ptr += w4;
 
                 sum_r -= sum_out_r;
@@ -319,11 +338,10 @@ void qmblurJob(unsigned char* src,
                 sum_in_b  -= qm_ptr[2];
             }
         }
-        free(qm);
     }
 }
 
-JNIEXPORT void JNICALL Java_com_qmdeve_blurview_BlurNative_blur(JNIEnv* env, jclass clzz, jobject bitmapOut, jint radius, jint threadCount, jint threadIndex, jint round) {
+JNIEXPORT void JNICALL Java_com_qmdeve_blurview_BlurNative_blur(JNIEnv* env, jclass clzz, jobject bitmapOut, jint radius, jint threadCount, jint threadIndex, jint round, jint rounds) {
     AndroidBitmapInfo   infoOut;
     void*               pixelsOut;
 
@@ -348,6 +366,6 @@ JNIEXPORT void JNICALL Java_com_qmdeve_blurview_BlurNative_blur(JNIEnv* env, jcl
     int h = infoOut.height;
     int w = infoOut.width;
 
-    qmblurJob((unsigned char*)pixelsOut, w, h, radius, threadCount, threadIndex, round);
+    qmblurJob((unsigned char*)pixelsOut, w, h, radius, threadCount, threadIndex, round, rounds);
     AndroidBitmap_unlockPixels(env, bitmapOut);
 }

@@ -24,3 +24,7 @@ target_link_libraries(
 )
 
 target_link_options(${CMAKE_PROJECT_NAME} PRIVATE "-Wl,-z,max-page-size=16384")
+
+# AGP builds non-debuggable variants as RelWithDebInfo (-O2); the blur inner
+# loops are the hottest code in the library, so opt into full optimization.
+target_compile_options(${CMAKE_PROJECT_NAME} PRIVATE "-O3")
