@@ -57,6 +57,7 @@ import android.view.ViewTreeObserver;
 import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
+import androidx.tracing.Trace;
 
 import com.qmdeve.blurview.Blur;
 import com.qmdeve.blurview.BlurNative;
@@ -104,6 +105,7 @@ public abstract class BaseBlurView extends View {
     private boolean mSurfaceViewWarningLogged = false;
     private boolean mUsePixelCopyFallback = false;
     private boolean mIsPixelCopyPending = false;
+    private int mPixelCopyTraceCookie = 0;
 
     public BaseBlurView(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -194,7 +196,15 @@ public abstract class BaseBlurView extends View {
         }
     }
 
-    private void drawTextureViews(View view, Canvas canvas) {
+    /**
+     * TextureView/SurfaceView render into their own hardware surfaces, so the software
+     * decor capture sees them as holes; this walk pastes their content into the capture.
+     * One combined recursion instead of the previous two (one per view type): a view is
+     * never both types, so each view triggers the same action as before — but the tree
+     * is traversed once, not twice, per blur view per frame. Pasting follows tree order,
+     * which matches window z-order (the old code drew all TextureViews first).
+     */
+    private void drawLiveViews(View view, Canvas canvas) {
         if (view instanceof TextureView) {
             TextureView textureView = (TextureView) view;
             if (textureView.getVisibility() == View.VISIBLE && textureView.isAvailable()) {
@@ -217,16 +227,7 @@ public abstract class BaseBlurView extends View {
                     bitmap.recycle();
                 }
             }
-        } else if (view instanceof ViewGroup) {
-            ViewGroup group = (ViewGroup) view;
-            for (int i = 0; i < group.getChildCount(); i++) {
-                drawTextureViews(group.getChildAt(i), canvas);
-            }
-        }
-    }
-
-    private void drawSurfaceViews(View view, Canvas canvas) {
-        if (view instanceof SurfaceView) {
+        } else if (view instanceof SurfaceView) {
             SurfaceView surfaceView = (SurfaceView) view;
             if (surfaceView.getVisibility() == View.VISIBLE) {
                 // Automatically configure SurfaceView for proper z-ordering
@@ -318,7 +319,7 @@ public abstract class BaseBlurView extends View {
         } else if (view instanceof ViewGroup) {
             ViewGroup group = (ViewGroup) view;
             for (int i = 0; i < group.getChildCount(); i++) {
-                drawSurfaceViews(group.getChildAt(i), canvas);
+                drawLiveViews(group.getChildAt(i), canvas);
             }
         }
     }
@@ -473,6 +474,8 @@ public abstract class BaseBlurView extends View {
     }
 
     protected boolean prepare() {
+        Trace.beginSection("BlurView.prepare");
+        try {
         if (mBlurRadius <= 0) {
             release();
             return false;
@@ -520,6 +523,9 @@ public abstract class BaseBlurView extends View {
         }
 
         return true;
+        } finally {
+            Trace.endSection();
+        }
     }
 
     protected void blur(Bitmap input, Bitmap output) {
@@ -551,37 +557,57 @@ public abstract class BaseBlurView extends View {
         android.view.Window window = getActivityWindow();
         if (window == null) return;
 
-        int[] locWindow = new int[2];
-        getLocationInWindow(locWindow);
-
-        // Rect to capture (in window coordinates)
-        Rect rect = new Rect(locWindow[0], locWindow[1], locWindow[0] + getWidth(), locWindow[1] + getHeight());
-
-        mIsPixelCopyPending = true;
-
+        // Marks that the API>=O PixelCopy fallback branch is active (vs. the software captureDecorView branch).
+        Trace.beginSection("BlurView.pixelCopyRequest");
         try {
-            Handler handler = mPixelCopyHandler != null ? mPixelCopyHandler : mHandler;
-            // PixelCopy.request(Window) is available since API 24, but we use O (26) check for safety regarding hardware bitmaps
-            PixelCopy.request(window, rect, mBitmapToBlur, copyResult -> {
-                mHandler.post(() -> {
-                    mIsPixelCopyPending = false;
-                    if (copyResult == PixelCopy.SUCCESS) {
-                        blur(mBitmapToBlur, mBlurredBitmap);
-                        invalidate();
-                    } else {
-                        Log.w(TAG, "PixelCopy fallback failed: " + copyResult);
-                    }
-                });
-            }, handler);
-        } catch (IllegalArgumentException e) {
-            mIsPixelCopyPending = false;
-            Log.e(TAG, "PixelCopy fallback exception: " + e.getMessage());
+            int[] locWindow = new int[2];
+            getLocationInWindow(locWindow);
+
+            // Rect to capture (in window coordinates)
+            Rect rect = new Rect(locWindow[0], locWindow[1], locWindow[0] + getWidth(), locWindow[1] + getHeight());
+
+            mIsPixelCopyPending = true;
+
+            // Async span: PixelCopy is non-blocking, so measure request -> copy-complete across threads.
+            final int cookie = ++mPixelCopyTraceCookie;
+            Trace.beginAsyncSection("BlurView.pixelCopyAsync", cookie);
+
+            try {
+                Handler handler = mPixelCopyHandler != null ? mPixelCopyHandler : mHandler;
+                // PixelCopy.request(Window) is available since API 24, but we use O (26) check for safety regarding hardware bitmaps
+                PixelCopy.request(window, rect, mBitmapToBlur, copyResult -> {
+                    // Runs on the PixelCopy handler thread once the copy finishes.
+                    Trace.endAsyncSection("BlurView.pixelCopyAsync", cookie);
+                    mHandler.post(() -> {
+                        mIsPixelCopyPending = false;
+                        if (copyResult == PixelCopy.SUCCESS) {
+                            Trace.beginSection("BlurView.pixelCopyBlur");
+                            try {
+                                blur(mBitmapToBlur, mBlurredBitmap);
+                                invalidate();
+                            } finally {
+                                Trace.endSection();
+                            }
+                        } else {
+                            Log.w(TAG, "PixelCopy fallback failed: " + copyResult);
+                        }
+                    });
+                }, handler);
+            } catch (IllegalArgumentException e) {
+                mIsPixelCopyPending = false;
+                Trace.endAsyncSection("BlurView.pixelCopyAsync", cookie);
+                Log.e(TAG, "PixelCopy fallback exception: " + e.getMessage());
+            }
+        } finally {
+            Trace.endSection();
         }
     }
 
     private boolean performBlurSync() {
         if (!isShown() || mDecorView == null) return false;
 
+        Trace.beginSection("BlurView.performBlurSync");
+        try {
         Bitmap old = mBlurredBitmap;
 
         if (!prepare()) return false;
@@ -612,6 +638,7 @@ public abstract class BaseBlurView extends View {
             mBlurringCanvas.scale(scaleX, scaleY);
             mBlurringCanvas.translate(-offsetX, -offsetY);
 
+            Trace.beginSection("BlurView.captureDecorView");
             try {
                 mDecorView.draw(mBlurringCanvas);
             } catch (IllegalArgumentException e) {
@@ -646,10 +673,16 @@ public abstract class BaseBlurView extends View {
                     return false;
                 }
                 return false;
+            } finally {
+                Trace.endSection();
             }
 
-            drawTextureViews(mDecorView, mBlurringCanvas);
-            drawSurfaceViews(mDecorView, mBlurringCanvas);
+            Trace.beginSection("BlurView.compositeSpecialViews");
+            try {
+                drawLiveViews(mDecorView, mBlurringCanvas);
+            } finally {
+                Trace.endSection();
+            }
         } finally {
             mIsRendering = false;
             Utils.sIsGlobalCapturing = false;
@@ -663,9 +696,17 @@ public abstract class BaseBlurView extends View {
             }
         }
 
-        blur(mBitmapToBlur, mBlurredBitmap);
+        Trace.beginSection("BlurView.blur");
+        try {
+            blur(mBitmapToBlur, mBlurredBitmap);
+        } finally {
+            Trace.endSection();
+        }
 
         return redrawBitmap || mDifferentRoot || mForceRedraw;
+        } finally {
+            Trace.endSection();
+        }
     }
 
     public final ViewTreeObserver.OnPreDrawListener preDrawListener = () -> {
@@ -751,33 +792,51 @@ public abstract class BaseBlurView extends View {
         if (Utils.sIsGlobalCapturing && !mIsRendering) {
             return;
         }
-        if (mBlurredBitmap != null) {
-            mRectSrc.set(0, 0, mBlurredBitmap.getWidth(), mBlurredBitmap.getHeight());
-            mRectDst.set(0, 0, getWidth(), getHeight());
-
-            if (hasCornerRadius()) {
-                canvas.save();
-                mClipRect.set(mRectDst);
+        Trace.beginSection("BlurView.drawResult");
+        try {
+        // The blurred bitmap and the overlay share one clip: previously each did its own
+        // save → rebuild the rounded path → clipPath → draw → restore, rebuilding the
+        // SAME bezier path and pushing the clip stack twice per frame. Both draws cover
+        // the identical rounded rect, so one save/clip pair around both is equivalent.
+        // Measured (Pixel 6): within benchmark noise — kept because it halves the
+        // per-frame path builds/clip ops at zero risk, not for a headline win.
+        mRectDst.set(0, 0, getWidth(), getHeight());
+        boolean clipped = hasCornerRadius();
+        if (clipped) {
+            canvas.save();
+            mClipRect.set(mRectDst);
+            Trace.beginSection("BlurView.drawResult.clipPath");
+            try {
                 updatePath(mClipRect);
                 canvas.clipPath(mG3Path);
-                canvas.drawBitmap(mBlurredBitmap, mRectSrc, mRectDst, null);
-                canvas.restore();
-            } else {
-                canvas.drawBitmap(mBlurredBitmap, mRectSrc, mRectDst, null);
+            } finally {
+                Trace.endSection();
             }
         }
 
-        mPaint.setColor(mOverlayColor);
+        Trace.beginSection("BlurView.drawResult.bitmap");
+        try {
+        if (mBlurredBitmap != null) {
+            mRectSrc.set(0, 0, mBlurredBitmap.getWidth(), mBlurredBitmap.getHeight());
+            canvas.drawBitmap(mBlurredBitmap, mRectSrc, mRectDst, null);
+        }
+        } finally {
+            Trace.endSection();
+        }
 
-        if (hasCornerRadius()) {
-            canvas.save();
-            mClipRect.set(mRectDst);
-            updatePath(mClipRect);
-            canvas.clipPath(mG3Path);
-            canvas.drawRect(mRectDst, mPaint);
+        Trace.beginSection("BlurView.drawResult.overlay");
+        try {
+        mPaint.setColor(mOverlayColor);
+        canvas.drawRect(mRectDst, mPaint);
+        } finally {
+            Trace.endSection();
+        }
+
+        if (clipped) {
             canvas.restore();
-        } else {
-            canvas.drawRect(mRectDst, mPaint);
+        }
+        } finally {
+            Trace.endSection();
         }
     }
 
