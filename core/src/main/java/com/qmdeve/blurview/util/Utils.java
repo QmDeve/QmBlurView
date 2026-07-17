@@ -46,6 +46,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import androidx.annotation.RestrictTo;
+import androidx.tracing.Trace;
 
 import static androidx.annotation.RestrictTo.Scope.LIBRARY_GROUP;
 
@@ -143,6 +144,8 @@ public class Utils {
      * @return Software-compatible bitmap
      */
     public static Bitmap ensureSoftwareBitmap(Bitmap bitmap) {
+        Trace.beginSection("Utils.ensureSoftwareBitmap");
+        try {
         if (bitmap == null) {
             return null;
         }
@@ -161,6 +164,9 @@ public class Utils {
         }
 
         return bitmap;
+        } finally {
+            Trace.endSection();
+        }
     }
 
     /**

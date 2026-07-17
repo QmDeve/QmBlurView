@@ -49,6 +49,7 @@ import android.util.AttributeSet;
 
 import androidx.annotation.ColorRes;
 import androidx.annotation.NonNull;
+import androidx.tracing.Trace;
 
 import com.qmdeve.blurview.R;
 import com.qmdeve.blurview.util.Utils;
@@ -162,6 +163,8 @@ public class ProgressiveBlurViewGroup extends BlurViewGroup {
             return;
         }
 
+        Trace.beginSection("ProgressiveBlurViewGroup.compositeGradient");
+        try {
         int saveCount = canvas.saveLayer(0, 0, width, height, null);
 
         mRectSrc.set(0, 0, blurredBitmap.getWidth(), blurredBitmap.getHeight());
@@ -175,6 +178,9 @@ public class ProgressiveBlurViewGroup extends BlurViewGroup {
         canvas.drawRect(0, 0, width, height, mOverlayPaint);
 
         canvas.restoreToCount(saveCount);
+        } finally {
+            Trace.endSection();
+        }
     }
 
     private LinearGradient createIntensityGradient(int width, int height) {
