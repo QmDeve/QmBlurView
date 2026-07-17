@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Benchmark-only overlay. Applies ONLY to the `benchmark` build type, so the
+    shipped debug/release manifests keep BlurViewActivity non-exported.
+    Macrobenchmark launches the activity via `am start` from the shell UID, which
+    on API 34+ requires the target activity to be exported.
+-->
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <application>
+        <activity
+            android:name=".BlurViewActivity"
+            android:exported="true"
+            tools:replace="android:exported" />
+        <activity
+            android:name=".BlurTitlebarActivity"
+            android:exported="true"
+            tools:replace="android:exported" />
+    </application>
+
+</manifest>

@@ -23,5 +23,13 @@ public class BlurViewActivity extends AppCompatActivity {
         blurView.setBlurRadius(45);
         blurView.setCornerRadius(65);
         blurView.setOverlayColor(0x80FFFFFF);
+
+        // Optional "blurRounds" int extra: lets the benchmark harness drive a high
+        // rounds count (e.g. the high-rounds scroll scene) so rounds-scaling cost is
+        // measurable. Absent/<=0 keeps the default rounds — normal app behavior.
+        int blurRounds = getIntent().getIntExtra("blurRounds", 0);
+        if (blurRounds > 0) {
+            blurView.setBlurRounds(blurRounds);
+        }
     }
 }
