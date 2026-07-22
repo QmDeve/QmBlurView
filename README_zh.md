@@ -51,13 +51,13 @@
 ```gradle
 dependencies {
     // 核心库（必需）
-    implementation 'com.qmdeve.blurview:core:1.2.0'
+    implementation 'com.qmdeve.blurview:core:1.3.0'
 
     // 导航支持（可选）
-    implementation 'com.qmdeve.blurview:navigation:1.2.0'
+    implementation 'com.qmdeve.blurview:navigation:1.3.0'
 
     // 图片加载变换（可选 - Glide/Picasso）
-    implementation 'com.qmdeve.blurview:transform:1.2.0'
+    implementation 'com.qmdeve.blurview:transform:1.3.0'
 }
 ```
 
@@ -68,12 +68,6 @@ dependencies {
 **文档；[https://blurview.qmdeve.com](https://blurview.qmdeve.com/zh)**
 
 ---
-
-## 我的其他项目
-
-- **[AndroidLiquidGlassView](https://liquidglass.qmdeve.com)**
-- **[Personal Homepage](https://github.com/QmDeve/personal-homepage)**
-- **[Qm Authenticator for Android](https://github.com/Rouneant/Qm-Authenticator-for-Android)**
 
 ## 许可证
 
