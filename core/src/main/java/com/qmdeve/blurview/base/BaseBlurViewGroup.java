@@ -53,6 +53,8 @@ import android.os.Handler;
 import android.os.HandlerThread;
 import android.os.Looper;
 
+import androidx.tracing.Trace;
+
 import com.qmdeve.blurview.Blur;
 import com.qmdeve.blurview.BlurNative;
 import com.qmdeve.blurview.R;
@@ -81,6 +83,7 @@ public class BaseBlurViewGroup {
     private boolean mForceRedraw = false;
     private boolean mSkipNextPreDraw = false;
     private boolean mIsPixelCopyPending = false;
+    private int mPixelCopyTraceCookie = 0;
     private final Handler mHandler = new Handler(Looper.getMainLooper());
     private HandlerThread mPixelCopyThread;
     private Handler mPixelCopyHandler;
@@ -285,6 +288,8 @@ public class BaseBlurViewGroup {
     }
 
     private boolean prepare(int width, int height) {
+        Trace.beginSection("BlurViewGroup.prepare");
+        try {
         if (mBlurRadius <= 0) {
             release();
             return false;
@@ -328,6 +333,9 @@ public class BaseBlurViewGroup {
         }
 
         return true;
+        } finally {
+            Trace.endSection();
+        }
     }
 
     private android.view.Window getActivityWindow() {
@@ -345,29 +353,47 @@ public class BaseBlurViewGroup {
         android.view.Window window = getActivityWindow();
         if (window == null) return;
 
-        int[] locWindow = new int[2];
-        mHostView.getLocationInWindow(locWindow);
-
-        Rect rect = new Rect(locWindow[0], locWindow[1], locWindow[0] + width, locWindow[1] + height);
-
-        mIsPixelCopyPending = true;
-
+        // Marks that the API>=O PixelCopy fallback branch is active (vs. the software captureDecorView branch).
+        Trace.beginSection("BlurViewGroup.pixelCopyRequest");
         try {
-            Handler handler = mPixelCopyHandler != null ? mPixelCopyHandler : mHandler;
-            PixelCopy.request(window, rect, mBitmapToBlur, copyResult -> {
-                mHandler.post(() -> {
-                    mIsPixelCopyPending = false;
-                    if (copyResult == PixelCopy.SUCCESS) {
-                        blur(mBitmapToBlur, mBlurredBitmap);
-                        if (mHostView != null) mHostView.invalidate();
-                    } else {
-                        Log.w(Utils.TAG, "PixelCopy fallback failed: " + copyResult);
-                    }
-                });
-            }, handler);
-        } catch (IllegalArgumentException e) {
-            mIsPixelCopyPending = false;
-            Log.e(Utils.TAG, "PixelCopy fallback exception: " + e.getMessage());
+            int[] locWindow = new int[2];
+            mHostView.getLocationInWindow(locWindow);
+
+            Rect rect = new Rect(locWindow[0], locWindow[1], locWindow[0] + width, locWindow[1] + height);
+
+            mIsPixelCopyPending = true;
+
+            // Async span: PixelCopy is non-blocking, so measure request -> copy-complete across threads.
+            final int cookie = ++mPixelCopyTraceCookie;
+            Trace.beginAsyncSection("BlurViewGroup.pixelCopyAsync", cookie);
+
+            try {
+                Handler handler = mPixelCopyHandler != null ? mPixelCopyHandler : mHandler;
+                PixelCopy.request(window, rect, mBitmapToBlur, copyResult -> {
+                    // Runs on the PixelCopy handler thread once the copy finishes.
+                    Trace.endAsyncSection("BlurViewGroup.pixelCopyAsync", cookie);
+                    mHandler.post(() -> {
+                        mIsPixelCopyPending = false;
+                        if (copyResult == PixelCopy.SUCCESS) {
+                            Trace.beginSection("BlurViewGroup.pixelCopyBlur");
+                            try {
+                                blur(mBitmapToBlur, mBlurredBitmap);
+                                if (mHostView != null) mHostView.invalidate();
+                            } finally {
+                                Trace.endSection();
+                            }
+                        } else {
+                            Log.w(Utils.TAG, "PixelCopy fallback failed: " + copyResult);
+                        }
+                    });
+                }, handler);
+            } catch (IllegalArgumentException e) {
+                mIsPixelCopyPending = false;
+                Trace.endAsyncSection("BlurViewGroup.pixelCopyAsync", cookie);
+                Log.e(Utils.TAG, "PixelCopy fallback exception: " + e.getMessage());
+            }
+        } finally {
+            Trace.endSection();
         }
     }
 
@@ -399,6 +425,8 @@ public class BaseBlurViewGroup {
             return false;
         }
 
+        Trace.beginSection("BlurViewGroup.performBlurSync");
+        try {
         if (!prepare(width, height)) {
             return false;
         }
@@ -426,6 +454,7 @@ public class BaseBlurViewGroup {
             mBlurringCanvas.scale(scaleX, scaleY);
             mBlurringCanvas.translate(-offsetX, -offsetY);
 
+            Trace.beginSection("BlurViewGroup.captureDecorView");
             try {
                 mDecorView.draw(mBlurringCanvas);
             } catch (IllegalArgumentException e) {
@@ -458,6 +487,8 @@ public class BaseBlurViewGroup {
                     return false;
                 }
                 return false;
+            } finally {
+                Trace.endSection();
             }
         } finally {
             mIsRendering = false;
@@ -471,9 +502,17 @@ public class BaseBlurViewGroup {
             }
         }
 
-        blur(mBitmapToBlur, mBlurredBitmap);
+        Trace.beginSection("BlurViewGroup.blur");
+        try {
+            blur(mBitmapToBlur, mBlurredBitmap);
+        } finally {
+            Trace.endSection();
+        }
 
         return mDifferentRoot || mForceRedraw;
+        } finally {
+            Trace.endSection();
+        }
     }
 
     public void ensureBlurReady(int width, int height) {
@@ -550,6 +589,8 @@ public class BaseBlurViewGroup {
     public void drawBlurredBitmap(Canvas canvas, int width, int height) {
         ensureBlurReady(width, height);
 
+        Trace.beginSection("BlurViewGroup.drawResult");
+        try {
         if (mBlurredBitmap != null) {
             Rect srcRect = new Rect(0, 0, mBlurredBitmap.getWidth(), mBlurredBitmap.getHeight());
             Rect dstRect = new Rect(0, 0, width, height);
@@ -579,6 +620,9 @@ public class BaseBlurViewGroup {
             canvas.restore();
         } else {
             canvas.drawRect(dstRect, paint);
+        }
+        } finally {
+            Trace.endSection();
         }
     }
 

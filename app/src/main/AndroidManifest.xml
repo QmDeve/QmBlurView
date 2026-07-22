@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <!-- Required for loading video from URL -->
     <uses-permission android:name="android.permission.INTERNET" />
@@ -15,6 +16,10 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.AndroidBlurView"
         android:usesCleartextTraffic="true">
+        <profileable
+            android:shell="true"
+            tools:targetApi="29" />
+
         <activity
             android:name=".BlurBottomNavigationActivity"
             android:exported="false" />
@@ -45,31 +50,24 @@
         <activity
             android:name=".SurfaceViewActivity"
             android:exported="false" />
-
         <activity
             android:name=".SimpleSurfaceViewActivity"
             android:exported="false" />
-
         <activity
             android:name=".LiveVideoActivity"
             android:exported="false" />
-
         <activity
             android:name=".OverlappingBlurActivity"
             android:exported="false" />
-
         <activity
             android:name=".GlideBlurActivity"
             android:exported="false" />
-
         <activity
             android:name=".PicassoBlurActivity"
             android:exported="false" />
-
         <activity
             android:name=".SkiaBlurActivity"
             android:exported="false" />
-
         <activity
             android:name=".MainActivity"
             android:exported="true">
@@ -80,4 +78,5 @@
             </intent-filter>
         </activity>
     </application>
+
 </manifest>

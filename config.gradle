@@ -59,6 +59,8 @@ ext.coreConfigs = { androidExtension ->
         version = release(36)
     }
 
+    androidExtension.ndkVersion = "27.3.13750724"
+
     androidExtension.defaultConfig {
         minSdk {
             version = release(21)
