@@ -24,7 +24,6 @@
 
 - **High Performance**: Native blur algorithm implemented in C/C++ for maximum speed and smoothness.
 - **Rich Component Library**: Component that includes multiple types of blur effects.
-- **Image Loading Support**: Built-in transformations for **Glide** and **Picasso**.
 
 ## Preview
 
@@ -49,9 +48,6 @@ dependencies {
 
     // Navigation Support (Optional)
     implementation 'com.qmdeve.blurview:navigation:2.0.0-alpha01'
-
-    // Image Loading Transformations (Optional - Glide/Picasso)
-    implementation 'com.qmdeve.blurview:transform:2.0.0-alpha01'
 }
 ```
 

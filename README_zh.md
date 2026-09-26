@@ -28,7 +28,6 @@
 
 - **高性能**：使用 C/C++ 实现的原生模糊算法，确保最大的速度和流畅度。
 - **丰富的组件库**：包含多种模糊效果的组件。
-- **图片加载支持**：内置针对 **Glide** 和 **Picasso** 的变换支持。
 
 ## 预览
 
@@ -53,9 +52,6 @@ dependencies {
 
     // 导航支持（可选）
     implementation 'com.qmdeve.blurview:navigation:2.0.0-alpha01'
-
-    // 图片加载变换（可选 - Glide/Picasso）
-    implementation 'com.qmdeve.blurview:transform:2.0.0-alpha01'
 }
 ```
 
