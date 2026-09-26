@@ -38,7 +38,7 @@ plugins {
 android {
     namespace 'com.qmdeve.blurview'
     compileSdk 37
-    ndkVersion = "27.3.13750724"
+    ndkVersion = "30.0.15729638"
 
     defaultConfig {
         minSdk 23
@@ -63,7 +63,7 @@ android {
     externalNativeBuild {
         cmake {
             path "src/main/cpp/CMakeLists.txt"
-            version "3.22.1"
+            version "4.1.2"
         }
     }
 
