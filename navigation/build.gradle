@@ -1,7 +1,7 @@
 /*
  * MIT License
  *
- * Copyright (c) 2025-2026 Donny Yale
+ * Copyright (c) 2025-2026 Donny Yang
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -23,8 +23,7 @@
  *
  * ===========================================
  * Project: QmBlurView
- * Created Date: 2025-10-21
- * Author: Donny Yale
+ * Author: Donny Yang
  * GitHub: https://github.com/QmDeve/QmBlurView
  * Website: https://blurview.qmdeve.com
  * ===========================================
@@ -36,11 +35,25 @@ plugins {
     alias(libs.plugins.signing)
 }
 
-apply from: '../config.gradle'
-
 android {
     namespace 'com.qmdeve.blurview.bottomnavigation'
-    configs(android)
+    compileSdk 37
+
+    defaultConfig {
+        minSdk 23
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt')
+        }
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_21
+        targetCompatibility JavaVersion.VERSION_21
+    }
 }
 
 dependencies {
@@ -49,4 +62,63 @@ dependencies {
     implementation libs.viewpager2
 }
 
-navMavenConfig(project)
+if (hasProperty('jitpack')) {
+    return
+}
+mavenPublishing {
+    coordinates('com.qmdeve.blurview', 'navigation', VERSION)
+
+    pom {
+        name = 'QmBlurView Component Navigation Extended'
+        description = DESCRIPTION
+        url = WEBSITE
+        inceptionYear = '2025'
+
+        organization {
+            name = 'QmDeve'
+            url = 'https://www.qmdeve.com'
+        }
+
+        licenses {
+            license {
+                name = 'MIT License'
+                url = 'https://github.com/QmDeve/QmBlurView/blob/master/LICENSE'
+                distribution = 'repo'
+            }
+        }
+
+        developers {
+            developer {
+                id = 'qmdeve'
+                name = 'Donny Yale'
+                email = 'donny@qmdeve.com'
+                organization = 'QmDeve'
+                organizationUrl = 'https://qmdeve.com'
+            }
+
+            developer {
+                id = 'sbaiahmed1'
+                name = 'Ahmed Sbai'
+                email = 'ahmedclubust@gmail.com'
+                organizationUrl = 'https://github.com/sbaiahmed1'
+            }
+
+            developer {
+                id = 'DanielAraldi'
+                name = 'Daniel Sansão Araldi'
+                email = 'danielsaraldi@gmail.com'
+                organizationUrl = 'https://github.com/DanielAraldi'
+            }
+        }
+
+        scm {
+            connection = 'scm:git:github.com/QmDeve/QmBlurView.git'
+            developerConnection = 'scm:git:ssh://github.com/QmDeve/QmBlurView.git'
+            url = 'https://github.com/QmDeve/QmBlurView'
+            tag = "v${VERSION}"
+        }
+    }
+
+    publishToMavenCentral()
+    signAllPublications()
+}
