@@ -36,7 +36,7 @@ plugins {
 }
 
 android {
-    namespace 'com.qmdeve.blurview.bottomnavigation'
+    namespace 'com.qmdeve.blurview.navigation'
     compileSdk 37
 
     defaultConfig {
