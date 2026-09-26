@@ -49,7 +49,7 @@ import androidx.viewpager2.widget.ViewPager2;
 import com.qmdeve.blurview.TabView;
 import com.qmdeve.blurview.TabViewManager;
 import com.qmdeve.blurview.base.BaseBlurView;
-import com.qmdeve.blurview.bottomnavigation.R;
+import com.qmdeve.blurview.navigation.R;
 import com.qmdeve.blurview.util.MenuUtils;
 import com.qmdeve.blurview.util.Utils;
 
