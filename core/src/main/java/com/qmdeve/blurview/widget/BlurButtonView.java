@@ -1,7 +1,7 @@
 /*
  * MIT License
  *
- * Copyright (c) 2025-2026 Donny Yale
+ * Copyright (c) 2025-2026 Donny Yang
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -23,8 +23,7 @@
  *
  * ===========================================
  * Project: QmBlurView
- * Created Date: 2025-10-21
- * Author: Donny Yale
+ * Author: Donny Yang
  * GitHub: https://github.com/QmDeve/QmBlurView
  * Website: https://blurview.qmdeve.com
  * ===========================================
