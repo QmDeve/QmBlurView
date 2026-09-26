@@ -60,12 +60,6 @@
             android:name=".OverlappingBlurActivity"
             android:exported="false" />
         <activity
-            android:name=".GlideBlurActivity"
-            android:exported="false" />
-        <activity
-            android:name=".PicassoBlurActivity"
-            android:exported="false" />
-        <activity
             android:name=".SkiaBlurActivity"
             android:exported="false" />
         <activity

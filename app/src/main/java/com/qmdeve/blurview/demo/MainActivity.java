@@ -30,11 +30,7 @@ public class MainActivity extends AppCompatActivity {
         findViewById(R.id.blurBottomNavigationButton).setOnClickListener(v -> startActivity(new Intent(this, BlurBottomNavigationActivity.class)));
         findViewById(R.id.textureViewButton).setOnClickListener(v -> startActivity(new Intent(this, TextureViewActivity.class)));
         findViewById(R.id.surfaceViewButton).setOnClickListener(v -> startActivity(new Intent(this, SurfaceViewActivity.class)));
-        findViewById(R.id.simpleSurfaceViewButton).setOnClickListener(v -> startActivity(new Intent(this, SimpleSurfaceViewActivity.class)));
-        findViewById(R.id.liveVideoButton).setOnClickListener(v -> startActivity(new Intent(this, LiveVideoActivity.class)));
         findViewById(R.id.overlappingBlurButton).setOnClickListener(v -> startActivity(new Intent(this, OverlappingBlurActivity.class)));
-        findViewById(R.id.glideBlurButton).setOnClickListener(v -> startActivity(new Intent(this, GlideBlurActivity.class)));
-        findViewById(R.id.picassoBlurButton).setOnClickListener(v -> startActivity(new Intent(this, PicassoBlurActivity.class)));
         findViewById(R.id.skiaBlurButton).setOnClickListener(v -> startActivity(new Intent(this, SkiaBlurActivity.class)));
         findViewById(R.id.github).setOnClickListener(v -> {
             Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://github.com/QmDeve/QmBlurView"));

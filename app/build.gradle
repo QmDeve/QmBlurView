@@ -68,9 +68,6 @@ android {
 dependencies {
     implementation project(':core')
     implementation project(':navigation')
-    implementation project(':transform')
     implementation libs.appcompat
     implementation libs.constraintlayout
-    implementation libs.glide
-    implementation libs.picasso
 }
