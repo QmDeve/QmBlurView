@@ -93,7 +93,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="15dp"
-            android:text="⚠️ High iterations (10+) may cause FPS drops. Recommended: 2-5 iterations with radius 25-40"
+            android:text="High iterations (10+) may cause FPS drops. Recommended: 2-5 iterations with radius 25-40"
             android:textColor="#FFD54F"
             android:textSize="12sp" />
 

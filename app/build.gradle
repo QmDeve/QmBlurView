@@ -1,7 +1,7 @@
 /*
  * MIT License
  *
- * Copyright (c) 2025-2026 Donny Yale
+ * Copyright (c) 2025-2026 Donny Yang
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -23,8 +23,7 @@
  *
  * ===========================================
  * Project: QmBlurView
- * Created Date: 2025-10-21
- * Author: Donny Yale
+ * Author: Donny Yang
  * GitHub: https://github.com/QmDeve/QmBlurView
  * Website: https://blurview.qmdeve.com
  * ===========================================
@@ -36,12 +35,12 @@ plugins {
 
 android {
     namespace 'com.qmdeve.blurview.demo'
-    compileSdk { version = release(36) }
+    compileSdk 37
 
     defaultConfig {
         applicationId "com.qmdeve.blurview.demo"
-        minSdk { version = release(21) }
-        targetSdk { version = release(36) }
+        minSdk 23
+        targetSdk 37
         versionCode 1
         versionName VERSION
     }
@@ -61,17 +60,14 @@ android {
     }
 
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_11
-        targetCompatibility JavaVersion.VERSION_11
+        sourceCompatibility JavaVersion.VERSION_21
+        targetCompatibility JavaVersion.VERSION_21
     }
 }
 
 dependencies {
     implementation project(':core')
     implementation project(':navigation')
-    implementation project(':transform')
     implementation libs.appcompat
     implementation libs.constraintlayout
-    implementation libs.glide
-    implementation libs.picasso
 }

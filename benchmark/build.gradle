@@ -4,9 +4,7 @@ plugins {
 
 android {
     namespace 'com.qmdeve.benchmark'
-    compileSdk {
-        version = release(37)
-    }
+    compileSdk 37
 
     defaultConfig {
         minSdk 23

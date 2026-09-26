@@ -23,5 +23,4 @@ rootProject.name = "QmBlurView"
 include ':app'
 include ':core'
 include ':navigation'
-include ':transform'
 include ':benchmark'
