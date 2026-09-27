@@ -53,7 +53,7 @@ import androidx.annotation.Nullable;
 
 import com.qmdeve.blurview.R;
 
-public class BlurSwitchButtonView extends BlurView {
+public class SwitchButton extends BlurView {
     private static final float WIDTH_HEIGHT_RATIO = 2.0f;
     private boolean isChecked = false;
     private final Paint mTrackPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
@@ -92,11 +92,11 @@ public class BlurSwitchButtonView extends BlurView {
         this.listener = listener;
     }
 
-    public BlurSwitchButtonView(Context context) {
+    public SwitchButton(Context context) {
         this(context, null);
     }
 
-    public BlurSwitchButtonView(Context context, @Nullable AttributeSet attrs) {
+    public SwitchButton(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
         init(context, attrs);
     }
