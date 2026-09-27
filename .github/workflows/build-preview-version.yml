@@ -125,8 +125,6 @@ jobs:
           body: |
             ## Preview Release
 
-            - Version: `${{ needs.check-tag.outputs.version }}`
-            - Built from: `${{ github.sha }}`
             - ⚠️ This is a **Preview** build.
           draft: false
           prerelease: true
