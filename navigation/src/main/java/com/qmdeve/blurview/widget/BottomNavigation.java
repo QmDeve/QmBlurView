@@ -76,7 +76,7 @@ import java.util.List;
  * </ul>
  * </p>
  */
-public class BlurBottomNavigationView extends BaseBlurView {
+public class BottomNavigation extends BaseBlurView {
     private int mMenuResId;
     private int mSelectedColor;
     private int mUnselectedColor;
@@ -99,7 +99,7 @@ public class BlurBottomNavigationView extends BaseBlurView {
      *
      * @param context the context used to initialize the view
      */
-    public BlurBottomNavigationView(Context context) {
+    public BottomNavigation(Context context) {
         this(context, null);
     }
 
@@ -109,7 +109,7 @@ public class BlurBottomNavigationView extends BaseBlurView {
      * @param context the context
      * @param attrs   the attribute set from XML
      */
-    public BlurBottomNavigationView(Context context, AttributeSet attrs) {
+    public BottomNavigation(Context context, AttributeSet attrs) {
         super(context, attrs);
 
         mFixedHeightPx = (int) Utils.dp2px(getResources(), 60);
@@ -126,22 +126,22 @@ public class BlurBottomNavigationView extends BaseBlurView {
     @Override
     protected void initAttributes(Context context, AttributeSet attrs) {
         @SuppressLint("CustomViewStyleable")
-        TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.BlurBottomNavigationView);
-        mBlurRadius = a.getDimension(R.styleable.BlurBottomNavigationView_navBlurRadius, Utils.dp2px(getResources(), 25));
+        TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.BottomNavigation);
+        mBlurRadius = a.getDimension(R.styleable.BottomNavigation_navBlurRadius, Utils.dp2px(getResources(), 25));
         mCornerRadius = 0;
-        mOverlayColor = a.getColor(R.styleable.BlurBottomNavigationView_navOverlayColor, 0xAAFFFFFF);
-        mMenuResId = a.getResourceId(R.styleable.BlurBottomNavigationView_menu, 0);
-        mSelectedColor = a.getColor(R.styleable.BlurBottomNavigationView_navSelectedColor, Color.BLUE);
-        mUnselectedColor = a.getColor(R.styleable.BlurBottomNavigationView_navUnselectedColor, Color.GRAY);
+        mOverlayColor = a.getColor(R.styleable.BottomNavigation_navOverlayColor, 0xAAFFFFFF);
+        mMenuResId = a.getResourceId(R.styleable.BottomNavigation_menu, 0);
+        mSelectedColor = a.getColor(R.styleable.BottomNavigation_navSelectedColor, Color.BLUE);
+        mUnselectedColor = a.getColor(R.styleable.BottomNavigation_navUnselectedColor, Color.GRAY);
         mIconSize = a.getDimension(
-                R.styleable.BlurBottomNavigationView_item_iconSize,
+                R.styleable.BottomNavigation_item_iconSize,
                 TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 24, getResources().getDisplayMetrics())
         );
         mTextSize = a.getDimension(
-                R.styleable.BlurBottomNavigationView_item_textSize,
+                R.styleable.BottomNavigation_item_textSize,
                 TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 12, getResources().getDisplayMetrics())
         );
-        mTextBold = a.getBoolean(R.styleable.BlurBottomNavigationView_item_textBold, false);
+        mTextBold = a.getBoolean(R.styleable.BottomNavigation_item_textBold, false);
         a.recycle();
     }
 
@@ -200,7 +200,7 @@ public class BlurBottomNavigationView extends BaseBlurView {
      *
      * @param navigationView the navigation view being checked
      */
-    private static void checkObscuredByNavigationBar(BlurBottomNavigationView navigationView) {
+    private static void checkObscuredByNavigationBar(BottomNavigation navigationView) {
         boolean hasSystemWindowInset = false;
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
