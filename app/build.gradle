@@ -69,5 +69,4 @@ dependencies {
     implementation project(':core')
     implementation project(':navigation')
     implementation libs.appcompat
-    implementation libs.constraintlayout
 }

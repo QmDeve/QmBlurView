@@ -85,42 +85,6 @@
             app:overlayColor="#0161F2" />
 
         <com.qmdeve.blurview.widget.BlurButtonView
-            android:id="@+id/textureViewButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Blur TextureView"
-            android:textColor="@color/white"
-            app:buttonCornerRadius="99dp"
-            app:overlayColor="#0161F2" />
-
-        <com.qmdeve.blurview.widget.BlurButtonView
-            android:id="@+id/surfaceViewButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Blur SurfaceView"
-            android:textColor="@color/white"
-            app:buttonCornerRadius="99dp"
-            app:overlayColor="#0161F2" />
-
-        <com.qmdeve.blurview.widget.BlurButtonView
-            android:id="@+id/overlappingBlurButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Overlapping Blur"
-            android:textColor="@color/white"
-            app:buttonCornerRadius="99dp"
-            app:overlayColor="#0161F2" />
-
-        <com.qmdeve.blurview.widget.BlurButtonView
-            android:id="@+id/skiaBlurButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Skia/Hardware Bitmap Blur"
-            android:textColor="@color/white"
-            app:buttonCornerRadius="99dp"
-            app:overlayColor="#0161F2" />
-
-        <com.qmdeve.blurview.widget.BlurButtonView
             android:id="@+id/github"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

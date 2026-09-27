@@ -45,21 +45,6 @@
             android:name=".ProgerssiveBlurActivity"
             android:exported="false" />
         <activity
-            android:name=".TextureViewActivity"
-            android:exported="false" />
-        <activity
-            android:name=".SurfaceViewActivity"
-            android:exported="false" />
-        <activity
-            android:name=".SimpleSurfaceViewActivity"
-            android:exported="false" />
-        <activity
-            android:name=".LiveVideoActivity"
-            android:exported="false" />
-        <activity
-            android:name=".OverlappingBlurActivity"
-            android:exported="false" />
-        <activity
             android:name=".SkiaBlurActivity"
             android:exported="false" />
         <activity

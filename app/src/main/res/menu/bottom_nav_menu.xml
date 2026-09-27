@@ -2,18 +2,18 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
         android:id="@+id/tab1"
-        android:title="Tab 1"
+        android:title="Tabs 1"
         android:icon="?android:attr/actionModeWebSearchDrawable"/>
     <item
         android:id="@+id/tab2"
-        android:title="Tab 2"
+        android:title="Tabs 2"
         android:icon="?android:attr/actionModeWebSearchDrawable"/>
     <item
         android:id="@+id/tab3"
-        android:title="Tab 3"
+        android:title="Tabs 3"
         android:icon="?android:attr/actionModeWebSearchDrawable"/>
     <item
         android:id="@+id/tab4"
-        android:title="Tab 4"
+        android:title="Tabs 4"
         android:icon="?android:attr/actionModeWebSearchDrawable"/>
 </menu>
