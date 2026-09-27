@@ -103,12 +103,12 @@ public class SwitchButton extends BlurView {
 
     private void init(Context context, AttributeSet attrs) {
         @SuppressLint("Recycle")
-        TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.BlurSwitchButtonView);
-        mBaseColor = a.getColor(R.styleable.BlurSwitchButtonView_baseColor, 0xFF0161F2);
-        mUseSolidColorMode = a.getBoolean(R.styleable.BlurSwitchButtonView_useSolidColorMode, false);
+        TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.SwitchButton);
+        mBaseColor = a.getColor(R.styleable.SwitchButton_baseColor, 0xFF0161F2);
+        mUseSolidColorMode = a.getBoolean(R.styleable.SwitchButton_useSolidColorMode, false);
 
-        int solidOnColor = a.getColor(R.styleable.BlurSwitchButtonView_solidOnColor, 0);
-        int solidOffColor = a.getColor(R.styleable.BlurSwitchButtonView_solidOffColor, 0);
+        int solidOnColor = a.getColor(R.styleable.SwitchButton_solidOnColor, 0);
+        int solidOffColor = a.getColor(R.styleable.SwitchButton_solidOffColor, 0);
 
         setBlurRadius(16f);
         setCornerRadius(100f);

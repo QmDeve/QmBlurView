@@ -40,7 +40,7 @@
         <attr name="progressiveBlurRadius" format="dimension" />
     </declare-styleable>
 
-    <declare-styleable name="BlurTitlebarView">
+    <declare-styleable name="TitlebarView">
         <attr name="titleText" format="string" />
         <attr name="subtitleText" format="string" />
         <attr name="titleTextColor" format="color" />
@@ -55,7 +55,7 @@
         <attr name="centerTitle" format="boolean" />
     </declare-styleable>
 
-    <declare-styleable name="BlurSwitchButtonView">
+    <declare-styleable name="SwitchButton">
         <attr name="baseColor" format="color" />
         <attr name="useSolidColorMode" format="boolean" />
         <attr name="solidOnColor" format="color" />

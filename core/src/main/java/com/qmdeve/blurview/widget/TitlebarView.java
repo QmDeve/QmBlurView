@@ -50,7 +50,7 @@ import androidx.core.graphics.drawable.DrawableCompat;
 import com.qmdeve.blurview.R;
 import com.qmdeve.blurview.util.Utils;
 
-public class BlurTitlebarView extends BlurView {
+public class TitlebarView extends BlurView {
 
     private String mTitle, mSubtitle, mMenuText;
     private boolean mShowBack, mCenterTitle;
@@ -81,11 +81,11 @@ public class BlurTitlebarView extends BlurView {
     private OnBackClickListener mOnBackClickListener;
     private OnMenuClickListener mOnMenuClickListener;
 
-    public BlurTitlebarView(Context context) {
+    public TitlebarView(Context context) {
         this(context, null);
     }
 
-    public BlurTitlebarView(Context context, @Nullable AttributeSet attrs) {
+    public TitlebarView(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
         setClickable(true);
         setFocusable(true);
@@ -95,13 +95,13 @@ public class BlurTitlebarView extends BlurView {
     }
 
     private void initAttrs(Context context, AttributeSet attrs) {
-        TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.BlurTitlebarView);
-        mTitle = a.getString(R.styleable.BlurTitlebarView_titleText);
-        mSubtitle = a.getString(R.styleable.BlurTitlebarView_subtitleText);
-        mTitleColor = a.getColor(R.styleable.BlurTitlebarView_titleTextColor, Color.TRANSPARENT);
-        mSubtitleColor = a.getColor(R.styleable.BlurTitlebarView_subtitleTextColor, Color.TRANSPARENT);
-        mShowBack = a.getBoolean(R.styleable.BlurTitlebarView_showBack, false);
-        mCenterTitle = a.getBoolean(R.styleable.BlurTitlebarView_centerTitle, false);
+        TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.TitlebarView);
+        mTitle = a.getString(R.styleable.TitlebarView_titleText);
+        mSubtitle = a.getString(R.styleable.TitlebarView_subtitleText);
+        mTitleColor = a.getColor(R.styleable.TitlebarView_titleTextColor, Color.TRANSPARENT);
+        mSubtitleColor = a.getColor(R.styleable.TitlebarView_subtitleTextColor, Color.TRANSPARENT);
+        mShowBack = a.getBoolean(R.styleable.TitlebarView_showBack, false);
+        mCenterTitle = a.getBoolean(R.styleable.TitlebarView_centerTitle, false);
 
         if (mCenterTitle) {
             if (getWidth() == 0 || mTitle == null) {
@@ -113,16 +113,16 @@ public class BlurTitlebarView extends BlurView {
             }
         }
 
-        mBackIconTint = a.getColor(R.styleable.BlurTitlebarView_backIconTint, Color.TRANSPARENT);
-        mMenuIconTint = a.getColor(R.styleable.BlurTitlebarView_menuIconTint, Color.TRANSPARENT);
+        mBackIconTint = a.getColor(R.styleable.TitlebarView_backIconTint, Color.TRANSPARENT);
+        mMenuIconTint = a.getColor(R.styleable.TitlebarView_menuIconTint, Color.TRANSPARENT);
 
-        int backIconRes = a.getResourceId(R.styleable.BlurTitlebarView_backIcon, 0);
+        int backIconRes = a.getResourceId(R.styleable.TitlebarView_backIcon, 0);
         if (backIconRes != 0) mBackIcon = ContextCompat.getDrawable(context, backIconRes);
 
-        mMenuText = a.getString(R.styleable.BlurTitlebarView_menuText);
-        mMenuTextColor = a.getColor(R.styleable.BlurTitlebarView_menuTextColor, Color.TRANSPARENT);
+        mMenuText = a.getString(R.styleable.TitlebarView_menuText);
+        mMenuTextColor = a.getColor(R.styleable.TitlebarView_menuTextColor, Color.TRANSPARENT);
 
-        int menuIconRes = a.getResourceId(R.styleable.BlurTitlebarView_menuIcon, 0);
+        int menuIconRes = a.getResourceId(R.styleable.TitlebarView_menuIcon, 0);
         if (menuIconRes != 0) mMenuIcon = ContextCompat.getDrawable(context, menuIconRes);
         a.recycle();
 
