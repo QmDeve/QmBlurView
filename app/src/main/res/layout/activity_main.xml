@@ -12,7 +12,7 @@
         android:gravity="center"
         android:orientation="vertical">
 
-        <com.qmdeve.blurview.widget.BlurButtonView
+        <com.qmdeve.blurview.widget.Button
             android:id="@+id/blurViewButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -21,7 +21,7 @@
             app:buttonCornerRadius="99dp"
             app:overlayColor="#0161F2" />
 
-        <com.qmdeve.blurview.widget.BlurButtonView
+        <com.qmdeve.blurview.widget.Button
             android:id="@+id/blurIntensityButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -30,7 +30,7 @@
             app:buttonCornerRadius="99dp"
             app:overlayColor="#0161F2" />
 
-        <com.qmdeve.blurview.widget.BlurButtonView
+        <com.qmdeve.blurview.widget.Button
             android:id="@+id/blurButtonButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -39,7 +39,7 @@
             app:buttonCornerRadius="99dp"
             app:overlayColor="#0161F2" />
 
-        <com.qmdeve.blurview.widget.BlurButtonView
+        <com.qmdeve.blurview.widget.Button
             android:id="@+id/progerssiveBlurButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -48,7 +48,7 @@
             app:buttonCornerRadius="99dp"
             app:overlayColor="#0161F2" />
 
-        <com.qmdeve.blurview.widget.BlurButtonView
+        <com.qmdeve.blurview.widget.Button
             android:id="@+id/blurTitlebar"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -57,7 +57,7 @@
             app:buttonCornerRadius="99dp"
             app:overlayColor="#0161F2" />
 
-        <com.qmdeve.blurview.widget.BlurButtonView
+        <com.qmdeve.blurview.widget.Button
             android:id="@+id/blurSwitchButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -66,7 +66,7 @@
             app:buttonCornerRadius="99dp"
             app:overlayColor="#0161F2" />
 
-        <com.qmdeve.blurview.widget.BlurButtonView
+        <com.qmdeve.blurview.widget.Button
             android:id="@+id/blurFloatingButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -75,7 +75,7 @@
             app:buttonCornerRadius="99dp"
             app:overlayColor="#0161F2" />
 
-        <com.qmdeve.blurview.widget.BlurButtonView
+        <com.qmdeve.blurview.widget.Button
             android:id="@+id/blurBottomNavigationButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -84,7 +84,7 @@
             app:buttonCornerRadius="99dp"
             app:overlayColor="#0161F2" />
 
-        <com.qmdeve.blurview.widget.BlurButtonView
+        <com.qmdeve.blurview.widget.Button
             android:id="@+id/github"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

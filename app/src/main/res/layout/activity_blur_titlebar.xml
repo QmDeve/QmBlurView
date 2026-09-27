@@ -80,7 +80,7 @@
             app:subtitleText="Subheading Test"
             app:titleText="Title Test" />
 
-        <com.qmdeve.blurview.widget.BlurButtonView
+        <com.qmdeve.blurview.widget.Button
             android:id="@+id/button1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -93,7 +93,7 @@
             app:buttonTextBold="true"
             app:overlayColor="#9CFFFFFF" />
 
-        <com.qmdeve.blurview.widget.BlurButtonView
+        <com.qmdeve.blurview.widget.Button
             android:id="@+id/button2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
