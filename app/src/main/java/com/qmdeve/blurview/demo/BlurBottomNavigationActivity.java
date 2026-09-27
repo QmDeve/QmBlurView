@@ -10,7 +10,7 @@ import androidx.viewpager.widget.ViewPager;
 import com.qmdeve.blurview.demo.adapter.ViewPagerAdapter;
 import com.qmdeve.blurview.demo.fragment.ContentFragment;
 import com.qmdeve.blurview.demo.util.Utils;
-import com.qmdeve.blurview.widget.BlurBottomNavigationView;
+import com.qmdeve.blurview.widget.BottomNavigation;
 
 public class BlurBottomNavigationActivity extends AppCompatActivity {
 
@@ -24,7 +24,7 @@ public class BlurBottomNavigationActivity extends AppCompatActivity {
         Utils.transparentNavigationBar(getWindow());
 
         ViewPager viewPager = findViewById(R.id.viewpager);
-        BlurBottomNavigationView bottomNavigationView = findViewById(R.id.bottomnav);
+        BottomNavigation bottomNavigation = findViewById(R.id.bottomnav);
 
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager(), FragmentPagerAdapter.BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
         for (int i = 1; i <= 4; i++) {
@@ -34,6 +34,6 @@ public class BlurBottomNavigationActivity extends AppCompatActivity {
         viewPager.setAdapter(adapter);
 
         // Bind ViewPager or ViewPager2
-        bottomNavigationView.bind(viewPager);
+        bottomNavigation.bind(viewPager);
     }
 }

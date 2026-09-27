@@ -9,7 +9,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
-    <com.qmdeve.blurview.widget.BlurBottomNavigationView
+    <com.qmdeve.blurview.widget.BottomNavigation
         android:id="@+id/bottomnav"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

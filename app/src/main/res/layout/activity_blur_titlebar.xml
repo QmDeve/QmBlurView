@@ -38,7 +38,7 @@
         </LinearLayout>
     </ScrollView>
 
-    <com.qmdeve.blurview.widget.BlurTitlebarView
+    <com.qmdeve.blurview.widget.TitlebarView
         android:id="@+id/blurTitlebar1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -56,7 +56,7 @@
         android:gravity="center"
         android:orientation="vertical">
 
-        <com.qmdeve.blurview.widget.BlurTitlebarView
+        <com.qmdeve.blurview.widget.TitlebarView
             android:id="@+id/blurTitlebar2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -67,7 +67,7 @@
             app:subtitleText="Subheading Test"
             app:titleText="Title Test" />
 
-        <com.qmdeve.blurview.widget.BlurTitlebarView
+        <com.qmdeve.blurview.widget.TitlebarView
             android:id="@+id/blurTitlebar3"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

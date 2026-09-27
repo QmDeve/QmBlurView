@@ -6,7 +6,7 @@ import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.qmdeve.blurview.demo.util.Utils;
-import com.qmdeve.blurview.widget.BlurTitlebarView;
+import com.qmdeve.blurview.widget.TitlebarView;
 
 public class BlurTitlebarActivity extends AppCompatActivity {
 
@@ -19,23 +19,23 @@ public class BlurTitlebarActivity extends AppCompatActivity {
         Utils.transparentStatusBar(getWindow());
         Utils.transparentNavigationBar(getWindow());
 
-        BlurTitlebarView blurTitlebarView1 = findViewById(R.id.blurTitlebar1);
-        BlurTitlebarView blurTitlebarView2 = findViewById(R.id.blurTitlebar2);
-        BlurTitlebarView blurTitlebarView3 = findViewById(R.id.blurTitlebar3);
+        TitlebarView titlebarView1 = findViewById(R.id.blurTitlebar1);
+        TitlebarView titlebarView2 = findViewById(R.id.blurTitlebar2);
+        TitlebarView titlebarView3 = findViewById(R.id.blurTitlebar3);
 
-        blurTitlebarView1.setOnBackClickListener(this::finish);
-        blurTitlebarView2.setOnBackClickListener(this::finish);
+        titlebarView1.setOnBackClickListener(this::finish);
+        titlebarView2.setOnBackClickListener(this::finish);
 
         findViewById(R.id.button1).setOnClickListener(v -> {
-            blurTitlebarView1.setCenterTitle(true);
-            blurTitlebarView2.setCenterTitle(true);
-            blurTitlebarView3.setCenterTitle(true);
+            titlebarView1.setCenterTitle(true);
+            titlebarView2.setCenterTitle(true);
+            titlebarView3.setCenterTitle(true);
         });
 
         findViewById(R.id.button2).setOnClickListener(v -> {
-            blurTitlebarView1.setCenterTitle(false);
-            blurTitlebarView2.setCenterTitle(false);
-            blurTitlebarView3.setCenterTitle(false);
+            titlebarView1.setCenterTitle(false);
+            titlebarView2.setCenterTitle(false);
+            titlebarView3.setCenterTitle(false);
         });
     }
 }
