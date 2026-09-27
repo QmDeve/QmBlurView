@@ -59,7 +59,7 @@ import androidx.core.graphics.drawable.DrawableCompat;
 import com.qmdeve.blurview.R;
 import com.qmdeve.blurview.util.Utils;
 
-public class BlurButtonView extends BlurView {
+public class Button extends BlurView {
     private static final float DEFAULT_TEXT_SIZE = 16f;
     private static final int DEFAULT_TEXT_COLOR = Color.BLACK;
     private static final int DEFAULT_ICON_SIZE = 24;
@@ -96,11 +96,11 @@ public class BlurButtonView extends BlurView {
     private final int mTouchSlop;
     private float mTouchDownX, mTouchDownY;
 
-    public BlurButtonView(Context context) {
+    public Button(Context context) {
         this(context, null);
     }
 
-    public BlurButtonView(Context context, AttributeSet attrs) {
+    public Button(Context context, AttributeSet attrs) {
         super(context, attrs);
         mTouchSlop = ViewConfiguration.get(context).getScaledTouchSlop();
         init(context, attrs);
