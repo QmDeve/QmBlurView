@@ -54,7 +54,7 @@ import androidx.core.content.ContextCompat;
 import com.qmdeve.blurview.R;
 import com.qmdeve.blurview.util.Utils;
 
-public class BlurFloatingButtonView extends BlurView {
+public class FloatingButton extends BlurView {
 
     public static final int POSITION_LEFT = 0;
     public static final int POSITION_RIGHT = 1;
@@ -67,16 +67,16 @@ public class BlurFloatingButtonView extends BlurView {
     private float mRippleCornerRadius = 30;
 
     public interface OnLongPressListener {
-        void onLongPress(BlurFloatingButtonView view);
+        void onLongPress(FloatingButton view);
     }
 
     private OnLongPressListener mLongPressListener;
 
-    public BlurFloatingButtonView(Context context) {
+    public FloatingButton(Context context) {
         this(context, null);
     }
 
-    public BlurFloatingButtonView(Context context, @Nullable AttributeSet attrs) {
+    public FloatingButton(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
         init(context);
     }
