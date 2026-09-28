@@ -40,17 +40,22 @@ import android.graphics.*;
 import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
+import android.view.View;
 import android.view.animation.DecelerateInterpolator;
 
+import androidx.annotation.ColorInt;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
 import androidx.core.graphics.drawable.DrawableCompat;
 
 import com.qmdeve.blurview.R;
+import com.qmdeve.blurview.engine.BlurAttrs;
+import com.qmdeve.blurview.engine.BlurEngine;
+import com.qmdeve.blurview.engine.BlurEngines;
 import com.qmdeve.blurview.util.Utils;
 
-public class BlurTitlebarView extends BlurView {
+public class TitlebarView extends View {
 
     private String mTitle, mSubtitle, mMenuText;
     private boolean mShowBack, mCenterTitle;
@@ -80,13 +85,16 @@ public class BlurTitlebarView extends BlurView {
 
     private OnBackClickListener mOnBackClickListener;
     private OnMenuClickListener mOnMenuClickListener;
+    protected final BlurEngine mBlurEngine;
 
-    public BlurTitlebarView(Context context) {
+    public TitlebarView(Context context) {
         this(context, null);
     }
 
-    public BlurTitlebarView(Context context, @Nullable AttributeSet attrs) {
+    public TitlebarView(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
+        mBlurEngine = BlurEngines.create(this);
+        BlurAttrs.apply(mBlurEngine, context, attrs);
         setClickable(true);
         setFocusable(true);
         initAttrs(context, attrs);
@@ -95,13 +103,13 @@ public class BlurTitlebarView extends BlurView {
     }
 
     private void initAttrs(Context context, AttributeSet attrs) {
-        TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.BlurTitlebarView);
-        mTitle = a.getString(R.styleable.BlurTitlebarView_titleText);
-        mSubtitle = a.getString(R.styleable.BlurTitlebarView_subtitleText);
-        mTitleColor = a.getColor(R.styleable.BlurTitlebarView_titleTextColor, Color.TRANSPARENT);
-        mSubtitleColor = a.getColor(R.styleable.BlurTitlebarView_subtitleTextColor, Color.TRANSPARENT);
-        mShowBack = a.getBoolean(R.styleable.BlurTitlebarView_showBack, false);
-        mCenterTitle = a.getBoolean(R.styleable.BlurTitlebarView_centerTitle, false);
+        TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.TitlebarView);
+        mTitle = a.getString(R.styleable.TitlebarView_titleText);
+        mSubtitle = a.getString(R.styleable.TitlebarView_subtitleText);
+        mTitleColor = a.getColor(R.styleable.TitlebarView_titleTextColor, Color.TRANSPARENT);
+        mSubtitleColor = a.getColor(R.styleable.TitlebarView_subtitleTextColor, Color.TRANSPARENT);
+        mShowBack = a.getBoolean(R.styleable.TitlebarView_showBack, false);
+        mCenterTitle = a.getBoolean(R.styleable.TitlebarView_centerTitle, false);
 
         if (mCenterTitle) {
             if (getWidth() == 0 || mTitle == null) {
@@ -113,16 +121,16 @@ public class BlurTitlebarView extends BlurView {
             }
         }
 
-        mBackIconTint = a.getColor(R.styleable.BlurTitlebarView_backIconTint, Color.TRANSPARENT);
-        mMenuIconTint = a.getColor(R.styleable.BlurTitlebarView_menuIconTint, Color.TRANSPARENT);
+        mBackIconTint = a.getColor(R.styleable.TitlebarView_backIconTint, Color.TRANSPARENT);
+        mMenuIconTint = a.getColor(R.styleable.TitlebarView_menuIconTint, Color.TRANSPARENT);
 
-        int backIconRes = a.getResourceId(R.styleable.BlurTitlebarView_backIcon, 0);
+        int backIconRes = a.getResourceId(R.styleable.TitlebarView_backIcon, 0);
         if (backIconRes != 0) mBackIcon = ContextCompat.getDrawable(context, backIconRes);
 
-        mMenuText = a.getString(R.styleable.BlurTitlebarView_menuText);
-        mMenuTextColor = a.getColor(R.styleable.BlurTitlebarView_menuTextColor, Color.TRANSPARENT);
+        mMenuText = a.getString(R.styleable.TitlebarView_menuText);
+        mMenuTextColor = a.getColor(R.styleable.TitlebarView_menuTextColor, Color.TRANSPARENT);
 
-        int menuIconRes = a.getResourceId(R.styleable.BlurTitlebarView_menuIcon, 0);
+        int menuIconRes = a.getResourceId(R.styleable.TitlebarView_menuIcon, 0);
         if (menuIconRes != 0) mMenuIcon = ContextCompat.getDrawable(context, menuIconRes);
         a.recycle();
 
@@ -180,7 +188,11 @@ public class BlurTitlebarView extends BlurView {
 
     @Override
     protected void onDraw(@NonNull Canvas canvas) {
-        super.onDraw(canvas);
+        if (isInEditMode()) {
+            mBlurEngine.drawPreview(canvas, getWidth(), getHeight());
+        } else {
+            mBlurEngine.drawBlur(canvas, getWidth(), getHeight());
+        }
 
         float viewHeight = Utils.dp2px(getResources(), FIXED_HEIGHT_DP);
         float contentTop = mContentTopOffset;
@@ -387,5 +399,122 @@ public class BlurTitlebarView extends BlurView {
 
     public void setOnMenuClickListener(OnMenuClickListener l) {
         mOnMenuClickListener = l;
+    }
+
+    // ------------------------------------------------------------------
+    // Blur configuration — delegated to the engine (was inherited from BlurView).
+    // ------------------------------------------------------------------
+
+    public void setBlurRadius(float radius) {
+        mBlurEngine.setBlurRadius(radius);
+    }
+
+    public float getBlurRadius() {
+        return mBlurEngine.getBlurRadius();
+    }
+
+    public void setBlurRounds(int rounds) {
+        mBlurEngine.setBlurRounds(rounds);
+    }
+
+    public int getBlurRounds() {
+        return mBlurEngine.getBlurRounds();
+    }
+
+    public void setDownsampleFactor(float factor) {
+        mBlurEngine.setDownsampleFactor(factor);
+    }
+
+    public float getDownsampleFactor() {
+        return mBlurEngine.getDownsampleFactor();
+    }
+
+    public void setOverlayColor(@ColorInt int color) {
+        mBlurEngine.setOverlayColor(color);
+    }
+
+    @ColorInt
+    public int getOverlayColor() {
+        return mBlurEngine.getOverlayColor();
+    }
+
+    public void setCornerRadius(float radius) {
+        mBlurEngine.setCornerRadius(radius);
+    }
+
+    public float getCornerRadius() {
+        return mBlurEngine.getCornerRadius();
+    }
+
+    public void setTopLeftCornerRadius(float radius) {
+        mBlurEngine.setTopLeftCornerRadius(radius);
+    }
+
+    public float getTopLeftCornerRadius() {
+        return mBlurEngine.getTopLeftCornerRadius();
+    }
+
+    public void setTopRightCornerRadius(float radius) {
+        mBlurEngine.setTopRightCornerRadius(radius);
+    }
+
+    public float getTopRightCornerRadius() {
+        return mBlurEngine.getTopRightCornerRadius();
+    }
+
+    public void setBottomLeftCornerRadius(float radius) {
+        mBlurEngine.setBottomLeftCornerRadius(radius);
+    }
+
+    public float getBottomLeftCornerRadius() {
+        return mBlurEngine.getBottomLeftCornerRadius();
+    }
+
+    public void setBottomRightCornerRadius(float radius) {
+        mBlurEngine.setBottomRightCornerRadius(radius);
+    }
+
+    public float getBottomRightCornerRadius() {
+        return mBlurEngine.getBottomRightCornerRadius();
+    }
+
+    /**
+     * Caps the blur refresh rate (capture + blur per second). {@code 0} = unlimited.
+     */
+    public void setMaxFps(int fps) {
+        mBlurEngine.setMaxFps(fps);
+    }
+
+    public int getMaxFps() {
+        return mBlurEngine.getMaxFps();
+    }
+
+    /** Forces a full blur refresh on the next draw. */
+    public void updateBlurImmediately() {
+        mBlurEngine.updateBlurImmediately();
+    }
+
+    public void release() {
+        mBlurEngine.release();
+    }
+
+    @Override
+    public void draw(Canvas canvas) {
+        // Don't draw ourselves into our own capture.
+        if (!mBlurEngine.isCapturing()) {
+            super.draw(canvas);
+        }
+    }
+
+    @Override
+    protected void onAttachedToWindow() {
+        super.onAttachedToWindow();
+        mBlurEngine.attach();
+    }
+
+    @Override
+    protected void onDetachedFromWindow() {
+        mBlurEngine.detach();
+        super.onDetachedFromWindow();
     }
 }

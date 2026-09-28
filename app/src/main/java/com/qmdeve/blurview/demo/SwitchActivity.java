@@ -7,21 +7,21 @@ import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.qmdeve.blurview.demo.util.Utils;
-import com.qmdeve.blurview.widget.BlurSwitchButtonView;
+import com.qmdeve.blurview.widget.SwitchButton;
 
-public class BlurSwitchActivity extends AppCompatActivity {
+public class SwitchActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
-        setContentView(R.layout.activity_blur_switch);
+        setContentView(R.layout.activity_switch);
 
         Utils.transparentStatusBar(getWindow());
         Utils.transparentNavigationBar(getWindow());
 
-        BlurSwitchButtonView blurSwitch1 = findViewById(R.id.blurSwitch1);
-        BlurSwitchButtonView blurSwitch2 = findViewById(R.id.blurSwitch2);
+        SwitchButton blurSwitch1 = findViewById(R.id.blurSwitch1);
+        SwitchButton blurSwitch2 = findViewById(R.id.blurSwitch2);
 
         blurSwitch1.setOnCheckedChangeListener(is -> {
             Toast.makeText(this, String.valueOf(is), Toast.LENGTH_SHORT).show();

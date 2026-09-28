@@ -34,7 +34,7 @@ package com.qmdeve.blurview;
 import android.graphics.Canvas;
 import android.view.MotionEvent;
 
-import com.qmdeve.blurview.widget.BlurBottomNavigationView;
+import com.qmdeve.blurview.widget.BottomTabBar;
 
 import java.util.List;
 
@@ -44,7 +44,7 @@ import java.util.List;
  * drawing operations to each tab and handling touch events to update the selected state.
  */
 public class TabViewManager {
-    private final BlurBottomNavigationView mNavigationView;
+    private final BottomTabBar mNavigationView;
 
     /**
      * Constructs a new {@code TabViewManager} associated with the specified
@@ -52,7 +52,7 @@ public class TabViewManager {
      *
      * @param navigationView the bottom navigation view that hosts the tab items
      */
-    public TabViewManager(BlurBottomNavigationView navigationView) {
+    public TabViewManager(BottomTabBar navigationView) {
         this.mNavigationView = navigationView;
     }
 

@@ -12,7 +12,7 @@
         android:gravity="center"
         android:orientation="vertical">
 
-        <com.qmdeve.blurview.widget.BlurButtonView
+        <com.qmdeve.blurview.widget.Button
             android:id="@+id/blurViewButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -21,7 +21,7 @@
             app:buttonCornerRadius="99dp"
             app:overlayColor="#0161F2" />
 
-        <com.qmdeve.blurview.widget.BlurButtonView
+        <com.qmdeve.blurview.widget.Button
             android:id="@+id/blurIntensityButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -30,16 +30,16 @@
             app:buttonCornerRadius="99dp"
             app:overlayColor="#0161F2" />
 
-        <com.qmdeve.blurview.widget.BlurButtonView
+        <com.qmdeve.blurview.widget.Button
             android:id="@+id/blurButtonButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Blur Button"
+            android:text="BlurButton"
             android:textColor="@color/white"
             app:buttonCornerRadius="99dp"
             app:overlayColor="#0161F2" />
 
-        <com.qmdeve.blurview.widget.BlurButtonView
+        <com.qmdeve.blurview.widget.Button
             android:id="@+id/progerssiveBlurButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -48,43 +48,61 @@
             app:buttonCornerRadius="99dp"
             app:overlayColor="#0161F2" />
 
-        <com.qmdeve.blurview.widget.BlurButtonView
-            android:id="@+id/blurTitlebar"
+        <com.qmdeve.blurview.widget.Button
+            android:id="@+id/titleBarButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Blur Titlebar"
+            android:text="Titlebar"
             android:textColor="@color/white"
             app:buttonCornerRadius="99dp"
             app:overlayColor="#0161F2" />
 
-        <com.qmdeve.blurview.widget.BlurButtonView
-            android:id="@+id/blurSwitchButton"
+        <com.qmdeve.blurview.widget.Button
+            android:id="@+id/switchButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Blur SwitchButton"
+            android:text="SwitchButton"
             android:textColor="@color/white"
             app:buttonCornerRadius="99dp"
             app:overlayColor="#0161F2" />
 
-        <com.qmdeve.blurview.widget.BlurButtonView
-            android:id="@+id/blurFloatingButton"
+        <com.qmdeve.blurview.widget.Button
+            android:id="@+id/floatingButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Blur FloatingButton"
+            android:text="FloatingButton"
             android:textColor="@color/white"
             app:buttonCornerRadius="99dp"
             app:overlayColor="#0161F2" />
 
-        <com.qmdeve.blurview.widget.BlurButtonView
-            android:id="@+id/blurBottomNavigationButton"
+        <com.qmdeve.blurview.widget.Button
+            android:id="@+id/bottomTabbarButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Blur BottomNavigationBar"
+            android:text="BottomTabBar"
             android:textColor="@color/white"
             app:buttonCornerRadius="99dp"
             app:overlayColor="#0161F2" />
 
-        <com.qmdeve.blurview.widget.BlurButtonView
+        <com.qmdeve.blurview.widget.Button
+            android:id="@+id/cardViewButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="CardView"
+            android:textColor="@color/white"
+            app:buttonCornerRadius="99dp"
+            app:overlayColor="#0161F2" />
+
+        <com.qmdeve.blurview.widget.Button
+            android:id="@+id/searchBarButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="SearchBar"
+            android:textColor="@color/white"
+            app:buttonCornerRadius="99dp"
+            app:overlayColor="#0161F2" />
+
+        <com.qmdeve.blurview.widget.Button
             android:id="@+id/github"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

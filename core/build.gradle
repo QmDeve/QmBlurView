@@ -78,6 +78,12 @@ android {
         sourceCompatibility JavaVersion.VERSION_21
         targetCompatibility JavaVersion.VERSION_21
     }
+    
+    sourceSets {
+        main {
+            resources.srcDirs += "$buildDir/generated/metaInf"
+        }
+    }
 }
 
 dependencies {
@@ -85,6 +91,19 @@ dependencies {
     implementation libs.core
     implementation libs.tracing
 }
+
+task generateVersionFile {
+    def outDir  = file("$buildDir/generated/metaInf/META-INF")
+    def outFile = new File(outDir, 'com.qmdeve.blurview.version')
+    outputs.file(outFile)
+
+    doLast {
+        outDir.mkdirs()
+        outFile.text = "${VERSION}"
+    }
+}
+
+preBuild.dependsOn generateVersionFile
 
 if (hasProperty('jitpack')) {
     return

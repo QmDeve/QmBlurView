@@ -26,6 +26,7 @@
         <attr name="buttonIconPadding" format="dimension" />
         <attr name="buttonIconTint" format="color" />
         <attr name="buttonCornerRadius" format="dimension" />
+        <attr name="buttonCircular" format="boolean" />
     </declare-styleable>
 
     <declare-styleable name="ProgressiveBlurView">
@@ -40,7 +41,7 @@
         <attr name="progressiveBlurRadius" format="dimension" />
     </declare-styleable>
 
-    <declare-styleable name="BlurTitlebarView">
+    <declare-styleable name="TitlebarView">
         <attr name="titleText" format="string" />
         <attr name="subtitleText" format="string" />
         <attr name="titleTextColor" format="color" />
@@ -55,10 +56,29 @@
         <attr name="centerTitle" format="boolean" />
     </declare-styleable>
 
-    <declare-styleable name="BlurSwitchButtonView">
+    <declare-styleable name="SwitchButton">
         <attr name="baseColor" format="color" />
         <attr name="useSolidColorMode" format="boolean" />
         <attr name="solidOnColor" format="color" />
         <attr name="solidOffColor" format="color" />
     </declare-styleable>
+
+    <declare-styleable name="CardView">
+        <attr name="cardBorderWidth" format="dimension" />
+        <attr name="cardBorderColor" format="color" />
+        <attr name="cardElevation" format="dimension" />
+    </declare-styleable>
+
+    <declare-styleable name="SearchBar">
+        <attr name="searchHint" format="string" />
+        <attr name="searchTextSize" format="dimension" />
+        <attr name="searchTextColor" format="color" />
+        <attr name="searchHintColor" format="color" />
+        <attr name="searchIcon" format="reference" />
+        <attr name="searchIconTint" format="color" />
+        <attr name="searchIconSize" format="dimension" />
+        <attr name="searchBorderWidth" format="dimension" />
+        <attr name="searchBorderColor" format="color" />
+    </declare-styleable>
+
 </resources>

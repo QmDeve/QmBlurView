@@ -40,15 +40,19 @@ import android.os.Build;
 import android.util.AttributeSet;
 import android.util.TypedValue;
 import android.view.MotionEvent;
+import android.view.View;
 import android.view.WindowInsets;
 
+import androidx.annotation.ColorInt;
 import androidx.annotation.NonNull;
 import androidx.viewpager.widget.ViewPager;
 import androidx.viewpager2.widget.ViewPager2;
 
 import com.qmdeve.blurview.TabView;
 import com.qmdeve.blurview.TabViewManager;
-import com.qmdeve.blurview.base.BaseBlurView;
+import com.qmdeve.blurview.engine.BlurAttrs;
+import com.qmdeve.blurview.engine.BlurEngine;
+import com.qmdeve.blurview.engine.BlurEngines;
 import com.qmdeve.blurview.navigation.R;
 import com.qmdeve.blurview.util.MenuUtils;
 import com.qmdeve.blurview.util.Utils;
@@ -76,7 +80,7 @@ import java.util.List;
  * </ul>
  * </p>
  */
-public class BlurBottomNavigationView extends BaseBlurView {
+public class BottomTabBar extends View {
     private int mMenuResId;
     private int mSelectedColor;
     private int mUnselectedColor;
@@ -94,12 +98,15 @@ public class BlurBottomNavigationView extends BaseBlurView {
     public boolean mIsObscuredByNavigationBar = false;
     private final TabViewManager mTabViewManager;
 
+    /** The blur pipeline (composition instead of inheriting BaseBlurView). */
+    protected final BlurEngine mBlurEngine;
+
     /**
      * Constructs the navigation view programmatically.
      *
      * @param context the context used to initialize the view
      */
-    public BlurBottomNavigationView(Context context) {
+    public BottomTabBar(Context context) {
         this(context, null);
     }
 
@@ -109,12 +116,15 @@ public class BlurBottomNavigationView extends BaseBlurView {
      * @param context the context
      * @param attrs   the attribute set from XML
      */
-    public BlurBottomNavigationView(Context context, AttributeSet attrs) {
+    public BottomTabBar(Context context, AttributeSet attrs) {
         super(context, attrs);
 
         mFixedHeightPx = (int) Utils.dp2px(getResources(), 60);
         mTabViews = new ArrayList<>();
         mTabViewManager = new TabViewManager(this);
+        mBlurEngine = BlurEngines.create(this);
+        BlurAttrs.apply(mBlurEngine, context, attrs);
+        initAttributes(context, attrs);
     }
 
     /**
@@ -123,25 +133,24 @@ public class BlurBottomNavigationView extends BaseBlurView {
      * @param context the context used to access resources
      * @param attrs   the attribute set passed from XML
      */
-    @Override
-    protected void initAttributes(Context context, AttributeSet attrs) {
+    private void initAttributes(Context context, AttributeSet attrs) {
         @SuppressLint("CustomViewStyleable")
-        TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.BlurBottomNavigationView);
-        mBlurRadius = a.getDimension(R.styleable.BlurBottomNavigationView_navBlurRadius, Utils.dp2px(getResources(), 25));
-        mCornerRadius = 0;
-        mOverlayColor = a.getColor(R.styleable.BlurBottomNavigationView_navOverlayColor, 0xAAFFFFFF);
-        mMenuResId = a.getResourceId(R.styleable.BlurBottomNavigationView_menu, 0);
-        mSelectedColor = a.getColor(R.styleable.BlurBottomNavigationView_navSelectedColor, Color.BLUE);
-        mUnselectedColor = a.getColor(R.styleable.BlurBottomNavigationView_navUnselectedColor, Color.GRAY);
+        TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.BottomTabBar);
+        mBlurEngine.setBlurRadius(a.getDimension(R.styleable.BottomTabBar_navBlurRadius, Utils.dp2px(getResources(), 25)));
+        mBlurEngine.setCornerRadius(0);
+        mBlurEngine.setOverlayColor(a.getColor(R.styleable.BottomTabBar_navOverlayColor, 0xAAFFFFFF));
+        mMenuResId = a.getResourceId(R.styleable.BottomTabBar_menu, 0);
+        mSelectedColor = a.getColor(R.styleable.BottomTabBar_navSelectedColor, Color.BLUE);
+        mUnselectedColor = a.getColor(R.styleable.BottomTabBar_navUnselectedColor, Color.GRAY);
         mIconSize = a.getDimension(
-                R.styleable.BlurBottomNavigationView_item_iconSize,
+                R.styleable.BottomTabBar_item_iconSize,
                 TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 24, getResources().getDisplayMetrics())
         );
         mTextSize = a.getDimension(
-                R.styleable.BlurBottomNavigationView_item_textSize,
+                R.styleable.BottomTabBar_item_textSize,
                 TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 12, getResources().getDisplayMetrics())
         );
-        mTextBold = a.getBoolean(R.styleable.BlurBottomNavigationView_item_textBold, false);
+        mTextBold = a.getBoolean(R.styleable.BottomTabBar_item_textBold, false);
         a.recycle();
     }
 
@@ -200,7 +209,7 @@ public class BlurBottomNavigationView extends BaseBlurView {
      *
      * @param navigationView the navigation view being checked
      */
-    private static void checkObscuredByNavigationBar(BlurBottomNavigationView navigationView) {
+    private static void checkObscuredByNavigationBar(BottomTabBar navigationView) {
         boolean hasSystemWindowInset = false;
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
@@ -243,12 +252,15 @@ public class BlurBottomNavigationView extends BaseBlurView {
     @Override
     protected void onDraw(@NonNull Canvas canvas) {
         initMenuIfNeeded();
-        drawBlurredBitmap(canvas);
+
+        if (isInEditMode()) {
+            mBlurEngine.drawPreview(canvas, getWidth(), getHeight());
+        } else {
+            mBlurEngine.drawBlur(canvas, getWidth(), getHeight());
+        }
 
         if (!mTabViews.isEmpty()) {
             mTabViewManager.drawTabs(canvas, mTabViews, mCurrentSelected, mFixedHeightPx);
-        } else {
-            drawPreviewBackground(canvas);
         }
     }
 
@@ -494,15 +506,71 @@ public class BlurBottomNavigationView extends BaseBlurView {
     /**
      * Releases view resources and clears internal lists.
      */
-    @Override
     public void release() {
-        super.release();
+        mBlurEngine.release();
         if (mTabViews != null) {
             mTabViews.clear();
         }
         if (mMenuItems != null) {
             mMenuItems.clear();
         }
+    }
+
+    // ------------------------------------------------------------------
+    // Blur configuration — delegated to the engine (was inherited from BaseBlurView).
+    // ------------------------------------------------------------------
+
+    public void setBlurRadius(float radius) {
+        mBlurEngine.setBlurRadius(radius);
+    }
+
+    public float getBlurRadius() {
+        return mBlurEngine.getBlurRadius();
+    }
+
+    public void setOverlayColor(@ColorInt int color) {
+        mBlurEngine.setOverlayColor(color);
+    }
+
+    @ColorInt
+    public int getOverlayColor() {
+        return mBlurEngine.getOverlayColor();
+    }
+
+    /**
+     * Caps the blur refresh rate (capture + blur per second). {@code 0} = unlimited.
+     */
+    public void setMaxFps(int fps) {
+        mBlurEngine.setMaxFps(fps);
+    }
+
+    public int getMaxFps() {
+        return mBlurEngine.getMaxFps();
+    }
+
+    /** Forces a full blur refresh on the next draw. */
+    public void updateBlurImmediately() {
+        mBlurEngine.updateBlurImmediately();
+    }
+
+    @Override
+    public void draw(Canvas canvas) {
+        // Don't draw ourselves into our own capture.
+        if (!mBlurEngine.isCapturing()) {
+            super.draw(canvas);
+        }
+    }
+
+    @Override
+    protected void onAttachedToWindow() {
+        super.onAttachedToWindow();
+        mBlurEngine.attach();
+    }
+
+    @Override
+    protected void onDetachedFromWindow() {
+        mBlurEngine.detach();
+        super.onDetachedFromWindow();
     }
 
     /**

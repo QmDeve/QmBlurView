@@ -11,7 +11,7 @@
         android:scaleType="centerCrop"
         android:src="@drawable/image" />
 
-    <com.qmdeve.blurview.widget.BlurFloatingButtonView
+    <com.qmdeve.blurview.widget.FloatingButton
         android:id="@+id/blurFloatingButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />

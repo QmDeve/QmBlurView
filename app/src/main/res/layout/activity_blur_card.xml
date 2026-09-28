@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white">
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleType="centerCrop"
+        android:src="@drawable/image" />
+
+    <com.qmdeve.blurview.widget.CardView
+        android:id="@+id/card"
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        android:layout_centerInParent="true"
+        android:padding="20dp"
+        app:blurRadius="20dp"
+        app:cardBorderColor="#55FFFFFF"
+        app:cardBorderWidth="0.5dp"
+        app:cardElevation="8dp"
+        app:cornerRadius="24dp"
+        app:overlayColor="#90FFFFFF">
+    </com.qmdeve.blurview.widget.CardView>
+</RelativeLayout>
