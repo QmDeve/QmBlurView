@@ -10,21 +10,21 @@ import androidx.viewpager.widget.ViewPager;
 import com.qmdeve.blurview.demo.adapter.ViewPagerAdapter;
 import com.qmdeve.blurview.demo.fragment.ContentFragment;
 import com.qmdeve.blurview.demo.util.Utils;
-import com.qmdeve.blurview.widget.BottomNavigation;
+import com.qmdeve.blurview.widget.BottomTabBar;
 
-public class BlurBottomNavigationActivity extends AppCompatActivity {
+public class BottomTabBarActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
-        setContentView(R.layout.activity_blur_navigation);
+        setContentView(R.layout.activity_bottom_tabbar);
 
         Utils.transparentStatusBar(getWindow());
         Utils.transparentNavigationBar(getWindow());
 
         ViewPager viewPager = findViewById(R.id.viewpager);
-        BottomNavigation bottomNavigation = findViewById(R.id.bottomnav);
+        BottomTabBar bottomTabbar = findViewById(R.id.bottomTab);
 
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager(), FragmentPagerAdapter.BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
         for (int i = 1; i <= 4; i++) {
@@ -34,6 +34,6 @@ public class BlurBottomNavigationActivity extends AppCompatActivity {
         viewPager.setAdapter(adapter);
 
         // Bind ViewPager or ViewPager2
-        bottomNavigation.bind(viewPager);
+        bottomTabbar.bind(viewPager);
     }
 }

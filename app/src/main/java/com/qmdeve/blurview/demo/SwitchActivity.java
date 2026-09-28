@@ -9,13 +9,13 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.qmdeve.blurview.demo.util.Utils;
 import com.qmdeve.blurview.widget.SwitchButton;
 
-public class BlurSwitchActivity extends AppCompatActivity {
+public class SwitchActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
-        setContentView(R.layout.activity_blur_switch);
+        setContentView(R.layout.activity_switch);
 
         Utils.transparentStatusBar(getWindow());
         Utils.transparentNavigationBar(getWindow());

@@ -48,12 +48,16 @@ import android.view.View;
 import android.view.animation.DecelerateInterpolator;
 import android.view.animation.Interpolator;
 
+import androidx.annotation.ColorInt;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.qmdeve.blurview.R;
+import com.qmdeve.blurview.engine.BlurAttrs;
+import com.qmdeve.blurview.engine.BlurEngine;
+import com.qmdeve.blurview.engine.BlurEngines;
 
-public class SwitchButton extends BlurView {
+public class SwitchButton extends View {
     private static final float WIDTH_HEIGHT_RATIO = 2.0f;
     private boolean isChecked = false;
     private final Paint mTrackPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
@@ -81,8 +85,8 @@ public class SwitchButton extends BlurView {
     private boolean mUseSolidColorMode = false;
     private int mSolidOnColor;
     private int mSolidOffColor;
-
     private OnCheckedChangeListener listener;
+    protected final BlurEngine mBlurEngine;
 
     public interface OnCheckedChangeListener {
         void onCheckedChanged(boolean isChecked);
@@ -98,6 +102,8 @@ public class SwitchButton extends BlurView {
 
     public SwitchButton(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
+        mBlurEngine = BlurEngines.create(this);
+        BlurAttrs.apply(mBlurEngine, context, attrs);
         init(context, attrs);
     }
 
@@ -373,7 +379,11 @@ public class SwitchButton extends BlurView {
 
     @Override
     protected void onDraw(@NonNull Canvas canvas) {
-        super.onDraw(canvas);
+        if (isInEditMode()) {
+            mBlurEngine.drawPreview(canvas, getWidth(), getHeight());
+        } else {
+            mBlurEngine.drawBlur(canvas, getWidth(), getHeight());
+        }
 
         float w = getWidth();
         float h = getHeight();
@@ -621,5 +631,117 @@ public class SwitchButton extends BlurView {
 
     public int getSolidOffColor() {
         return mSolidOffColor;
+    }
+
+    // ------------------------------------------------------------------
+    // Blur configuration — delegated to the engine (was inherited from BlurView).
+    // ------------------------------------------------------------------
+
+    public void setBlurRadius(float radius) {
+        mBlurEngine.setBlurRadius(radius);
+    }
+
+    public float getBlurRadius() {
+        return mBlurEngine.getBlurRadius();
+    }
+
+    public void setBlurRounds(int rounds) {
+        mBlurEngine.setBlurRounds(rounds);
+    }
+
+    public int getBlurRounds() {
+        return mBlurEngine.getBlurRounds();
+    }
+
+    public void setDownsampleFactor(float factor) {
+        mBlurEngine.setDownsampleFactor(factor);
+    }
+
+    public float getDownsampleFactor() {
+        return mBlurEngine.getDownsampleFactor();
+    }
+
+    public void setOverlayColor(@ColorInt int color) {
+        mBlurEngine.setOverlayColor(color);
+    }
+
+    @ColorInt
+    public int getOverlayColor() {
+        return mBlurEngine.getOverlayColor();
+    }
+
+    public void setCornerRadius(float radius) {
+        mBlurEngine.setCornerRadius(radius);
+    }
+
+    public float getCornerRadius() {
+        return mBlurEngine.getCornerRadius();
+    }
+
+    public void setTopLeftCornerRadius(float radius) {
+        mBlurEngine.setTopLeftCornerRadius(radius);
+    }
+
+    public float getTopLeftCornerRadius() {
+        return mBlurEngine.getTopLeftCornerRadius();
+    }
+
+    public void setTopRightCornerRadius(float radius) {
+        mBlurEngine.setTopRightCornerRadius(radius);
+    }
+
+    public float getTopRightCornerRadius() {
+        return mBlurEngine.getTopRightCornerRadius();
+    }
+
+    public void setBottomLeftCornerRadius(float radius) {
+        mBlurEngine.setBottomLeftCornerRadius(radius);
+    }
+
+    public float getBottomLeftCornerRadius() {
+        return mBlurEngine.getBottomLeftCornerRadius();
+    }
+
+    public void setBottomRightCornerRadius(float radius) {
+        mBlurEngine.setBottomRightCornerRadius(radius);
+    }
+
+    public float getBottomRightCornerRadius() {
+        return mBlurEngine.getBottomRightCornerRadius();
+    }
+
+    public void setMaxFps(int fps) {
+        mBlurEngine.setMaxFps(fps);
+    }
+
+    public int getMaxFps() {
+        return mBlurEngine.getMaxFps();
+    }
+
+    public void updateBlurImmediately() {
+        mBlurEngine.updateBlurImmediately();
+    }
+
+    public void release() {
+        mBlurEngine.release();
+    }
+
+    @Override
+    public void draw(Canvas canvas) {
+        if (!mBlurEngine.isCapturing()) {
+            super.draw(canvas);
+        }
+    }
+
+    @Override
+    protected void onAttachedToWindow() {
+        super.onAttachedToWindow();
+        mBlurEngine.attach();
+    }
+
+    @Override
+    protected void onDetachedFromWindow() {
+        mBlurEngine.detach();
+        super.onDetachedFromWindow();
     }
 }

@@ -8,13 +8,13 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.qmdeve.blurview.demo.util.Utils;
 import com.qmdeve.blurview.widget.FloatingButton;
 
-public class BlurFloatingButtonActivity extends AppCompatActivity {
+public class FloatingButtonActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
-        setContentView(R.layout.activity_blur_floatingbutton);
+        setContentView(R.layout.activity_floatingbutton);
 
         Utils.transparentStatusBar(getWindow());
         Utils.transparentNavigationBar(getWindow());

@@ -35,6 +35,7 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.res.ColorStateList;
 import android.content.res.TypedArray;
+import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -52,14 +53,19 @@ import android.view.animation.AnimationUtils;
 import android.view.animation.DecelerateInterpolator;
 import android.view.animation.Interpolator;
 
+import androidx.annotation.ColorInt;
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.core.content.res.ResourcesCompat;
 import androidx.core.graphics.drawable.DrawableCompat;
 
 import com.qmdeve.blurview.R;
+import com.qmdeve.blurview.engine.BlurAttrs;
+import com.qmdeve.blurview.engine.BlurEngine;
+import com.qmdeve.blurview.engine.BlurEngines;
 import com.qmdeve.blurview.util.Utils;
 
-public class Button extends BlurView {
+public class Button extends View {
     private static final float DEFAULT_TEXT_SIZE = 16f;
     private static final int DEFAULT_TEXT_COLOR = Color.BLACK;
     private static final int DEFAULT_ICON_SIZE = 24;
@@ -84,6 +90,7 @@ public class Button extends BlurView {
     private OnClickListener mOnClickListener;
     private boolean mIsPressed = false;
     private float mButtonCornerRadius;
+    private boolean mCircular = false;
     private int mContentWidth = 0;
     private int mContentHeight = 0;
     private final float mPressedScale = 0.94f;
@@ -96,12 +103,16 @@ public class Button extends BlurView {
     private final int mTouchSlop;
     private float mTouchDownX, mTouchDownY;
 
+    protected final BlurEngine mBlurEngine;
+
     public Button(Context context) {
         this(context, null);
     }
 
     public Button(Context context, AttributeSet attrs) {
         super(context, attrs);
+        mBlurEngine = BlurEngines.create(this);
+        BlurAttrs.apply(mBlurEngine, context, attrs);
         mTouchSlop = ViewConfiguration.get(context).getScaledTouchSlop();
         init(context, attrs);
 
@@ -134,6 +145,17 @@ public class Button extends BlurView {
         mIconTint = a.getColorStateList(R.styleable.BlurButtonView_buttonIconTint);
         mGravity = a.getInt(R.styleable.BlurButtonView_android_gravity, Gravity.CENTER);
         mButtonCornerRadius = a.getDimension(R.styleable.BlurButtonView_buttonCornerRadius, 0);
+        mCircular = a.getBoolean(R.styleable.BlurButtonView_buttonCircular, false);
+
+        // The dedicated button blur attributes override the shared ones when present.
+        if (a.hasValue(R.styleable.BlurButtonView_buttonBlurRadius)) {
+            mBlurEngine.setBlurRadius(a.getDimension(R.styleable.BlurButtonView_buttonBlurRadius,
+                    mBlurEngine.getBlurRadius()));
+        }
+        if (a.hasValue(R.styleable.BlurButtonView_buttonOverlayColor)) {
+            mBlurEngine.setOverlayColor(a.getColor(R.styleable.BlurButtonView_buttonOverlayColor,
+                    mBlurEngine.getOverlayColor()));
+        }
 
         a.recycle();
 
@@ -235,7 +257,11 @@ public class Button extends BlurView {
 
     @Override
     protected void onDraw(@NonNull Canvas canvas) {
-        setCornerRadius(mButtonCornerRadius);
+        if (isInEditMode()) {
+            mBlurEngine.drawPreview(canvas, getWidth(), getHeight());
+            drawButtonContent(canvas);
+            return;
+        }
 
         if (mCurrentScale != 1.0f) {
             canvas.save();
@@ -243,11 +269,11 @@ public class Button extends BlurView {
             float pivotX = getWidth() / 2f;
             float pivotY = getHeight() / 2f;
             canvas.scale(scale, scale, pivotX, pivotY);
-            super.onDraw(canvas);
+            mBlurEngine.drawBlur(canvas, getWidth(), getHeight());
             drawButtonContent(canvas);
             canvas.restore();
         } else {
-            super.onDraw(canvas);
+            mBlurEngine.drawBlur(canvas, getWidth(), getHeight());
             drawButtonContent(canvas);
         }
     }
@@ -302,9 +328,39 @@ public class Button extends BlurView {
     public void setButtonCornerRadius(float radius) {
         if (mButtonCornerRadius != radius) {
             mButtonCornerRadius = radius;
+            // An explicit radius wins over the circular mode.
+            mCircular = false;
             setCornerRadius(mButtonCornerRadius);
             invalidate();
         }
+    }
+
+    @Override
+    protected void onSizeChanged(int w, int h, int oldw, int oldh) {
+        super.onSizeChanged(w, h, oldw, oldh);
+        applyCircularRadius();
+    }
+
+    private void applyCircularRadius() {
+        if (mCircular && getWidth() > 0 && getHeight() > 0) {
+            setCornerRadius(Math.min(getWidth(), getHeight()) / 2f);
+        }
+    }
+
+    public void setCircular(boolean circular) {
+        if (mCircular != circular) {
+            mCircular = circular;
+            if (circular) {
+                applyCircularRadius();
+            } else {
+                setCornerRadius(mButtonCornerRadius);
+            }
+            invalidate();
+        }
+    }
+
+    public boolean isCircular() {
+        return mCircular;
     }
 
     private void calculateContentBounds() {
@@ -594,9 +650,117 @@ public class Button extends BlurView {
         }
     }
 
+    public void setBlurRadius(float radius) {
+        mBlurEngine.setBlurRadius(radius);
+    }
+
+    public float getBlurRadius() {
+        return mBlurEngine.getBlurRadius();
+    }
+
+    public void setBlurRounds(int rounds) {
+        mBlurEngine.setBlurRounds(rounds);
+    }
+
+    public int getBlurRounds() {
+        return mBlurEngine.getBlurRounds();
+    }
+
+    public void setDownsampleFactor(float factor) {
+        mBlurEngine.setDownsampleFactor(factor);
+    }
+
+    public float getDownsampleFactor() {
+        return mBlurEngine.getDownsampleFactor();
+    }
+
+    public void setOverlayColor(@ColorInt int color) {
+        mBlurEngine.setOverlayColor(color);
+    }
+
+    @ColorInt
+    public int getOverlayColor() {
+        return mBlurEngine.getOverlayColor();
+    }
+
+    public void setCornerRadius(float radius) {
+        mBlurEngine.setCornerRadius(radius);
+    }
+
+    public float getCornerRadius() {
+        return mBlurEngine.getCornerRadius();
+    }
+
+    public void setTopLeftCornerRadius(float radius) {
+        mBlurEngine.setTopLeftCornerRadius(radius);
+    }
+
+    public float getTopLeftCornerRadius() {
+        return mBlurEngine.getTopLeftCornerRadius();
+    }
+
+    public void setTopRightCornerRadius(float radius) {
+        mBlurEngine.setTopRightCornerRadius(radius);
+    }
+
+    public float getTopRightCornerRadius() {
+        return mBlurEngine.getTopRightCornerRadius();
+    }
+
+    public void setBottomLeftCornerRadius(float radius) {
+        mBlurEngine.setBottomLeftCornerRadius(radius);
+    }
+
+    public float getBottomLeftCornerRadius() {
+        return mBlurEngine.getBottomLeftCornerRadius();
+    }
+
+    public void setBottomRightCornerRadius(float radius) {
+        mBlurEngine.setBottomRightCornerRadius(radius);
+    }
+
+    public float getBottomRightCornerRadius() {
+        return mBlurEngine.getBottomRightCornerRadius();
+    }
+
+    public void setMaxFps(int fps) {
+        mBlurEngine.setMaxFps(fps);
+    }
+
+    public int getMaxFps() {
+        return mBlurEngine.getMaxFps();
+    }
+
+    @Nullable
+    public Bitmap getBlurredBitmap() {
+        return mBlurEngine.getBlurredBitmap();
+    }
+
+    public void updateBlurImmediately() {
+        mBlurEngine.updateBlurImmediately();
+    }
+
+    public void release() {
+        mBlurEngine.release();
+    }
+
+    @Override
+    public void draw(Canvas canvas) {
+        if (!mBlurEngine.isCapturing()) {
+            super.draw(canvas);
+        }
+    }
+
     @Override
     protected void onAttachedToWindow() {
         super.onAttachedToWindow();
+        mBlurEngine.attach();
         setFixedMargin();
+    }
+
+    @Override
+    protected void onDetachedFromWindow() {
+        mBlurEngine.detach();
+        super.onDetachedFromWindow();
     }
 }

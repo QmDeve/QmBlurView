@@ -8,13 +8,13 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.qmdeve.blurview.demo.util.Utils;
 import com.qmdeve.blurview.widget.TitlebarView;
 
-public class BlurTitlebarActivity extends AppCompatActivity {
+public class TitlebarActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
-        setContentView(R.layout.activity_blur_titlebar);
+        setContentView(R.layout.activity_titlebar);
 
         Utils.transparentStatusBar(getWindow());
         Utils.transparentNavigationBar(getWindow());

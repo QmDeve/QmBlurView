@@ -95,5 +95,17 @@
             app:buttonIconSize="24dp"
             app:buttonIconTint="@color/white"
             app:overlayColor="#33000000" />
+
+        <com.qmdeve.blurview.widget.Button
+            android:id="@+id/buttonCircular"
+            android:layout_width="64dp"
+            android:layout_height="64dp"
+            android:layout_marginTop="20dp"
+            android:icon="?android:attr/actionModeWebSearchDrawable"
+            app:blurRadius="12dp"
+            app:buttonCircular="true"
+            app:buttonIconSize="24dp"
+            app:buttonIconTint="@color/white"
+            app:overlayColor="#33000000" />
     </LinearLayout>
 </RelativeLayout>

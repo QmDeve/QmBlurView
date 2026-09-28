@@ -44,10 +44,10 @@ Add the dependencies to your module's `build.gradle` file:
 ```gradle
 dependencies {
     // Core Library (Required)
-    implementation 'com.qmdeve.blurview:core:2.0.0-alpha01'
+    implementation 'com.qmdeve.blurview:core:2.0.0-alpha02'
 
     // Navigation Support (Optional)
-    implementation 'com.qmdeve.blurview:navigation:2.0.0-alpha01'
+    implementation 'com.qmdeve.blurview:navigation:2.0.0-alpha02'
 }
 ```
 

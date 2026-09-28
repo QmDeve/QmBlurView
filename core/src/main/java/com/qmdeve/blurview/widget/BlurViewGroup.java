@@ -41,123 +41,150 @@ import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.annotation.ColorInt;
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
-import com.qmdeve.blurview.base.BaseBlurViewGroup;
+import com.qmdeve.blurview.engine.BlurAttrs;
+import com.qmdeve.blurview.engine.BlurEngine;
+import com.qmdeve.blurview.engine.BlurEngines;
 import com.qmdeve.blurview.util.Utils;
 
 public class BlurViewGroup extends ViewGroup {
 
-    private final BaseBlurViewGroup mBaseBlurViewGroup;
+    protected final BlurEngine mBlurEngine;
 
     public BlurViewGroup(Context context, AttributeSet attrs) {
         super(context, attrs);
         setWillNotDraw(false);
-        mBaseBlurViewGroup = new BaseBlurViewGroup(context, attrs);
+        mBlurEngine = createBlurEngine();
+        BlurAttrs.apply(mBlurEngine, context, attrs, 10f, 0xAAFFFFFF);
     }
 
-    @Override
-    public boolean isInEditMode() {
-        return super.isInEditMode();
+    protected BlurEngine createBlurEngine() {
+        return BlurEngines.create(this);
     }
 
     public void setBlurRadius(float radius) {
-        mBaseBlurViewGroup.setBlurRadius(radius);
+        mBlurEngine.setBlurRadius(radius);
     }
 
-    /**
-     * Set the number of blur rounds (iterations) for BlurNative
-     * More rounds = stronger blur effect
-     * @param rounds Number of blur rounds (1-10)
-     */
+    public float getBlurRadius() {
+        return mBlurEngine.getBlurRadius();
+    }
+
     public void setBlurRounds(int rounds) {
-        mBaseBlurViewGroup.setBlurRounds(rounds);
+        mBlurEngine.setBlurRounds(rounds);
     }
 
-    /**
-     * Get the current number of blur rounds
-     * @return Current blur rounds, or -1 if not using BlurNative
-     */
     public int getBlurRounds() {
-        return mBaseBlurViewGroup.getBlurRounds();
+        return mBlurEngine.getBlurRounds();
     }
 
     public void setDownsampleFactor(float factor) {
-        mBaseBlurViewGroup.setDownsampleFactor(factor);
+        mBlurEngine.setDownsampleFactor(factor);
     }
 
-    public void setOverlayColor(int color) {
-        mBaseBlurViewGroup.setOverlayColor(color);
+    public float getDownsampleFactor() {
+        return mBlurEngine.getDownsampleFactor();
+    }
+
+    public void setOverlayColor(@ColorInt int color) {
+        mBlurEngine.setOverlayColor(color);
+    }
+
+    @ColorInt
+    public int getOverlayColor() {
+        return mBlurEngine.getOverlayColor();
     }
 
     public void setCornerRadius(float radius) {
-        mBaseBlurViewGroup.setCornerRadius(radius);
+        mBlurEngine.setCornerRadius(radius);
+    }
+
+    public float getCornerRadius() {
+        return mBlurEngine.getCornerRadius();
     }
 
     public void setTopLeftCornerRadius(float radius) {
-        mBaseBlurViewGroup.setTopLeftCornerRadius(radius);
+        mBlurEngine.setTopLeftCornerRadius(radius);
     }
 
     public void setTopRightCornerRadius(float radius) {
-        mBaseBlurViewGroup.setTopRightCornerRadius(radius);
+        mBlurEngine.setTopRightCornerRadius(radius);
     }
 
     public void setBottomLeftCornerRadius(float radius) {
-        mBaseBlurViewGroup.setBottomLeftCornerRadius(radius);
+        mBlurEngine.setBottomLeftCornerRadius(radius);
     }
 
     public void setBottomRightCornerRadius(float radius) {
-        mBaseBlurViewGroup.setBottomRightCornerRadius(radius);
+        mBlurEngine.setBottomRightCornerRadius(radius);
     }
 
     public float getTopLeftCornerRadius() {
-        return mBaseBlurViewGroup.getTopLeftCornerRadius();
+        return mBlurEngine.getTopLeftCornerRadius();
     }
 
     public float getTopRightCornerRadius() {
-        return mBaseBlurViewGroup.getTopRightCornerRadius();
+        return mBlurEngine.getTopRightCornerRadius();
     }
 
     public float getBottomLeftCornerRadius() {
-        return mBaseBlurViewGroup.getBottomLeftCornerRadius();
+        return mBlurEngine.getBottomLeftCornerRadius();
     }
 
     public float getBottomRightCornerRadius() {
-        return mBaseBlurViewGroup.getBottomRightCornerRadius();
+        return mBlurEngine.getBottomRightCornerRadius();
     }
 
+    public boolean hasCornerRadius() {
+        return mBlurEngine.hasCornerRadius();
+    }
+
+    public void setMaxFps(int fps) {
+        mBlurEngine.setMaxFps(fps);
+    }
+
+    public int getMaxFps() {
+        return mBlurEngine.getMaxFps();
+    }
+
+    @Nullable
     public Bitmap getBlurredBitmap() {
-        return mBaseBlurViewGroup.getBlurredBitmap();
+        return mBlurEngine.getBlurredBitmap();
     }
 
-    public int getOverlayColor() {
-        return mBaseBlurViewGroup.getOverlayColor();
+    public void updateBlurImmediately() {
+        mBlurEngine.updateBlurImmediately();
     }
 
     public void release() {
-        mBaseBlurViewGroup.release();
+        mBlurEngine.release();
     }
 
     @Override
     protected void onAttachedToWindow() {
         super.onAttachedToWindow();
-        mBaseBlurViewGroup.onAttachedToWindow(this);
+        mBlurEngine.attach();
     }
 
     @Override
     protected void onDetachedFromWindow() {
-        mBaseBlurViewGroup.onDetachedFromWindow();
+        mBlurEngine.detach();
         super.onDetachedFromWindow();
     }
 
     @Override
     public void draw(@NonNull Canvas canvas) {
-        if (!mBaseBlurViewGroup.isRendering()) super.draw(canvas);
+        if (!mBlurEngine.isCapturing()) {
+            super.draw(canvas);
+        }
     }
 
     @Override
     protected void dispatchDraw(@NonNull Canvas canvas) {
-        boolean shouldDrawBlur = !Utils.sIsGlobalCapturing || mBaseBlurViewGroup.isRendering();
+        boolean shouldDrawBlur = !Utils.sIsGlobalCapturing || mBlurEngine.isCapturing();
 
         drawBlurLayer(canvas, getWidth(), getHeight(), isInEditMode(), shouldDrawBlur);
         drawChildrenWithClip(canvas);
@@ -165,19 +192,16 @@ public class BlurViewGroup extends ViewGroup {
 
     protected void drawBlurLayer(@NonNull Canvas canvas, int width, int height, boolean isEditMode, boolean shouldDrawBlur) {
         if (!isEditMode && shouldDrawBlur) {
-            mBaseBlurViewGroup.drawBlurredBitmap(canvas, width, height);
+            mBlurEngine.drawBlur(canvas, width, height);
         } else if (isEditMode) {
-            mBaseBlurViewGroup.drawPreviewBackground(canvas, width, height);
+            mBlurEngine.drawPreview(canvas, width, height);
         }
     }
 
     protected void drawChildrenWithClip(@NonNull Canvas canvas) {
-        if (mBaseBlurViewGroup.getTopLeftCornerRadius() > 0 ||
-            mBaseBlurViewGroup.getTopRightCornerRadius() > 0 ||
-            mBaseBlurViewGroup.getBottomLeftCornerRadius() > 0 ||
-            mBaseBlurViewGroup.getBottomRightCornerRadius() > 0) {
+        if (mBlurEngine.hasCornerRadius()) {
             canvas.save();
-            mBaseBlurViewGroup.clipCanvasWithRoundedCorner(canvas, getWidth(), getHeight());
+            mBlurEngine.clipRoundedCorners(canvas, getWidth(), getHeight());
             super.dispatchDraw(canvas);
             canvas.restore();
         } else {

@@ -52,9 +52,12 @@ import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
 
 import com.qmdeve.blurview.R;
+import com.qmdeve.blurview.engine.BlurAttrs;
+import com.qmdeve.blurview.engine.BlurEngine;
+import com.qmdeve.blurview.engine.BlurEngines;
 import com.qmdeve.blurview.util.Utils;
 
-public class FloatingButton extends BlurView {
+public class FloatingButton extends View {
 
     public static final int POSITION_LEFT = 0;
     public static final int POSITION_RIGHT = 1;
@@ -71,6 +74,7 @@ public class FloatingButton extends BlurView {
     }
 
     private OnLongPressListener mLongPressListener;
+    protected final BlurEngine mBlurEngine;
 
     public FloatingButton(Context context) {
         this(context, null);
@@ -78,6 +82,8 @@ public class FloatingButton extends BlurView {
 
     public FloatingButton(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
+        mBlurEngine = BlurEngines.create(this);
+        BlurAttrs.apply(mBlurEngine, context, attrs);
         init(context);
     }
 
@@ -170,23 +176,106 @@ public class FloatingButton extends BlurView {
         }
     }
 
-    @Override
-    public void setCornerRadius(float radius) {
-        super.setCornerRadius(radius);
+        public void setCornerRadius(float radius) {
+        mBlurEngine.setCornerRadius(radius);
         mRippleCornerRadius = radius;
         post(this::applyRippleEffect);
     }
 
-    @Override
-    public void setOverlayColor(@ColorInt int color) {
+        public void setOverlayColor(@ColorInt int color) {
         int rgb = color & 0x00FFFFFF;
         int finalColor = (int) (0.72f * 255) << 24 | rgb;
-        super.setOverlayColor(finalColor);
+        mBlurEngine.setOverlayColor(finalColor);
+    }
+
+    public void setBlurRadius(float radius) {
+        mBlurEngine.setBlurRadius(radius);
+    }
+
+    public float getBlurRadius() {
+        return mBlurEngine.getBlurRadius();
+    }
+
+    public void setBlurRounds(int rounds) {
+        mBlurEngine.setBlurRounds(rounds);
+    }
+
+    public int getBlurRounds() {
+        return mBlurEngine.getBlurRounds();
+    }
+
+    public void setDownsampleFactor(float factor) {
+        mBlurEngine.setDownsampleFactor(factor);
+    }
+
+    public float getDownsampleFactor() {
+        return mBlurEngine.getDownsampleFactor();
+    }
+
+    @ColorInt
+    public int getOverlayColor() {
+        return mBlurEngine.getOverlayColor();
+    }
+
+    public float getCornerRadius() {
+        return mBlurEngine.getCornerRadius();
+    }
+
+    public void setTopLeftCornerRadius(float radius) {
+        mBlurEngine.setTopLeftCornerRadius(radius);
+    }
+
+    public float getTopLeftCornerRadius() {
+        return mBlurEngine.getTopLeftCornerRadius();
+    }
+
+    public void setTopRightCornerRadius(float radius) {
+        mBlurEngine.setTopRightCornerRadius(radius);
+    }
+
+    public float getTopRightCornerRadius() {
+        return mBlurEngine.getTopRightCornerRadius();
+    }
+
+    public void setBottomLeftCornerRadius(float radius) {
+        mBlurEngine.setBottomLeftCornerRadius(radius);
+    }
+
+    public float getBottomLeftCornerRadius() {
+        return mBlurEngine.getBottomLeftCornerRadius();
+    }
+
+    public void setBottomRightCornerRadius(float radius) {
+        mBlurEngine.setBottomRightCornerRadius(radius);
+    }
+
+    public float getBottomRightCornerRadius() {
+        return mBlurEngine.getBottomRightCornerRadius();
+    }
+
+    public void setMaxFps(int fps) {
+        mBlurEngine.setMaxFps(fps);
+    }
+
+    public int getMaxFps() {
+        return mBlurEngine.getMaxFps();
+    }
+
+    public void updateBlurImmediately() {
+        mBlurEngine.updateBlurImmediately();
+    }
+
+    public void release() {
+        mBlurEngine.release();
     }
 
     @Override
     protected void onDraw(@NonNull Canvas canvas) {
-        super.onDraw(canvas);
+        if (isInEditMode()) {
+            mBlurEngine.drawPreview(canvas, getWidth(), getHeight());
+        } else {
+            mBlurEngine.drawBlur(canvas, getWidth(), getHeight());
+        }
         if (mIconDrawable != null) {
             int size = (int) Utils.dp2px(getResources(), mIconSize);
             int left = (getWidth() - size) / 2;
@@ -197,8 +286,16 @@ public class FloatingButton extends BlurView {
     }
 
     @Override
+    public void draw(Canvas canvas) {
+        if (!mBlurEngine.isCapturing()) {
+            super.draw(canvas);
+        }
+    }
+
+    @Override
     protected void onAttachedToWindow() {
         super.onAttachedToWindow();
+        mBlurEngine.attach();
         post(() -> {
             View parent = (View) getParent();
             if (parent != null) {
@@ -227,5 +324,11 @@ public class FloatingButton extends BlurView {
 
     public void setOnLongPressListener(@Nullable OnLongPressListener listener) {
         this.mLongPressListener = listener;
+    }
+
+    @Override
+    protected void onDetachedFromWindow() {
+        mBlurEngine.detach();
+        super.onDetachedFromWindow();
     }
 }

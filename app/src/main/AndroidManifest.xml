@@ -2,9 +2,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <!-- Required for loading video from URL -->
-    <uses-permission android:name="android.permission.INTERNET" />
-
     <application
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
@@ -21,16 +18,22 @@
             tools:targetApi="29" />
 
         <activity
-            android:name=".BlurBottomNavigationActivity"
+            android:name=".BottomTabBarActivity"
             android:exported="false" />
         <activity
-            android:name=".BlurFloatingButtonActivity"
+            android:name=".CardViewActivity"
             android:exported="false" />
         <activity
-            android:name=".BlurSwitchActivity"
+            android:name=".SearchBarActivity"
             android:exported="false" />
         <activity
-            android:name=".BlurTitlebarActivity"
+            android:name=".FloatingButtonActivity"
+            android:exported="false" />
+        <activity
+            android:name=".SwitchActivity"
+            android:exported="false" />
+        <activity
+            android:name=".TitlebarActivity"
             android:exported="false" />
         <activity
             android:name=".BlurButtonActivity"
@@ -43,9 +46,6 @@
             android:exported="false" />
         <activity
             android:name=".ProgerssiveBlurActivity"
-            android:exported="false" />
-        <activity
-            android:name=".SkiaBlurActivity"
             android:exported="false" />
         <activity
             android:name=".MainActivity"

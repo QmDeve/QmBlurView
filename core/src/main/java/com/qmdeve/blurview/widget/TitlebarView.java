@@ -40,17 +40,22 @@ import android.graphics.*;
 import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
+import android.view.View;
 import android.view.animation.DecelerateInterpolator;
 
+import androidx.annotation.ColorInt;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
 import androidx.core.graphics.drawable.DrawableCompat;
 
 import com.qmdeve.blurview.R;
+import com.qmdeve.blurview.engine.BlurAttrs;
+import com.qmdeve.blurview.engine.BlurEngine;
+import com.qmdeve.blurview.engine.BlurEngines;
 import com.qmdeve.blurview.util.Utils;
 
-public class TitlebarView extends BlurView {
+public class TitlebarView extends View {
 
     private String mTitle, mSubtitle, mMenuText;
     private boolean mShowBack, mCenterTitle;
@@ -80,6 +85,7 @@ public class TitlebarView extends BlurView {
 
     private OnBackClickListener mOnBackClickListener;
     private OnMenuClickListener mOnMenuClickListener;
+    protected final BlurEngine mBlurEngine;
 
     public TitlebarView(Context context) {
         this(context, null);
@@ -87,6 +93,8 @@ public class TitlebarView extends BlurView {
 
     public TitlebarView(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
+        mBlurEngine = BlurEngines.create(this);
+        BlurAttrs.apply(mBlurEngine, context, attrs);
         setClickable(true);
         setFocusable(true);
         initAttrs(context, attrs);
@@ -180,7 +188,11 @@ public class TitlebarView extends BlurView {
 
     @Override
     protected void onDraw(@NonNull Canvas canvas) {
-        super.onDraw(canvas);
+        if (isInEditMode()) {
+            mBlurEngine.drawPreview(canvas, getWidth(), getHeight());
+        } else {
+            mBlurEngine.drawBlur(canvas, getWidth(), getHeight());
+        }
 
         float viewHeight = Utils.dp2px(getResources(), FIXED_HEIGHT_DP);
         float contentTop = mContentTopOffset;
@@ -387,5 +399,122 @@ public class TitlebarView extends BlurView {
 
     public void setOnMenuClickListener(OnMenuClickListener l) {
         mOnMenuClickListener = l;
+    }
+
+    // ------------------------------------------------------------------
+    // Blur configuration — delegated to the engine (was inherited from BlurView).
+    // ------------------------------------------------------------------
+
+    public void setBlurRadius(float radius) {
+        mBlurEngine.setBlurRadius(radius);
+    }
+
+    public float getBlurRadius() {
+        return mBlurEngine.getBlurRadius();
+    }
+
+    public void setBlurRounds(int rounds) {
+        mBlurEngine.setBlurRounds(rounds);
+    }
+
+    public int getBlurRounds() {
+        return mBlurEngine.getBlurRounds();
+    }
+
+    public void setDownsampleFactor(float factor) {
+        mBlurEngine.setDownsampleFactor(factor);
+    }
+
+    public float getDownsampleFactor() {
+        return mBlurEngine.getDownsampleFactor();
+    }
+
+    public void setOverlayColor(@ColorInt int color) {
+        mBlurEngine.setOverlayColor(color);
+    }
+
+    @ColorInt
+    public int getOverlayColor() {
+        return mBlurEngine.getOverlayColor();
+    }
+
+    public void setCornerRadius(float radius) {
+        mBlurEngine.setCornerRadius(radius);
+    }
+
+    public float getCornerRadius() {
+        return mBlurEngine.getCornerRadius();
+    }
+
+    public void setTopLeftCornerRadius(float radius) {
+        mBlurEngine.setTopLeftCornerRadius(radius);
+    }
+
+    public float getTopLeftCornerRadius() {
+        return mBlurEngine.getTopLeftCornerRadius();
+    }
+
+    public void setTopRightCornerRadius(float radius) {
+        mBlurEngine.setTopRightCornerRadius(radius);
+    }
+
+    public float getTopRightCornerRadius() {
+        return mBlurEngine.getTopRightCornerRadius();
+    }
+
+    public void setBottomLeftCornerRadius(float radius) {
+        mBlurEngine.setBottomLeftCornerRadius(radius);
+    }
+
+    public float getBottomLeftCornerRadius() {
+        return mBlurEngine.getBottomLeftCornerRadius();
+    }
+
+    public void setBottomRightCornerRadius(float radius) {
+        mBlurEngine.setBottomRightCornerRadius(radius);
+    }
+
+    public float getBottomRightCornerRadius() {
+        return mBlurEngine.getBottomRightCornerRadius();
+    }
+
+    /**
+     * Caps the blur refresh rate (capture + blur per second). {@code 0} = unlimited.
+     */
+    public void setMaxFps(int fps) {
+        mBlurEngine.setMaxFps(fps);
+    }
+
+    public int getMaxFps() {
+        return mBlurEngine.getMaxFps();
+    }
+
+    /** Forces a full blur refresh on the next draw. */
+    public void updateBlurImmediately() {
+        mBlurEngine.updateBlurImmediately();
+    }
+
+    public void release() {
+        mBlurEngine.release();
+    }
+
+    @Override
+    public void draw(Canvas canvas) {
+        // Don't draw ourselves into our own capture.
+        if (!mBlurEngine.isCapturing()) {
+            super.draw(canvas);
+        }
+    }
+
+    @Override
+    protected void onAttachedToWindow() {
+        super.onAttachedToWindow();
+        mBlurEngine.attach();
+    }
+
+    @Override
+    protected void onDetachedFromWindow() {
+        mBlurEngine.detach();
+        super.onDetachedFromWindow();
     }
 }

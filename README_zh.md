@@ -48,10 +48,10 @@
 ```gradle
 dependencies {
     // 核心库（必需）
-    implementation 'com.qmdeve.blurview:core:2.0.0-alpha01'
+    implementation 'com.qmdeve.blurview:core:2.0.0-alpha02'
 
     // 导航支持（可选）
-    implementation 'com.qmdeve.blurview:navigation:2.0.0-alpha01'
+    implementation 'com.qmdeve.blurview:navigation:2.0.0-alpha02'
 }
 ```
 

@@ -31,74 +31,157 @@
 
 package com.qmdeve.blurview.widget;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
-import android.content.res.TypedArray;
+import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.util.AttributeSet;
+import android.view.View;
 
-import androidx.annotation.NonNull;
+import androidx.annotation.ColorInt;
+import androidx.annotation.Nullable;
 
-import com.qmdeve.blurview.R;
-import com.qmdeve.blurview.base.BaseBlurView;
-import com.qmdeve.blurview.util.Utils;
+import com.qmdeve.blurview.engine.BlurAttrs;
+import com.qmdeve.blurview.engine.BlurEngine;
+import com.qmdeve.blurview.engine.BlurEngines;
 
-/**
- * Blur view component
- * Extends BaseBlurView to implement Gaussian blur effect
- */
-public class BlurView extends BaseBlurView {
+public class BlurView extends View {
 
-    /**
-     * Constructor
-     * @param context Context
-     * @param attrs Attribute set from XML
-     */
+    protected final BlurEngine mBlurEngine;
+
     public BlurView(Context context, AttributeSet attrs) {
         super(context, attrs);
+        mBlurEngine = createBlurEngine();
+        BlurAttrs.apply(mBlurEngine, context, attrs);
     }
 
-    /**
-     * Initialize view attributes
-     * Reads custom attribute values from XML layout file
-     * @param context Context
-     * @param attrs Attribute set from XML
-     */
-    @Override
-    protected void initAttributes(Context context, AttributeSet attrs) {
-        // Get custom attribute values
-        @SuppressLint("CustomViewStyleable")
-        TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.BlurView);
+    protected BlurEngine createBlurEngine() {
+        return BlurEngines.create(this);
+    }
 
-        // Blur radius, default 25dp
-        mBlurRadius = a.getDimension(R.styleable.BlurView_blurRadius, Utils.dp2px(getResources(), 25));
+    public void setBlurRadius(float radius) {
+        mBlurEngine.setBlurRadius(radius);
+    }
 
-        // Overlay color, default semi-transparent white
-        mOverlayColor = a.getColor(R.styleable.BlurView_overlayColor, 0xAAFFFFFF);
+    public float getBlurRadius() {
+        return mBlurEngine.getBlurRadius();
+    }
 
-        // Corner radius, default no rounding
-        mCornerRadius = a.getDimension(R.styleable.BlurView_cornerRadius, 0);
+    public void setBlurRounds(int rounds) {
+        mBlurEngine.setBlurRounds(rounds);
+    }
 
-        // Inherit of corner radius
-        mTopLeftCornerRadius = a.getDimension(R.styleable.BlurView_topLeftCornerRadius, mCornerRadius);
-        mTopRightCornerRadius = a.getDimension(R.styleable.BlurView_topRightCornerRadius, mCornerRadius);
-        mBottomLeftCornerRadius = a.getDimension(R.styleable.BlurView_bottomLeftCornerRadius, mCornerRadius);
-        mBottomRightCornerRadius = a.getDimension(R.styleable.BlurView_bottomRightCornerRadius, mCornerRadius);
+    public int getBlurRounds() {
+        return mBlurEngine.getBlurRounds();
+    }
 
-        // Downsample factor, default no downsampling
-        mDownsampleFactor = a.getFloat(R.styleable.BlurView_downsampleFactor, 0f);
+    public void setDownsampleFactor(float factor) {
+        mBlurEngine.setDownsampleFactor(factor);
+    }
 
-        // Release TypedArray resources
-        a.recycle();
+    public float getDownsampleFactor() {
+        return mBlurEngine.getDownsampleFactor();
+    }
+
+    public void setOverlayColor(@ColorInt int color) {
+        mBlurEngine.setOverlayColor(color);
+    }
+
+    @ColorInt
+    public int getOverlayColor() {
+        return mBlurEngine.getOverlayColor();
+    }
+
+    public void setCornerRadius(float radius) {
+        mBlurEngine.setCornerRadius(radius);
+    }
+
+    public float getCornerRadius() {
+        return mBlurEngine.getCornerRadius();
+    }
+
+    public void setTopLeftCornerRadius(float radius) {
+        mBlurEngine.setTopLeftCornerRadius(radius);
+    }
+
+    public float getTopLeftCornerRadius() {
+        return mBlurEngine.getTopLeftCornerRadius();
+    }
+
+    public void setTopRightCornerRadius(float radius) {
+        mBlurEngine.setTopRightCornerRadius(radius);
+    }
+
+    public float getTopRightCornerRadius() {
+        return mBlurEngine.getTopRightCornerRadius();
+    }
+
+    public void setBottomLeftCornerRadius(float radius) {
+        mBlurEngine.setBottomLeftCornerRadius(radius);
+    }
+
+    public float getBottomLeftCornerRadius() {
+        return mBlurEngine.getBottomLeftCornerRadius();
+    }
+
+    public void setBottomRightCornerRadius(float radius) {
+        mBlurEngine.setBottomRightCornerRadius(radius);
+    }
+
+    public float getBottomRightCornerRadius() {
+        return mBlurEngine.getBottomRightCornerRadius();
+    }
+
+    public boolean hasCornerRadius() {
+        return mBlurEngine.hasCornerRadius();
+    }
+
+    public void setMaxFps(int fps) {
+        mBlurEngine.setMaxFps(fps);
+    }
+
+    public int getMaxFps() {
+        return mBlurEngine.getMaxFps();
+    }
+
+    @Nullable
+    public Bitmap getBlurredBitmap() {
+        return mBlurEngine.getBlurredBitmap();
+    }
+
+    public void updateBlurImmediately() {
+        mBlurEngine.updateBlurImmediately();
+    }
+
+    public void release() {
+        mBlurEngine.release();
     }
 
     @Override
-    protected void onDraw(@NonNull Canvas canvas) {
-        if (isInEditMode()) {
-            drawPreviewBackground(canvas);
-            return;
+    protected void onAttachedToWindow() {
+        super.onAttachedToWindow();
+        mBlurEngine.attach();
+    }
+
+    @Override
+    protected void onDetachedFromWindow() {
+        mBlurEngine.detach();
+        super.onDetachedFromWindow();
+    }
+
+    @Override
+    public void draw(Canvas canvas) {
+        if (!mBlurEngine.isCapturing()) {
+            super.draw(canvas);
         }
+    }
 
+    @Override
+    protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
+        if (isInEditMode()) {
+            mBlurEngine.drawPreview(canvas, getWidth(), getHeight());
+        } else {
+            mBlurEngine.drawBlur(canvas, getWidth(), getHeight());
+        }
     }
 }

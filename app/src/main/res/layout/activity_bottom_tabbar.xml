@@ -9,14 +9,14 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
-    <com.qmdeve.blurview.widget.BottomNavigation
-        android:id="@+id/bottomnav"
+    <com.qmdeve.blurview.widget.BottomTabBar
+        android:id="@+id/bottomTab"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:item_iconSize="24dp"
         app:item_textBold="true"
         app:item_textSize="13dp"
-        app:menu="@menu/bottom_nav_menu"
+        app:menu="@menu/bottom_tabs_menu"
         app:navOverlayColor="#AAFFFFFF"
         app:navSelectedColor="#0161F2"
         app:navUnselectedColor="#000"
